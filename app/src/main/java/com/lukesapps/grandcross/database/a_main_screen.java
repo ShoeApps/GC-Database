@@ -24,7 +24,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
@@ -32,9 +31,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.Observer;
 
-import com.mopub.mobileads.MoPubView;
 import com.squareup.picasso.Picasso;
 
 
@@ -43,10 +40,8 @@ public class a_main_screen extends AppCompatActivity {
     public static final String PREFS_NAME = "MyPrefsFile";
     SharedPreferences settings;
     String darkMode;
-    MoPubView moPubView;
     LinearLayout adViewHolder;
     private MoPubSdk moPubSdk;
-    int loadedAd = 0;
     TextView characters;
     TextView awakening;
     TextView cooking;
@@ -55,7 +50,7 @@ public class a_main_screen extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        //Thread.setDefaultUncaughtExceptionHandler(new DefaultExceptionHandler(this));
+        Thread.setDefaultUncaughtExceptionHandler(new DefaultExceptionHandler(this));
         super.onCreate(savedInstanceState);
         setContentView(R.layout.a_main);
         adViewHolder = findViewById(R.id.adViewHolder);
@@ -64,12 +59,9 @@ public class a_main_screen extends AppCompatActivity {
         //Ads
         Log.v("Loading", "Loading");
         moPubSdk = MoPubSdk.getInstance(a_main_screen.this);
-        moPubSdk.isMoPubSdkInitialized().observe(a_main_screen.this, new Observer<Boolean>() {
-            @Override
-            public void onChanged(Boolean aBoolean) {
-                if (aBoolean) {
-                    moPubSdk.callAdView(adViewHolder);
-                }
+        moPubSdk.isMoPubSdkInitialized().observe(a_main_screen.this, aBoolean -> {
+            if (aBoolean) {
+                moPubSdk.callAdView(adViewHolder);
             }
         });
         onClickListeners();
@@ -100,6 +92,19 @@ public class a_main_screen extends AppCompatActivity {
             editor.putString("darkMode", "no");
             editor.apply();
         }
+        SharedPreferences.Editor editor = settings.edit();
+        editor.putString("typeFilter", "none");
+        editor.putString("regionFilter", "none");
+        editor.putString("rarityFilter", "none");
+        editor.putString("raceFilter", "none");
+        editor.putString("obtainedFilter", "none");
+        editor.putInt("listClicked", 0);
+        editor.putString("charSearch", "");
+        editor.putInt("sortedHP", 0);
+        editor.putInt("sortedATK", 0);
+        editor.putInt("sortedDEF", 0);
+        editor.putString("sortBy", "");
+        editor.apply();
         //Recall the storage
         darkMode = settings.getString("darkMode", darkMode);
         if (darkMode.equals("yes")) {
@@ -114,57 +119,42 @@ public class a_main_screen extends AppCompatActivity {
     public void onClickListeners() {
         //Go to Character List Menu
         characters = findViewById(R.id.characters);
-        characters.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent characterIntent = new Intent(a_main_screen.this, character_list.class);
-                startActivity(characterIntent);
-                removeOnClicks();
-            }
+        characters.setOnClickListener(view -> {
+            Intent characterIntent = new Intent(a_main_screen.this, character_list.class);
+            startActivity(characterIntent);
+            removeOnClicks();
         });
 
         //Go to Awakening Menu
         awakening = findViewById(R.id.awakening);
-        awakening.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent awakeningIntent = new Intent(a_main_screen.this, awakening.class);
-                startActivity(awakeningIntent);
-                removeOnClicks();
-            }
+        awakening.setOnClickListener(view -> {
+            Intent awakeningIntent = new Intent(a_main_screen.this, awakening.class);
+            startActivity(awakeningIntent);
+            removeOnClicks();
         });
 
         //Go to Cooking Menu
         cooking = findViewById(R.id.cooking);
-        cooking.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent cookingIntent = new Intent(a_main_screen.this, cooking.class);
-                startActivity(cookingIntent);
-                removeOnClicks();
-            }
+        cooking.setOnClickListener(view -> {
+            Intent cookingIntent = new Intent(a_main_screen.this, cooking.class);
+            startActivity(cookingIntent);
+            removeOnClicks();
         });
 
         //Go to Other Resources Menu
         otherResources = findViewById(R.id.other_resources);
-        otherResources.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent otherResourcesIntent = new Intent(a_main_screen.this, otherResources.class);
-                startActivity(otherResourcesIntent);
-                removeOnClicks();
-            }
+        otherResources.setOnClickListener(view -> {
+            Intent otherResourcesIntent = new Intent(a_main_screen.this, otherResources.class);
+            startActivity(otherResourcesIntent);
+            removeOnClicks();
         });
 
         //Go to Summon Simulator
         summonSimulatorView = findViewById(R.id.summon_simulator);
-        summonSimulatorView.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent summonSimulatorIntent = new Intent(a_main_screen.this, summonSimulator.class);
-                startActivity(summonSimulatorIntent);
-                removeOnClicks();
-            }
+        summonSimulatorView.setOnClickListener(view -> {
+            Intent summonSimulatorIntent = new Intent(a_main_screen.this, summonSimulator.class);
+            startActivity(summonSimulatorIntent);
+            removeOnClicks();
         });
     }
 

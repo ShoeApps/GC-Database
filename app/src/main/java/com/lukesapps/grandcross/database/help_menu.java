@@ -8,19 +8,18 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.Switch;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.Observer;
 
 import com.anjlab.android.iab.v3.BillingProcessor;
 import com.github.aakira.expandablelayout.ExpandableLinearLayout;
-import com.mopub.mobileads.MoPubView;
 import com.squareup.picasso.Picasso;
+
+import java.util.Objects;
 
 public class help_menu extends AppCompatActivity {
     LinearLayout adViewHolder;
@@ -37,9 +36,6 @@ public class help_menu extends AppCompatActivity {
     public static final String PREFS_NAME = "MyPrefsFile";
     SharedPreferences settings;
 
-    MoPubView moPubView;
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Thread.setDefaultUncaughtExceptionHandler(new DefaultExceptionHandler(this));
@@ -50,12 +46,12 @@ public class help_menu extends AppCompatActivity {
         buffshelp = findViewById(R.id.buffshelp);
         statuseffectshelp = findViewById(R.id.statuseffectshelp);
         characterIcons = findViewById(R.id.charactericonshelp);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         ImageView helpBackground = findViewById(R.id.help_background);
         Picasso.with(this).load(R.drawable.character_background).fit().centerCrop().into(helpBackground);
         mySwitch = findViewById(R.id.darkModeSwitch);
         final ScrollView helpPage = findViewById(R.id.help_background_colour);
-
+        settings = getSharedPreferences(PREFS_NAME, 0);
         settings = getSharedPreferences(PREFS_NAME, 0);
         //Recall the storage
         darkMode = settings.getString("darkMode", darkMode);
@@ -69,33 +65,30 @@ public class help_menu extends AppCompatActivity {
         MoPubSdk moPubSdk;
         adViewHolder = findViewById(R.id.adViewHolder);
         moPubSdk = MoPubSdk.getInstance(this);
-        moPubSdk.isMoPubSdkInitialized().observe(this, new Observer<Boolean>() {
-            @Override
-            public void onChanged(Boolean aBoolean) {
-                if (aBoolean) {
-                    moPubSdk.callAdView(adViewHolder);
-                }
+        moPubSdk.isMoPubSdkInitialized().observe(this, aBoolean -> {
+            if (aBoolean) {
+                moPubSdk.callAdView(adViewHolder);
             }
         });
-        mySwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    SharedPreferences.Editor editor = settings.edit();
-                    editor.putString("darkMode", "yes");
-                    editor.apply();
-                    helpPage.setBackgroundColor(Color.parseColor("#616161"));
-                    LinearLayout adViewHolder = findViewById(R.id.adViewHolder);
-                    adViewHolder.setBackgroundColor(Color.parseColor("#616161"));
-                } else {
-                    SharedPreferences.Editor editor = settings.edit();
-                    editor.putString("darkMode", "no");
-                    editor.apply();
-                    helpPage.setBackgroundColor(Color.parseColor("#9A5E5E5E"));
-                    LinearLayout adViewHolder = findViewById(R.id.adViewHolder);
-                    adViewHolder.setBackgroundColor(Color.parseColor("#9A5E5E5E"));
-                }
+        mySwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            SharedPreferences.Editor editor = settings.edit();
+            LinearLayout adViewHolder = findViewById(R.id.adViewHolder);
+            if (isChecked) {
+                editor.putString("darkMode", "yes");
+                editor.apply();
+                helpPage.setBackgroundColor(Color.parseColor("#616161"));
+
+                adViewHolder.setBackgroundColor(Color.parseColor("#616161"));
+            } else {
+                editor.putString("darkMode", "no");
+                editor.apply();
+                helpPage.setBackgroundColor(Color.parseColor("#9A5E5E5E"));
+                adViewHolder.setBackgroundColor(Color.parseColor("#9A5E5E5E"));
             }
         });
+        SharedPreferences.Editor editor = settings.edit();
+        editor.putInt("listClicked", 0);
+        editor.apply();
     }
 
     @Override
@@ -146,5 +139,13 @@ public class help_menu extends AppCompatActivity {
         if (!bp.handleActivityResult(requestCode, resultCode, data)) {
             super.onActivityResult(requestCode, resultCode, data);
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        SharedPreferences.Editor editor = settings.edit();
+        editor.putInt("listClicked", 1);
+        editor.apply();
+        super.onBackPressed();
     }
 }

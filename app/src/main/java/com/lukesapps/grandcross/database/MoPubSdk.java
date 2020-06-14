@@ -9,8 +9,6 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import com.adcolony.sdk.AdColony;
-import com.applovin.sdk.AppLovinSdk;
 import com.mopub.common.MoPub;
 import com.mopub.common.SdkConfiguration;
 import com.mopub.common.SdkInitializationListener;
@@ -32,15 +30,11 @@ public class MoPubSdk{
 
     private MoPubSdk(Activity activity) {
         this.mActivity = activity;
-        String appId = "app3d46291c0233493693";
-        String[] zoneIds = {"vz5df7b5dd70834b5490"};
         // Initialize the AdColony SDK with the above IDs
-        AdColony.configure(mActivity, appId, zoneIds);
-        AppLovinSdk.initializeSdk(mActivity);
         SdkConfiguration sdkConfiguration = new SdkConfiguration.Builder(adUnitId)
-                .withLogLevel(BuildConfig.DEBUG ? MoPubLog.LogLevel.DEBUG : MoPubLog.LogLevel.NONE)
+                .withLogLevel(MoPubLog.LogLevel.DEBUG)
+                .withLegitimateInterestAllowed(false)
                 .build();
-
         MoPub.initializeSdk(activity, sdkConfiguration, initSdkListener());
     }
 

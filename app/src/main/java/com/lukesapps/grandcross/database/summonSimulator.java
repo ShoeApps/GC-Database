@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -112,12 +111,11 @@ public class summonSimulator extends AppCompatActivity {
     TextView getSummons;
     public static final String PREFS_NAME = "MyPrefsFile";
     SharedPreferences settings;
-    SharedPreferences settings2;
     String darkMode;
     ScrollView backgroundColor;
     private MoPubRewardedVideoListener rewardedVideoListener;
 
-    @SuppressLint("ClickableViewAccessibility")
+    @SuppressLint({"ClickableViewAccessibility", "SetTextI18n"})
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Thread.setDefaultUncaughtExceptionHandler(new DefaultExceptionHandler(this));
@@ -131,7 +129,8 @@ public class summonSimulator extends AppCompatActivity {
         ImageView ssBackground = findViewById(R.id.summon_simulator_background);
         Picasso.with(this).load(R.drawable.boat_hat_summon).fit().centerCrop().into(ssBackground);
         summonsLeftText = findViewById(R.id.summonsLeft);
-        settings2 = getSharedPreferences(PREFS_NAME, 0);
+        settings = getSharedPreferences(PREFS_NAME, 0);
+        settings = getSharedPreferences(PREFS_NAME, 0);
 
         //Ads
         String appId = "app3d46291c0233493693";
@@ -144,34 +143,33 @@ public class summonSimulator extends AppCompatActivity {
         SdkConfiguration sdkConfiguration = new SdkConfiguration.Builder("172f9124da5d4cc6a8ea62bf7085a753").build();
         MoPub.initializeSdk(this, sdkConfiguration, initSdkListener());
         getSummons = findViewById(R.id.loadAd);
-        getSummons.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (summonsLeft < 100) {
-                    if (MoPubRewardedVideos.hasRewardedVideo("172f9124da5d4cc6a8ea62bf7085a753")) {
-                        MoPubRewardedVideos.showRewardedVideo("172f9124da5d4cc6a8ea62bf7085a753");
-                    } else {
-                        MoPubRewardedVideos.loadRewardedVideo("172f9124da5d4cc6a8ea62bf7085a753");
-                        getSummons.setText("...");
-                    }
+        getSummons.setOnClickListener(v -> {
+            if (summonsLeft < 100) {
+                if (MoPubRewardedVideos.hasRewardedVideo("172f9124da5d4cc6a8ea62bf7085a753")) {
+                    MoPubRewardedVideos.showRewardedVideo("172f9124da5d4cc6a8ea62bf7085a753");
                 } else {
-                    Toast.makeText(summonSimulator.this, "Cannot add summons after reaching 100 stored. Please use some before attempting to get more.", Toast.LENGTH_SHORT).show();
+                    MoPubRewardedVideos.loadRewardedVideo("172f9124da5d4cc6a8ea62bf7085a753");
+                    getSummons.setText("...");
                 }
+            } else {
+                Toast.makeText(summonSimulator.this, "Cannot add summons after reaching 100 stored. Please use some before attempting to get more.", Toast.LENGTH_SHORT).show();
             }
         });
         rewardedVideoListener = new MoPubRewardedVideoListener() {
+            @SuppressLint("SetTextI18n")
             @Override
-            public void onRewardedVideoLoadSuccess(String adUnitId) {
+            public void onRewardedVideoLoadSuccess(@NonNull String adUnitId) {
                 // Called when the video for the given adUnitId has loaded. At this point you should be able to call MoPubRewardedVideos.showRewardedVideo(String) to show the video.
                 getSummons.setText("+20");
                 MoPubRewardedVideos.showRewardedVideo("172f9124da5d4cc6a8ea62bf7085a753");
             }
+            @SuppressLint("SetTextI18n")
             @Override
-            public void onRewardedVideoLoadFailure(String adUnitId, MoPubErrorCode errorCode) {
+            public void onRewardedVideoLoadFailure(@NonNull String adUnitId, @NonNull MoPubErrorCode errorCode) {
                 // Called when a video fails to load for the given adUnitId. The provided error code will provide more insight into the reason for the failure to load.
                 Toast.makeText(summonSimulator.this, "Ad failed to load. Have 10 summons on me.", Toast.LENGTH_SHORT).show();
                 summonsLeft = summonsLeft + 10;
-                SharedPreferences.Editor editor = settings2.edit();
+                SharedPreferences.Editor editor = settings.edit();
                 editor.putInt("summonsLeft", summonsLeft);
                 editor.apply();
                 summonsLeftText.setText("Summons Left: " + summonsLeft);
@@ -179,12 +177,12 @@ public class summonSimulator extends AppCompatActivity {
             }
 
             @Override
-            public void onRewardedVideoStarted(String adUnitId) {
+            public void onRewardedVideoStarted(@NonNull String adUnitId) {
                 // Called when a rewarded video starts playing.
             }
 
             @Override
-            public void onRewardedVideoPlaybackError(String adUnitId, MoPubErrorCode errorCode) {
+            public void onRewardedVideoPlaybackError(@NonNull String adUnitId, @NonNull MoPubErrorCode errorCode) {
                 //  Called when there is an error during video playback.
             }
 
@@ -195,17 +193,18 @@ public class summonSimulator extends AppCompatActivity {
             }
 
             @Override
-            public void onRewardedVideoClosed(String adUnitId) {
+            public void onRewardedVideoClosed(@NonNull String adUnitId) {
                 // Called when a rewarded video is closed. At this point your application should resume.
             }
 
+            @SuppressLint("SetTextI18n")
             @Override
-            public void onRewardedVideoCompleted(Set<String> adUnitIds, MoPubReward reward) {
+            public void onRewardedVideoCompleted(@NonNull Set<String> adUnitIds, @NonNull MoPubReward reward) {
                 // Called when a rewarded video is completed and the user should be rewarded.
                 // You can query the reward object with boolean isSuccessful(), String getLabel(), and int getAmount().
                 Toast.makeText(summonSimulator.this, "You earned 20 Multi Summons!", Toast.LENGTH_SHORT).show();
                 summonsLeft = summonsLeft + 20;
-                SharedPreferences.Editor editor = settings2.edit();
+                SharedPreferences.Editor editor = settings.edit();
                 editor.putInt("summonsLeft", summonsLeft);
                 editor.apply();
                 summonsLeftText.setText("Summons Left: " + summonsLeft);
@@ -267,54 +266,48 @@ public class summonSimulator extends AppCompatActivity {
         adapter = new summonedCharactersListAdapter(summonSimulator.this, summonedCharactersListSort);
         listView = findViewById(R.id.summoned_characters);
         callData();
-        listView.setOnTouchListener(new View.OnTouchListener() {
-            // Setting on Touch Listener for handling the touch inside ScrollView
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                // Disallow the touch request for parent scroll on touch of child view
-                v.getParent().requestDisallowInterceptTouchEvent(true);
-                return false;
-            }
+        // Setting on Touch Listener for handling the touch inside ScrollView
+        listView.setOnTouchListener((v, event) -> {
+            // Disallow the touch request for parent scroll on touch of child view
+            v.getParent().requestDisallowInterceptTouchEvent(true);
+            return false;
         });
         RadioGroup rGroup = findViewById(R.id.banner_filter);
-        rGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-                // This will get the radiobutton that has changed in its check state
-                checkedRadioButton = group.findViewById(checkedId);
-                // This puts the value (true/false) into the variable
-                isChecked = checkedRadioButton.isChecked();
-                // If the radiobutton that has changed in check state is now checked...
-                if (isChecked) {
-                    banner = checkedRadioButton.getText().toString();
-                    gemsSpent = 0;
-                    spent.setText("Gems spent: " + gemsSpent);
-                    pity = 0;
-                    gssr.setText("Pity: " + pity + "/5");
-                    summonedCharactersList.clear();
-                    checkForSummons.clear();
-                    summonedCharacterDoNotRemove.clear();
-                    summonedCharactersListSort.clear();
-                    listView.setAdapter(adapter);
-                    Picasso.with(summonSimulator.this).load(R.drawable.salt).fit().into(summon1View);
-                    Picasso.with(summonSimulator.this).load(R.drawable.salt).fit().into(summon2View);
-                    Picasso.with(summonSimulator.this).load(R.drawable.salt).fit().into(summon3View);
-                    Picasso.with(summonSimulator.this).load(R.drawable.salt).fit().into(summon4View);
-                    Picasso.with(summonSimulator.this).load(R.drawable.salt).fit().into(summon5View);
-                    Picasso.with(summonSimulator.this).load(R.drawable.salt).fit().into(summon6View);
-                    Picasso.with(summonSimulator.this).load(R.drawable.salt).fit().into(summon7View);
-                    Picasso.with(summonSimulator.this).load(R.drawable.salt).fit().into(summon8View);
-                    Picasso.with(summonSimulator.this).load(R.drawable.salt).fit().into(summon9View);
-                    Picasso.with(summonSimulator.this).load(R.drawable.salt).fit().into(summon10View);
-                    Picasso.with(summonSimulator.this).load(R.drawable.salt).fit().into(summon11View);
-                    isRateUp = 0;
-                    bannerCharacters = 0;
-                    callData();
-                }
+        rGroup.setOnCheckedChangeListener((group, checkedId) -> {
+            // This will get the radiobutton that has changed in its check state
+            checkedRadioButton = group.findViewById(checkedId);
+            // This puts the value (true/false) into the variable
+            isChecked = checkedRadioButton.isChecked();
+            // If the radiobutton that has changed in check state is now checked...
+            if (isChecked) {
+                banner = checkedRadioButton.getText().toString();
+                gemsSpent = 0;
+                spent.setText("Gems spent: " + gemsSpent);
+                pity = 0;
+                gssr.setText("Pity: " + pity + "/5");
+                summonedCharactersList.clear();
+                checkForSummons.clear();
+                summonedCharacterDoNotRemove.clear();
+                summonedCharactersListSort.clear();
+                listView.setAdapter(adapter);
+                Picasso.with(summonSimulator.this).load(R.drawable.salt).fit().into(summon1View);
+                Picasso.with(summonSimulator.this).load(R.drawable.salt).fit().into(summon2View);
+                Picasso.with(summonSimulator.this).load(R.drawable.salt).fit().into(summon3View);
+                Picasso.with(summonSimulator.this).load(R.drawable.salt).fit().into(summon4View);
+                Picasso.with(summonSimulator.this).load(R.drawable.salt).fit().into(summon5View);
+                Picasso.with(summonSimulator.this).load(R.drawable.salt).fit().into(summon6View);
+                Picasso.with(summonSimulator.this).load(R.drawable.salt).fit().into(summon7View);
+                Picasso.with(summonSimulator.this).load(R.drawable.salt).fit().into(summon8View);
+                Picasso.with(summonSimulator.this).load(R.drawable.salt).fit().into(summon9View);
+                Picasso.with(summonSimulator.this).load(R.drawable.salt).fit().into(summon10View);
+                Picasso.with(summonSimulator.this).load(R.drawable.salt).fit().into(summon11View);
+                isRateUp = 0;
+                bannerCharacters = 0;
+                callData();
             }
         });
         created = 1;
         backgroundColor = findViewById(R.id.summoning_background_colour);
-        settings = getSharedPreferences(PREFS_NAME, 0);
         //Recall the storage
         darkMode = settings.getString("darkMode", darkMode);
         if (darkMode.equals("yes")) {
@@ -323,14 +316,14 @@ public class summonSimulator extends AppCompatActivity {
             backgroundColor.setBackgroundColor(Color.parseColor("#4DFF4E50"));
         }
 
-        Log.e("tag", "settings = " + settings2.contains("summonsLeft"));
-        if (!settings2.contains("summonsLeft")) {
-            SharedPreferences.Editor editor = settings2.edit();
+        Log.e("tag", "settings = " + settings.contains("summonsLeft"));
+        if (!settings.contains("summonsLeft")) {
+            SharedPreferences.Editor editor = settings.edit();
             editor.putInt("summonsLeft", 20);
             editor.apply();
         }
         //Recall the storage
-        summonsLeft = settings2.getInt("summonsLeft", summonsLeft);
+        summonsLeft = settings.getInt("summonsLeft", summonsLeft);
         summonsLeftText.setText("Summons Left: " + summonsLeft);
     }
 
@@ -362,11 +355,12 @@ public class summonSimulator extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @SuppressLint("SetTextI18n")
     public String summon() {
         if (summonsLeft > 119) {
             summonsLeft = 100;
             summonsLeftText.setText("Summons Left: " + summonsLeft);
-            SharedPreferences.Editor editor = settings2.edit();
+            SharedPreferences.Editor editor = settings.edit();
             editor.putInt("summonsLeft", summonsLeft);
             editor.apply();
         }
@@ -561,11 +555,12 @@ public class summonSimulator extends AppCompatActivity {
         listView.setAdapter(adapter);
     }
 
+    @SuppressLint("SetTextI18n")
     public void multiSummon(View view) {
         if (summonsLeft != 0) {
             summonsLeft = summonsLeft - 1;
             summonsLeftText.setText("summons left: " + summonsLeft);
-            SharedPreferences.Editor editor = settings2.edit();
+            SharedPreferences.Editor editor = settings.edit();
             editor.putInt("summonsLeft", summonsLeft);
             editor.apply();
             String summon1 = summon();
@@ -670,6 +665,7 @@ public class summonSimulator extends AppCompatActivity {
         }
     }
 
+    @SuppressLint("SetTextI18n")
     public void resetSummons(View view) {
         gemsSpent = 0;
         spent.setText("Gems spent: " + gemsSpent);
@@ -704,7 +700,7 @@ public class summonSimulator extends AppCompatActivity {
     public int countStringOccurance(ArrayList<String> arr, String str) {
         int count = 1;
         for (int i = 0; i < arr.size(); i++) {
-            if (str == arr.get(i)) {
+            if (str.equals(arr.get(i))) {
                 count += 1;
             }
         }
@@ -863,11 +859,8 @@ public class summonSimulator extends AppCompatActivity {
     }
 
     private SdkInitializationListener initSdkListener() {
-        return new SdkInitializationListener() {
-            @Override
-            public void onInitializationFinished() {
-                /* MoPub SDK initialized.*/
-            }
+        return () -> {
+            /* MoPub SDK initialized.*/
         };
     }
 }

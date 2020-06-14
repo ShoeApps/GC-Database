@@ -15,16 +15,13 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.Observer;
 
-import com.anjlab.android.iab.v3.BillingProcessor;
 import com.github.aakira.expandablelayout.ExpandableLinearLayout;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.mopub.mobileads.MoPubView;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
@@ -33,8 +30,6 @@ import java.util.Objects;
 
 public class character_page extends AppCompatActivity {
     LinearLayout adViewHolder;
-    MoPubView moPubView;
-    BillingProcessor bp;
     TextView baseStatsButton;
     TextView maxStatsButton;
     String selectId;
@@ -213,7 +208,6 @@ public class character_page extends AppCompatActivity {
     ExpandableLinearLayout ultimatesView;
     ExpandableLinearLayout associationsView;
     ExpandableLinearLayout awakeningsView;
-    ImageView background;
     FirebaseDatabase database;
     DatabaseReference ref;
     public static final String PREFS_NAME = "MyPrefsFile";
@@ -223,7 +217,7 @@ public class character_page extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Thread.setDefaultUncaughtExceptionHandler(new DefaultExceptionHandler(this));
+        //Thread.setDefaultUncaughtExceptionHandler(new DefaultExceptionHandler(this));
         database = FirebaseDatabase.getInstance();
         ref = database.getReference();
         super.onCreate(savedInstanceState);
@@ -261,6 +255,7 @@ public class character_page extends AppCompatActivity {
         skill1ImageView = findViewById(R.id.skill1_image);
         skill2ImageView = findViewById(R.id.skill2_image);
         ultImageView = findViewById(R.id.ult_image);
+        settings = getSharedPreferences(PREFS_NAME, 0);
         ImageView characterImageBackground = findViewById(R.id.character_image_background);
         Picasso.with(this).load(R.drawable.character_background).fit().centerCrop().into(characterImageBackground);
         ImageView mainBackground = findViewById(R.id.character_page_background);
@@ -268,234 +263,167 @@ public class character_page extends AppCompatActivity {
         Intent intent = getIntent();
         selectedId = intent.getStringExtra("selectId");
         callData();
-        background = findViewById(R.id.character_image_background);
         baseStatsButton = findViewById(R.id.base_stats);
-        baseStatsButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                TextView ccView = findViewById(R.id.character_cc);
-                ccView.setText(minCC);
-                TextView healthView = findViewById(R.id.character_health);
-                healthView.setText(minHealth);
-                TextView attackView = findViewById(R.id.character_attack);
-                attackView.setText(minAttack);
-                TextView defenseView = findViewById(R.id.character_defense);
-                defenseView.setText(minDefence);
-                TextView pierceView = findViewById(R.id.character_pierce);
-                pierceView.setText(minPierceRate + "%");
-                TextView resistanceView = findViewById(R.id.character_resistance);
-                resistanceView.setText(minResistance + "%");
-                TextView regenView = findViewById(R.id.character_regen);
-                regenView.setText(minRegenRate + "%");
-                TextView critCView = findViewById(R.id.character_crit_chance);
-                critCView.setText(minCritChance + "%");
-                TextView critDView = findViewById(R.id.character_crit_damage);
-                critDView.setText(minCritDamage + "%");
-                TextView critDefView = findViewById(R.id.character_crit_def);
-                critDefView.setText(minCritDef + "%");
-                TextView critResView = findViewById(R.id.character_crit_res);
-                critResView.setText(minCritRes + "%");
-                TextView recoveryView = findViewById(R.id.character_recovery_rate);
-                recoveryView.setText(minRecoveryRate + "%");
-                TextView lifestealView = findViewById(R.id.character_lifesteal);
-                lifestealView.setText(minLifesteal + "%");
-                TextView baseORmax = findViewById(R.id.base_or_max);
-                baseORmax.setText("Showing Base Stats");
-            }
+        baseStatsButton.setOnClickListener(v -> {
+            TextView ccView = findViewById(R.id.character_cc);
+            ccView.setText(minCC);
+            TextView healthView = findViewById(R.id.character_health);
+            healthView.setText(minHealth);
+            TextView attackView = findViewById(R.id.character_attack);
+            attackView.setText(minAttack);
+            TextView defenseView = findViewById(R.id.character_defense);
+            defenseView.setText(minDefence);
+            TextView pierceView = findViewById(R.id.character_pierce);
+            pierceView.setText(minPierceRate + "%");
+            TextView resistanceView = findViewById(R.id.character_resistance);
+            resistanceView.setText(minResistance + "%");
+            TextView regenView = findViewById(R.id.character_regen);
+            regenView.setText(minRegenRate + "%");
+            TextView critCView = findViewById(R.id.character_crit_chance);
+            critCView.setText(minCritChance + "%");
+            TextView critDView = findViewById(R.id.character_crit_damage);
+            critDView.setText(minCritDamage + "%");
+            TextView critDefView = findViewById(R.id.character_crit_def);
+            critDefView.setText(minCritDef + "%");
+            TextView critResView = findViewById(R.id.character_crit_res);
+            critResView.setText(minCritRes + "%");
+            TextView recoveryView = findViewById(R.id.character_recovery_rate);
+            recoveryView.setText(minRecoveryRate + "%");
+            TextView lifestealView = findViewById(R.id.character_lifesteal);
+            lifestealView.setText(minLifesteal + "%");
+            TextView baseORmax = findViewById(R.id.base_or_max);
+            baseORmax.setText("Showing Base Stats");
         });
         maxStatsButton = findViewById(R.id.max_stats);
-        maxStatsButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                TextView ccView = findViewById(R.id.character_cc);
-                ccView.setText(maxCC);
-                TextView healthView = findViewById(R.id.character_health);
-                healthView.setText(maxHealth);
-                TextView attackView = findViewById(R.id.character_attack);
-                attackView.setText(maxAttack);
-                TextView defenseView = findViewById(R.id.character_defense);
-                defenseView.setText(maxDefence);
-                TextView pierceView = findViewById(R.id.character_pierce);
-                pierceView.setText(maxPierceRate + "%");
-                TextView resistanceView = findViewById(R.id.character_resistance);
-                resistanceView.setText(maxResistance + "%");
-                TextView regenView = findViewById(R.id.character_regen);
-                regenView.setText(maxRegenRate + "%");
-                TextView critCView = findViewById(R.id.character_crit_chance);
-                critCView.setText(maxCritChance + "%");
-                TextView critDView = findViewById(R.id.character_crit_damage);
-                critDView.setText(maxCritDamage + "%");
-                TextView critDefView = findViewById(R.id.character_crit_def);
-                critDefView.setText(maxCritDef + "%");
-                TextView critResView = findViewById(R.id.character_crit_res);
-                critResView.setText(maxCritRes + "%");
-                TextView recoveryView = findViewById(R.id.character_recovery_rate);
-                recoveryView.setText(maxRecoveryRate + "%");
-                TextView lifestealView = findViewById(R.id.character_lifesteal);
-                lifestealView.setText(maxLifesteal + "%");
-                TextView baseORmax = findViewById(R.id.base_or_max);
-                baseORmax.setText("Showing Max Stats");
-            }
+        maxStatsButton.setOnClickListener(v -> {
+            TextView ccView = findViewById(R.id.character_cc);
+            ccView.setText(maxCC);
+            TextView healthView = findViewById(R.id.character_health);
+            healthView.setText(maxHealth);
+            TextView attackView = findViewById(R.id.character_attack);
+            attackView.setText(maxAttack);
+            TextView defenseView = findViewById(R.id.character_defense);
+            defenseView.setText(maxDefence);
+            TextView pierceView = findViewById(R.id.character_pierce);
+            pierceView.setText(maxPierceRate + "%");
+            TextView resistanceView = findViewById(R.id.character_resistance);
+            resistanceView.setText(maxResistance + "%");
+            TextView regenView = findViewById(R.id.character_regen);
+            regenView.setText(maxRegenRate + "%");
+            TextView critCView = findViewById(R.id.character_crit_chance);
+            critCView.setText(maxCritChance + "%");
+            TextView critDView = findViewById(R.id.character_crit_damage);
+            critDView.setText(maxCritDamage + "%");
+            TextView critDefView = findViewById(R.id.character_crit_def);
+            critDefView.setText(maxCritDef + "%");
+            TextView critResView = findViewById(R.id.character_crit_res);
+            critResView.setText(maxCritRes + "%");
+            TextView recoveryView = findViewById(R.id.character_recovery_rate);
+            recoveryView.setText(maxRecoveryRate + "%");
+            TextView lifestealView = findViewById(R.id.character_lifesteal);
+            lifestealView.setText(maxLifesteal + "%");
+            TextView baseORmax = findViewById(R.id.base_or_max);
+            baseORmax.setText("Showing Max Stats");
         });
-        associate1Image1View.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                selectedId = associate1ID1;
-                callData();
-                resizeExpandableLayouts();
-            }
+        associate1Image1View.setOnClickListener(view -> {
+            selectedId = associate1ID1;
+            callData();
+            resizeExpandableLayouts();
         });
-        associate1Image2View.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                selectedId = associate1ID2;
-                callData();
-                resizeExpandableLayouts();
-            }
+        associate1Image2View.setOnClickListener(view -> {
+            selectedId = associate1ID2;
+            callData();
+            resizeExpandableLayouts();
         });
-        associate1Image3View.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                selectedId = associate1ID3;
-                callData();
-                resizeExpandableLayouts();
-            }
+        associate1Image3View.setOnClickListener(view -> {
+            selectedId = associate1ID3;
+            callData();
+            resizeExpandableLayouts();
         });
-        associate1Image4View.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                selectedId = associate1ID4;
-                callData();
-                resizeExpandableLayouts();
-            }
+        associate1Image4View.setOnClickListener(view -> {
+            selectedId = associate1ID4;
+            callData();
+            resizeExpandableLayouts();
         });
-        associate2Image1View.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                selectedId = associate2ID1;
-                callData();
-                resizeExpandableLayouts();
-            }
+        associate2Image1View.setOnClickListener(view -> {
+            selectedId = associate2ID1;
+            callData();
+            resizeExpandableLayouts();
         });
-        associate2Image2View.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                selectedId = associate2ID2;
-                callData();
-                resizeExpandableLayouts();
-            }
+        associate2Image2View.setOnClickListener(view -> {
+            selectedId = associate2ID2;
+            callData();
+            resizeExpandableLayouts();
         });
-        associate2Image3View.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                selectedId = associate2ID3;
-                callData();
-                resizeExpandableLayouts();
-            }
+        associate2Image3View.setOnClickListener(view -> {
+            selectedId = associate2ID3;
+            callData();
+            resizeExpandableLayouts();
         });
-        associate2Image4View.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                selectedId = associate2ID4;
-                callData();
-                resizeExpandableLayouts();
-            }
+        associate2Image4View.setOnClickListener(view -> {
+            selectedId = associate2ID4;
+            callData();
+            resizeExpandableLayouts();
         });
-        associate3Image1View.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                selectedId = associate3ID1;
-                callData();
-                resizeExpandableLayouts();
-            }
+        associate3Image1View.setOnClickListener(view -> {
+            selectedId = associate3ID1;
+            callData();
+            resizeExpandableLayouts();
         });
-        associate3Image2View.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                selectedId = associate3ID2;
-                callData();
-                resizeExpandableLayouts();
-            }
+        associate3Image2View.setOnClickListener(view -> {
+            selectedId = associate3ID2;
+            callData();
+            resizeExpandableLayouts();
         });
-        associate3Image3View.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                selectedId = associate3ID3;
-                callData();
-                resizeExpandableLayouts();
-            }
+        associate3Image3View.setOnClickListener(view -> {
+            selectedId = associate3ID3;
+            callData();
+            resizeExpandableLayouts();
         });
-        associate3Image4View.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                selectedId = associate3ID4;
-                callData();
-                resizeExpandableLayouts();
-            }
+        associate3Image4View.setOnClickListener(view -> {
+            selectedId = associate3ID4;
+            callData();
+            resizeExpandableLayouts();
         });
-        associate4Image1View.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                selectedId = associate4ID1;
-                callData();
-                resizeExpandableLayouts();
-            }
+        associate4Image1View.setOnClickListener(view -> {
+            selectedId = associate4ID1;
+            callData();
+            resizeExpandableLayouts();
         });
-        associate4Image2View.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                selectedId = associate4ID2;
-                callData();
-                resizeExpandableLayouts();
-            }
+        associate4Image2View.setOnClickListener(view -> {
+            selectedId = associate4ID2;
+            callData();
+            resizeExpandableLayouts();
         });
-        associate4Image3View.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                selectedId = associate4ID3;
-                callData();
-                resizeExpandableLayouts();
-            }
+        associate4Image3View.setOnClickListener(view -> {
+            selectedId = associate4ID3;
+            callData();
+            resizeExpandableLayouts();
         });
-        associate4Image4View.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                selectedId = associate4ID4;
-                callData();
-                resizeExpandableLayouts();
-            }
+        associate4Image4View.setOnClickListener(view -> {
+            selectedId = associate4ID4;
+            callData();
+            resizeExpandableLayouts();
         });
-        associate5Image1View.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                selectedId = associate5ID1;
-                callData();
-                resizeExpandableLayouts();
-            }
+        associate5Image1View.setOnClickListener(view -> {
+            selectedId = associate5ID1;
+            callData();
+            resizeExpandableLayouts();
         });
-        associate5Image2View.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                selectedId = associate5ID2;
-                callData();
-                resizeExpandableLayouts();
-            }
+        associate5Image2View.setOnClickListener(view -> {
+            selectedId = associate5ID2;
+            callData();
+            resizeExpandableLayouts();
         });
-        associate5Image3View.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                selectedId = associate5ID3;
-                callData();
-                resizeExpandableLayouts();
-            }
+        associate5Image3View.setOnClickListener(view -> {
+            selectedId = associate5ID3;
+            callData();
+            resizeExpandableLayouts();
         });
-        associate5Image4View.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                selectedId = associate5ID4;
-                callData();
-                resizeExpandableLayouts();
-            }
+        associate5Image4View.setOnClickListener(view -> {
+            selectedId = associate5ID4;
+            callData();
+            resizeExpandableLayouts();
         });
         resizeExpandableLayouts();
         backgroundColor = findViewById(R.id.character_page_background_colour);
@@ -504,12 +432,9 @@ public class character_page extends AppCompatActivity {
 
         adViewHolder = findViewById(R.id.adViewHolder);
         moPubSdk = MoPubSdk.getInstance(this);
-        moPubSdk.isMoPubSdkInitialized().observe(this, new Observer<Boolean>() {
-            @Override
-            public void onChanged(Boolean aBoolean) {
-                if (aBoolean) {
-                    moPubSdk.callAdView(adViewHolder);
-                }
+        moPubSdk.isMoPubSdkInitialized().observe(this, aBoolean -> {
+            if (aBoolean) {
+                moPubSdk.callAdView(adViewHolder);
             }
         });
         //Recall the storage
@@ -524,6 +449,9 @@ public class character_page extends AppCompatActivity {
             adViewHolder.setBackgroundColor(Color.parseColor("#4D15C2A6"));
         }
         resizeExpandableLayouts();
+        SharedPreferences.Editor editor = settings.edit();
+        editor.putInt("listClicked", 0);
+        editor.apply();
     }
 
     protected void onRestart() {
@@ -548,9 +476,16 @@ public class character_page extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
+        Log.v("test", "id = " + id);
         if (id == R.id.help_page) {
             Intent help = new Intent(character_page.this, help_menu.class);
             startActivity(help);
+        }
+        if (id == 16908332) {
+            Log.v("test2", "id2");
+            SharedPreferences.Editor editor = settings.edit();
+            editor.putInt("listClicked", 1);
+            editor.apply();
         }
         return super.onOptionsItemSelected(item);
     }
@@ -1205,4 +1140,11 @@ public class character_page extends AppCompatActivity {
         associationsView.initLayout();
     }
 
+    @Override
+    public void onBackPressed() {
+        SharedPreferences.Editor editor = settings.edit();
+        editor.putInt("listClicked", 1);
+        editor.apply();
+        super.onBackPressed();
+    }
 }
