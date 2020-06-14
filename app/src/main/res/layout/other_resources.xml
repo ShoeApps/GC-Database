@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="utf-8"?><!-- Copyright (C) 2016 The Android Open Source Project
+
+     Licensed under the Apache License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+
+          http://www.apache.org/licenses/LICENSE-2.0
+
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+-->
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="#CFD8DC"
+    tools:context="com.lukesapps.grandcross.database.otherResources">
+    <ImageView
+        android:id="@+id/other_resources_background"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <ScrollView
+        android:layout_above="@id/adViewHolder"
+        android:id="@+id/other_background_colour"
+        style="@style/otherBackground"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:adjustViewBounds="true"
+        android:scaleType="fitXY">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:paddingBottom="50dp">
+        <LinearLayout
+            style="@style/MainTitle"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            android:layout_marginTop="8dp"
+            android:layout_width="match_parent"
+            android:layout_height="88dp"
+            android:orientation="horizontal"
+            android:id="@+id/jpdatabase">
+            <ImageView
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:src="@drawable/jp_database_icon"/>
+            <TextView
+                style="@style/MainTitle"
+                android:background="#00000000"
+                android:padding="16dp"
+                android:layout_height="match_parent"
+                android:text="SDSGC Database JP/KR Website" />
+        </LinearLayout>
+        <LinearLayout
+            style="@style/MainTitle"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            android:layout_marginTop="8dp"
+            android:layout_width="match_parent"
+            android:layout_height="88dp"
+            android:orientation="horizontal"
+            android:id="@+id/globaldatabase">
+            <ImageView
+
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:src="@drawable/global_database_icon"/>
+            <TextView
+                android:background="#00000000"
+                style="@style/MainTitle"
+                android:padding="16dp"
+                android:layout_height="match_parent"
+                android:text="SDSGC Database Global/Asia Website" />
+        </LinearLayout>
+        <LinearLayout
+            style="@style/MainTitle"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            android:layout_marginTop="8dp"
+            android:layout_width="match_parent"
+            android:layout_height="88dp"
+            android:orientation="horizontal"
+            android:id="@+id/reddit">
+            <ImageView
+
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:src="@drawable/reddit_icon"/>
+            <TextView
+                android:background="#00000000"
+                style="@style/MainTitle"
+                android:padding="16dp"
+                android:layout_height="match_parent"
+                android:text="SDSGrandCross Reddit" />
+        </LinearLayout>
+        <LinearLayout
+            style="@style/MainTitle"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            android:layout_marginTop="8dp"
+            android:layout_width="match_parent"
+            android:layout_height="88dp"
+            android:orientation="horizontal"
+            android:id="@+id/redditdiscord">
+            <ImageView
+
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:src="@drawable/discord_icon"/>
+            <TextView
+                android:background="#00000000"
+                style="@style/MainTitle"
+                android:padding="16dp"
+                android:layout_height="match_parent"
+                android:text="SDSGrandCross Reddit Discord" />
+        </LinearLayout>
+        <LinearLayout
+            style="@style/MainTitle"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            android:layout_marginTop="8dp"
+            android:layout_width="match_parent"
+            android:layout_height="88dp"
+            android:orientation="horizontal"
+            android:id="@+id/heavendiscord">
+            <ImageView
+
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:src="@drawable/discord_icon"/>
+            <TextView
+                android:background="#00000000"
+                style="@style/MainTitle"
+                android:padding="16dp"
+                android:layout_height="match_parent"
+                android:text="My guilds community discord" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_marginTop="8dp"
+            android:layout_width="match_parent"
+            android:layout_height="88dp"
+            style="@style/MainTitle"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            android:orientation="horizontal"
+            android:id="@+id/netmarble">
+            <ImageView
+
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:src="@drawable/netmarble_logo"/>
+            <TextView
+                android:background="#00000000"
+                style="@style/MainTitle"
+                android:padding="16dp"
+                android:layout_height="match_parent"
+                android:text="netmarble sdsgc forum" />
+        </LinearLayout>
+    </LinearLayout>
+    </ScrollView>
+    <LinearLayout
+        android:layout_alignParentBottom="true"
+        android:id="@+id/adViewHolder"
+        style="@style/otherBackground"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+    </LinearLayout>
+</RelativeLayout>

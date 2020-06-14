@@ -1,0 +1,449 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:adjustViewBounds="true"
+    android:scaleType="fitStart"
+    tools:ignore="ContentDescription">
+    <ImageView
+        android:id="@+id/summon_simulator_background"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <ScrollView
+        android:id="@+id/summoning_background_colour"
+        style="@style/summoningBackground"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:fillViewport="true"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/textView3"
+                style="@style/MainTitle"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_weight="1"
+                android:onClick="selectBanner"
+                android:text="Select Banner"
+                android:textAlignment="center"
+                android:textSize="22sp"
+                tools:layout_editor_absoluteX="32dp" />
+
+            <com.github.aakira.expandablelayout.ExpandableLinearLayout
+                android:id="@+id/select_banner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:orientation="vertical"
+                app:layout_constraintTop_toBottomOf="@+id/textView3">
+
+
+                <RadioGroup
+                    android:id="@+id/banner_filter"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="#80000000">
+
+                    <RadioButton
+                        android:id="@+id/banner1"
+                        style="@style/MainText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="2dp"
+                        android:layout_marginTop="2dp"
+                        android:layout_marginRight="2dp"
+                        android:layout_marginBottom="2dp"
+                        android:text="Draw Heroes: Part 1 (GLB/AS)" />
+
+                    <RadioButton
+                        android:id="@+id/banner2"
+                        style="@style/MainText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="2dp"
+                        android:layout_marginRight="2dp"
+                        android:layout_marginBottom="2dp"
+                        android:text="Draw Heroes: Part 1 (JP/KR)" />
+
+                    <RadioButton
+                        android:id="@+id/banner3"
+                        style="@style/MainText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="2dp"
+                        android:layout_marginRight="2dp"
+                        android:layout_marginBottom="2dp"
+                        android:text="Goddess Elizabeth Release(Festival) (JP/KR)" />
+
+                    <RadioButton
+                        android:id="@+id/banner4"
+                        style="@style/MainText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="2dp"
+                        android:layout_marginRight="2dp"
+                        android:layout_marginBottom="2dp" />
+
+                    <RadioButton
+                        android:id="@+id/banner5"
+                        style="@style/MainText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="2dp"
+                        android:layout_marginRight="2dp"
+                        android:layout_marginBottom="2dp" />
+
+                    <RadioButton
+                        android:id="@+id/banner6"
+                        style="@style/MainText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="2dp"
+                        android:layout_marginRight="2dp"
+                        android:layout_marginBottom="2dp" />
+
+                    <RadioButton
+                        android:id="@+id/banner7"
+                        style="@style/MainText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="2dp"
+                        android:layout_marginRight="2dp"
+                        android:layout_marginBottom="2dp" />
+
+                    <RadioButton
+                        android:id="@+id/banner8"
+                        style="@style/MainText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="2dp"
+                        android:layout_marginRight="2dp"
+                        android:layout_marginBottom="2dp" />
+
+                    <RadioButton
+                        android:id="@+id/banner9"
+                        style="@style/MainText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="2dp"
+                        android:layout_marginRight="2dp"
+                        android:layout_marginBottom="2dp" />
+
+                    <RadioButton
+                        android:id="@+id/banner10"
+                        style="@style/MainText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="2dp"
+                        android:layout_marginRight="2dp"
+                        android:layout_marginBottom="2dp" />
+                </RadioGroup>
+            </com.github.aakira.expandablelayout.ExpandableLinearLayout>
+
+            <com.lukesapps.grandcross.database.CustomLayout
+                android:id="@+id/background"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    tools:context=".summonSimulator">
+
+                    <ImageView
+                        android:id="@+id/summon1"
+                        android:layout_width="88dp"
+                        android:layout_height="88dp"
+                        android:layout_marginStart="32dp"
+                        android:layout_marginTop="16dp"
+                        android:layout_weight="1"
+                        android:src="@drawable/salt"
+                        android:text="1"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <ImageView
+                        android:id="@+id/summon2"
+                        android:layout_width="88dp"
+                        android:layout_height="88dp"
+                        android:layout_marginTop="16dp"
+                        android:layout_weight="1"
+                        android:src="@drawable/salt"
+                        android:text="2"
+                        app:layout_constraintEnd_toStartOf="@+id/summon3"
+                        app:layout_constraintHorizontal_bias="0.492"
+                        app:layout_constraintStart_toEndOf="@+id/summon1"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <ImageView
+                        android:id="@+id/summon3"
+                        android:layout_width="88dp"
+                        android:layout_height="88dp"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginEnd="32dp"
+                        android:layout_weight="1"
+                        android:src="@drawable/salt"
+                        android:text="3"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <ImageView
+                        android:id="@+id/summon4"
+                        android:layout_width="88dp"
+                        android:layout_height="88dp"
+                        android:layout_marginStart="32dp"
+                        android:layout_marginTop="16dp"
+                        android:layout_weight="1"
+                        android:src="@drawable/salt"
+                        android:text="4"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/summon1" />
+
+                    <ImageView
+                        android:id="@+id/summon5"
+                        android:layout_width="88dp"
+                        android:layout_height="88dp"
+                        android:layout_marginTop="16dp"
+                        android:layout_weight="1"
+                        android:src="@drawable/salt"
+                        android:text="1"
+                        app:layout_constraintEnd_toStartOf="@+id/summon6"
+                        app:layout_constraintHorizontal_bias="0.492"
+                        app:layout_constraintStart_toEndOf="@+id/summon4"
+                        app:layout_constraintTop_toBottomOf="@+id/summon2" />
+
+                    <ImageView
+                        android:id="@+id/summon6"
+                        android:layout_width="88dp"
+                        android:layout_height="88dp"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginEnd="32dp"
+                        android:layout_weight="1"
+                        android:src="@drawable/salt"
+                        android:text="2"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/summon3" />
+
+                    <ImageView
+                        android:id="@+id/summon7"
+                        android:layout_width="88dp"
+                        android:layout_height="88dp"
+                        android:layout_marginStart="32dp"
+                        android:layout_marginTop="16dp"
+                        android:layout_weight="1"
+                        android:src="@drawable/salt"
+                        android:text="3"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/summon4" />
+
+                    <ImageView
+                        android:id="@+id/summon8"
+                        android:layout_width="88dp"
+                        android:layout_height="88dp"
+                        android:layout_marginTop="16dp"
+                        android:layout_weight="1"
+                        android:src="@drawable/salt"
+                        android:text="4"
+                        app:layout_constraintEnd_toStartOf="@+id/summon9"
+                        app:layout_constraintHorizontal_bias="0.492"
+                        app:layout_constraintStart_toEndOf="@+id/summon7"
+                        app:layout_constraintTop_toBottomOf="@+id/summon5" />
+
+                    <ImageView
+                        android:id="@+id/summon9"
+                        android:layout_width="88dp"
+                        android:layout_height="88dp"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginEnd="32dp"
+                        android:layout_weight="1"
+                        android:src="@drawable/salt"
+                        android:text="1"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/summon6" />
+
+                    <ImageView
+                        android:id="@+id/summon10"
+                        android:layout_width="88dp"
+                        android:layout_height="88dp"
+                        android:layout_marginStart="32dp"
+                        android:layout_marginTop="16dp"
+                        android:layout_weight="1"
+                        android:src="@drawable/salt"
+                        android:text="2"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/summon7" />
+
+                    <ImageView
+                        android:id="@+id/summon11"
+                        android:layout_width="88dp"
+                        android:layout_height="88dp"
+                        android:layout_marginTop="20dp"
+                        android:layout_marginEnd="32dp"
+                        android:layout_weight="1"
+                        android:src="@drawable/salt"
+                        android:text="3"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/summon9" />
+
+                    <TextView
+                        android:id="@+id/gssr"
+                        android:layout_width="88dp"
+                        android:layout_height="88dp"
+                        android:layout_marginTop="16dp"
+                        android:layout_weight="1"
+                        android:background="#00000000"
+                        android:text="Pity: 0%"
+                        android:textAlignment="center"
+                        android:textColor="#FFD700"
+                        android:textSize="30sp"
+                        android:textStyle="bold"
+                        app:layout_constraintEnd_toStartOf="@+id/summon11"
+                        app:layout_constraintHorizontal_bias="0.492"
+                        app:layout_constraintStart_toEndOf="@+id/summon10"
+                        app:layout_constraintTop_toBottomOf="@+id/summon8" />
+
+                    <LinearLayout
+                        android:id="@+id/linearLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:layout_marginLeft="16dp"
+                        android:layout_marginTop="4dp"
+                        android:layout_marginRight="16dp"
+                        android:orientation="horizontal"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.497"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/getAd">
+
+                        <TextView
+                            android:id="@+id/gems_spent"
+                            style="@style/MainText"
+                            android:layout_width="match_parent"
+                            android:layout_marginRight="8dp"
+                            android:layout_weight="1"
+                            android:text="gems spent: 0"
+                            android:textAlignment="center"
+                            android:textAllCaps="true"
+                            android:textSize="22sp" />
+
+                        <TextView
+                            android:id="@+id/reset_diamonds"
+                            style="@style/MainText"
+                            android:layout_width="match_parent"
+                            android:layout_weight="2.5"
+                            android:onClick="resetSummons"
+                            android:text="Reset"
+                            android:textAlignment="center"
+                            android:textAllCaps="true"
+                            android:textSize="22sp"
+                            tools:layout_editor_absoluteX="16dp"
+                            tools:layout_editor_absoluteY="613dp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/getAd"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:layout_marginLeft="16dp"
+                        android:layout_marginTop="4dp"
+                        android:layout_marginRight="16dp"
+                        android:orientation="horizontal"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.497"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/button2">
+
+                        <TextView
+                            android:id="@+id/summonsLeft"
+                            style="@style/MainText"
+                            android:layout_width="match_parent"
+                            android:layout_marginRight="8dp"
+                            android:layout_weight="1"
+                            android:text="Summons Left: 0"
+                            android:textAlignment="center"
+                            android:textAllCaps="true"
+                            android:textSize="22sp" />
+
+                        <TextView
+                            android:id="@+id/loadAd"
+                            style="@style/MainText"
+                            android:layout_width="match_parent"
+                            android:layout_weight="2.5"
+                            android:onClick="resetSummons"
+                            android:text="+20"
+                            android:textAlignment="center"
+                            android:textAllCaps="true"
+                            android:textSize="22sp"
+                            tools:layout_editor_absoluteX="16dp"
+                            tools:layout_editor_absoluteY="613dp" />
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/button2"
+                        style="@style/MainTitle"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:layout_marginLeft="16dp"
+                        android:layout_marginTop="32dp"
+                        android:layout_marginRight="16dp"
+                        android:layout_weight="1"
+                        android:onClick="multiSummon"
+                        android:text="Summon"
+                        android:textAlignment="center"
+                        android:textSize="22sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.497"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/gssr" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </com.lukesapps.grandcross.database.CustomLayout>
+
+
+            <TextView
+                android:id="@+id/textView"
+                style="@style/MainText"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_below="@id/background"
+                android:layout_weight="1"
+                android:onClick="multiSummon"
+                android:text="Characters Summoned:"
+                android:textAlignment="center"
+                android:textSize="22sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="500dp"
+                android:layout_below="@id/textView"
+                android:orientation="vertical">
+
+                <ListView
+                    android:id="@+id/summoned_characters"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="1"
+                    android:scrollbarSize="3dp"
+                    android:scrollbarStyle="outsideOverlay"
+                    android:scrollbars="vertical"
+                    android:scrollingCache="true"
+                    android:smoothScrollbar="true" />
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+</RelativeLayout>

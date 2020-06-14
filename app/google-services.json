@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "643426512055",
+    "firebase_url": "https://ds-grand-cross-database.firebaseio.com",
+    "project_id": "ds-grand-cross-database",
+    "storage_bucket": "ds-grand-cross-database.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:643426512055:android:dadefe0e92a8c673f53132",
+        "android_client_info": {
+          "package_name": "com.grandcross.database"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "643426512055-6ogkrccno6gam8g4lfnd82idmqe0jf4b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAcoyZUYBAE1kV3Hxn66dbziXomojGFUn0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "643426512055-6ogkrccno6gam8g4lfnd82idmqe0jf4b.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

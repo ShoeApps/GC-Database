@@ -1,0 +1,809 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <ImageView
+        android:id="@+id/help_background"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_above="@id/adViewHolder"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/help_background_colour"
+        style="@style/helpBackground">
+
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:paddingBottom="50dp"
+            tools:context="com.lukesapps.grandcross.database.help_menu">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_weight="1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="#97616161"
+                    android:gravity="center"
+                    android:padding="8dp"
+                    android:shadowColor="#000000"
+                    android:shadowRadius="8"
+                    android:text="Dark Mode"
+                    android:textColor="#FFFFFF"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+                <Switch
+                    android:id="@+id/darkModeSwitch"
+                    android:layout_weight="4"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="#97616161"
+                    android:gravity="center"
+                    android:padding="8dp"
+                    android:shadowColor="#000000"
+                    android:shadowRadius="8"
+                    android:textColor="#FFFFFF"
+                    android:textSize="20sp"
+                    android:textStyle="bold"/>
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#97616161"
+                android:gravity="center"
+                android:padding="8dp"
+                android:shadowColor="#000000"
+                android:shadowRadius="8"
+                android:text="App info"
+                android:textColor="#FFFFFF"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <TextView
+                style="@style/HelpTwo"
+                android:layout_margin="0dp"
+                android:gravity="center"
+                android:text="App Version: 4.4"
+                android:textSize="15sp"
+                android:textStyle="normal" />
+
+            <TextView
+                style="@style/HelpTwo"
+                android:layout_margin="0dp"
+                android:gravity="center"
+                android:text="Thank you for downloading and using 7DS:GC Database."
+                android:textSize="15sp"
+                android:textStyle="normal" />
+
+            <TextView
+                style="@style/HelpTwo"
+                android:layout_margin="0dp"
+                android:gravity="center"
+                android:text="If you would like to support me, you can donate by clicking here:"
+                android:textStyle="normal" />
+
+            <TextView
+                style="@style/HelpTwo"
+                android:layout_height="100dp"
+                android:layout_margin="0dp"
+                android:background="#B2782121"
+                android:gravity="center"
+                android:onClick="donate"
+                android:text="Support the App +\nUnlimited Summons"
+                android:textSize="32sp"
+                android:textStyle="bold" />
+
+            <TextView
+                style="@style/HelpTwo"
+                android:layout_margin="0dp"
+                android:gravity="center"
+                android:text="If you find the app useful, please make sure to leave a review on the Google Play Store, however if you didn't, or have any suggestions on how I can improve your user experience, please contact me on Discord : Shoe#0388"
+                android:textSize="13sp"
+                android:textStyle="normal" />
+
+            <TextView
+                style="@style/HelpTwo"
+                android:layout_margin="0dp"
+                android:gravity="center"
+                android:text="7DS:GC Global IGN: 天MoaKikuchi"
+                android:textSize="13sp"
+                android:textStyle="normal" />
+
+            <TextView
+                android:id="@+id/basestatsclick"
+                style="@style/HelpOne"
+                android:gravity="center"
+                android:onClick="showBaseStatsHelp"
+                android:text="Stats"
+                android:textSize="20sp" />
+
+            <com.github.aakira.expandablelayout.ExpandableLinearLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/basestatshelp"
+                style="@style/ExpandHelp"
+                app:ael_duration="250"
+                app:ael_expanded="false"
+                app:ael_interpolator="accelerate">
+
+                <TextView
+                    style="@style/HelpTwo"
+                    android:text="HP-related Stats -"
+                    android:textStyle="normal" />
+
+                <TextView
+                    style="@style/HelpThree"
+                    android:text="HP, Recovery, Regeneration, and Lifesteal"
+                    android:textStyle="normal" />
+
+                <TextView
+                    style="@style/HelpTwo"
+                    android:text="Attack-related Stats -"
+                    android:textStyle="normal" />
+
+                <TextView
+                    style="@style/HelpThree"
+                    android:text="Attack, Pierce Rate, Crit Chance, and Crit Damage"
+                    android:textStyle="normal" />
+
+                <TextView
+                    style="@style/HelpTwo"
+                    android:text="Defense-related Stats -"
+                    android:textStyle="normal" />
+
+                <TextView
+                    style="@style/HelpThree"
+                    android:text="Defense, Resistance, Crit Resistance, and Crit Defense."
+                    android:textStyle="normal" />
+
+                <TextView
+                    style="@style/HelpTwo"
+                    android:text="Combat Class -"
+                    android:textStyle="normal" />
+
+                <TextView
+                    style="@style/HelpThree"
+                    android:text="A hero's Combat Class. The higher the combat class, the stronger the hero."
+                    android:textStyle="normal" />
+
+                <TextView
+                    style="@style/HelpTwo"
+                    android:text="Attack -"
+                    android:textStyle="normal" />
+
+                <TextView
+                    style="@style/HelpThree"
+                    android:text="The main damage multiplier, all damage is based off this value"
+                    android:textStyle="normal" />
+
+                <TextView
+                    style="@style/HelpTwo"
+                    android:text="Defense -"
+                    android:textStyle="normal" />
+
+                <TextView
+                    style="@style/HelpThree"
+                    android:text="Decreases damage taken from attacks based on the value."
+                    android:textStyle="normal" />
+
+                <TextView
+                    style="@style/HelpTwo"
+                    android:text="HP -"
+                    android:textStyle="normal" />
+
+                <TextView
+                    style="@style/HelpThree"
+                    android:text="A value showing how much damage a hero can take."
+                    android:textStyle="normal" />
+
+                <TextView
+                    style="@style/HelpTwo"
+                    android:text="Pierce Rate -"
+                    android:textStyle="normal" />
+
+                <TextView
+                    style="@style/HelpThree"
+                    android:text="Deals a % of damage based on your attack. Ignore defense"
+                    android:textStyle="normal" />
+
+                <TextView
+                    style="@style/HelpTwo"
+                    android:text="Resistance -"
+                    android:textStyle="normal" />
+
+                <TextView
+                    style="@style/HelpThree"
+                    android:text="Decreases damage taken from Pierce Rate. (Pierce Rate% - Resistance%) "
+                    android:textStyle="normal" />
+
+                <TextView
+                    style="@style/HelpTwo"
+                    android:text="Regeneration Rate -"
+                    android:textStyle="normal" />
+
+                <TextView
+                    style="@style/HelpThree"
+                    android:text="Recover this % of lost HP at the end of every enemy turn."
+                    android:textStyle="normal" />
+
+                <TextView
+                    style="@style/HelpTwo"
+                    android:text="Crit Chance -"
+                    android:textStyle="normal" />
+
+                <TextView
+                    style="@style/HelpThree"
+                    android:text="The chance of your attacks critically striking."
+                    android:textStyle="normal" />
+
+                <TextView
+                    style="@style/HelpTwo"
+                    android:text="Crit Damage -"
+                    android:textStyle="normal" />
+
+                <TextView
+                    style="@style/HelpThree"
+                    android:text="The higher this %, the more damage your critical strikes will do."
+                    android:textStyle="normal" />
+
+                <TextView
+                    style="@style/HelpTwo"
+                    android:text="Crit Resistance -"
+                    android:textStyle="normal" />
+
+                <TextView
+                    style="@style/HelpThree"
+                    android:text="Decreases chances of the enemy critically striking this character when attacked. (Crit Chance% - Crit Resistance"
+                    android:textStyle="normal" />
+
+                <TextView
+                    style="@style/HelpTwo"
+                    android:text="Crit Defense -"
+                    android:textStyle="normal" />
+
+                <TextView
+                    style="@style/HelpThree"
+                    android:text="Decreases damage taken from Critical Strikes. (Crit Damage% - Crit Defense%)"
+                    android:textStyle="normal" />
+
+                <TextView
+                    style="@style/HelpTwo"
+                    android:text="Recovery Rate -"
+                    android:textStyle="normal" />
+
+                <TextView
+                    style="@style/HelpThree"
+                    android:text="Increases the amount of health recovered whenever recovering health."
+                    android:textStyle="normal" />
+
+                <TextView
+                    style="@style/HelpTwo"
+                    android:text="Lifesteal -"
+                    android:textStyle="normal" />
+
+                <TextView
+                    style="@style/HelpThree"
+                    android:layout_marginBottom="2dp"
+                    android:text="Recover a portion of damage dealt as health based on this %."
+                    android:textStyle="normal" />
+            </com.github.aakira.expandablelayout.ExpandableLinearLayout>
+
+            <TextView
+                android:id="@+id/damagetypesclick"
+                style="@style/HelpOne"
+                android:gravity="center"
+                android:onClick="showDamageTypesHelp"
+                android:text="Damage Types"
+                android:textSize="20sp" />
+
+            <com.github.aakira.expandablelayout.ExpandableLinearLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/damagetypeshelp"
+                style="@style/ExpandHelp"
+                app:ael_duration="250"
+                app:ael_expanded="false"
+                app:ael_interpolator="accelerate">
+
+                <TextView
+                    style="@style/HelpTwo"
+                    android:text="Amplify -"
+                    android:textStyle="normal" />
+
+                <TextView
+                    style="@style/HelpThree"
+                    android:text="Damage Dealt +30% per active buff on self."
+                    android:textStyle="normal" />
+
+                <TextView
+                    style="@style/HelpTwo"
+                    android:text="Charge -"
+                    android:textStyle="normal" />
+
+                <TextView
+                    style="@style/HelpThree"
+                    android:text="Ignores Defense."
+                    android:textStyle="normal" />
+
+                <TextView
+                    style="@style/HelpTwo"
+                    android:text="Detonate -"
+                    android:textStyle="normal" />
+
+                <TextView
+                    style="@style/HelpThree"
+                    android:text="15% additional damage per orb in the target's Ultimate Move Gauge."
+                    android:textStyle="normal" />
+
+                <TextView
+                    style="@style/HelpTwo"
+                    android:text="Pierce -"
+                    android:textStyle="normal" />
+
+                <TextView
+                    style="@style/HelpThree"
+                    android:text="3x Pierce Rate increase."
+                    android:textStyle="normal" />
+
+                <TextView
+                    style="@style/HelpTwo"
+                    android:text="Ruin -"
+                    android:textStyle="normal" />
+
+                <TextView
+                    style="@style/HelpThree"
+                    android:text="Increases damage dealt by 20% per debuff on the target and removes debuffs."
+                    android:textStyle="normal" />
+
+                <TextView
+                    style="@style/HelpTwo"
+                    android:text="Rupture -"
+                    android:textStyle="normal" />
+
+                <TextView
+                    style="@style/HelpThree"
+                    android:text="2x damage against buffed enemies."
+                    android:textStyle="normal" />
+
+                <TextView
+                    style="@style/HelpTwo"
+                    android:text="Sever -"
+                    android:textStyle="normal" />
+
+                <TextView
+                    style="@style/HelpThree"
+                    android:text="2x Crit Chance Increase."
+                    android:textStyle="normal" />
+
+                <TextView
+                    style="@style/HelpTwo"
+                    android:text="Shatter -"
+                    android:textStyle="normal" />
+
+                <TextView
+                    style="@style/HelpThree"
+                    android:text="Ignores Resistance."
+                    android:textStyle="normal" />
+
+                <TextView
+                    style="@style/HelpTwo"
+                    android:text="Secret Technique -"
+                    android:textStyle="normal" />
+
+                <TextView
+                    style="@style/HelpThree"
+                    android:text="Increases damage dealt by x% per this hero's skill card in hand."
+                    android:textStyle="normal" />
+
+                <TextView
+                    style="@style/HelpTwo"
+                    android:text="Spike -"
+                    android:textStyle="normal" />
+
+                <TextView
+                    style="@style/HelpThree"
+                    android:text="2x Crit Damage increase."
+                    android:textStyle="normal" />
+
+                <TextView
+                    style="@style/HelpTwo"
+                    android:text="Weak Point -"
+                    android:textStyle="normal" />
+
+                <TextView
+                    style="@style/HelpThree"
+                    android:layout_marginBottom="2dp"
+                    android:text="3x damage against debuffed enemies"
+                    android:textStyle="normal" />
+
+            </com.github.aakira.expandablelayout.ExpandableLinearLayout>
+
+            <TextView
+                android:id="@+id/buffsclick"
+                style="@style/HelpOne"
+                android:gravity="center"
+                android:onClick="showBuffsHelp"
+                android:text="Buffs"
+                android:textSize="20sp" />
+
+            <com.github.aakira.expandablelayout.ExpandableLinearLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/buffshelp"
+                style="@style/ExpandHelp"
+                app:ael_duration="250"
+                app:ael_expanded="false"
+                app:ael_interpolator="accelerate">
+
+                <TextView
+                    style="@style/HelpTwo"
+                    android:text="Evade -"
+                    android:textStyle="normal" />
+
+                <TextView
+                    style="@style/HelpThree"
+                    android:text="Cannot be hit by an attack (excluding ultimates)"
+                    android:textStyle="normal" />
+
+                <TextView
+                    style="@style/HelpTwo"
+                    android:text="Extort -"
+                    android:textStyle="normal" />
+
+                <TextView
+                    style="@style/HelpThree"
+                    android:text="Decreases the target's stats and increases own stats by the same amount."
+                    android:textStyle="normal" />
+
+                <TextView
+                    style="@style/HelpTwo"
+                    android:text="Rejuvenate -"
+                    android:textStyle="normal" />
+
+                <TextView
+                    style="@style/HelpThree"
+                    android:text="Additional Recovery equal to 60% of recovered HP at the start of every turn"
+                    android:textStyle="normal" />
+
+                <TextView
+                    style="@style/HelpTwo"
+                    android:text="Solidify -"
+                    android:textStyle="normal" />
+
+                <TextView
+                    style="@style/HelpThree"
+                    android:text="30% Resistance for 3 turns (Can be stacked)"
+                    android:textStyle="normal" />
+
+                <TextView
+                    style="@style/HelpTwo"
+                    android:text="Taunt -"
+                    android:textStyle="normal" />
+
+                <TextView
+                    style="@style/HelpThree"
+                    android:layout_marginBottom="2dp"
+                    android:text="Direct all enemy attacks to self"
+                    android:textStyle="normal" />
+            </com.github.aakira.expandablelayout.ExpandableLinearLayout>
+
+            <TextView
+                android:id="@+id/statuseffectsclick"
+                style="@style/HelpOne"
+                android:gravity="center"
+                android:onClick="showStatusEffectsHelp"
+                android:text="Debuffs"
+                android:textSize="20sp" />
+
+            <com.github.aakira.expandablelayout.ExpandableLinearLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/statuseffectshelp"
+                style="@style/ExpandHelp"
+                app:ael_duration="250"
+                app:ael_expanded="false"
+                app:ael_interpolator="accelerate">
+
+                <TextView
+                    style="@style/HelpTwo"
+                    android:text="Bleed -"
+                    android:textStyle="normal" />
+
+                <TextView
+                    style="@style/HelpThree"
+                    android:text="Additional damage equal to 80% of damage dealt at the end of every turn."
+                    android:textStyle="normal" />
+
+                <TextView
+                    style="@style/HelpTwo"
+                    android:text="Corrosion -"
+                    android:textStyle="normal" />
+
+                <TextView
+                    style="@style/HelpThree"
+                    android:text="Additional damage at the end of every turn."
+                    android:textStyle="normal" />
+
+                <TextView
+                    style="@style/HelpTwo"
+                    android:text="Extort -"
+                    android:textStyle="normal" />
+
+                <TextView
+                    style="@style/HelpThree"
+                    android:text="Decreases the target's stats and increases own stats by the same amount."
+                    android:textStyle="normal" />
+
+                <TextView
+                    style="@style/HelpTwo"
+                    android:text="Freeze -"
+                    android:textStyle="normal" />
+
+                <TextView
+                    style="@style/HelpThree"
+                    android:text="Incapacitates target. Effect is removed when target is attacked."
+                    android:textStyle="normal" />
+
+                <TextView
+                    style="@style/HelpTwo"
+                    android:text="Ignite -"
+                    android:textStyle="normal" />
+
+                <TextView
+                    style="@style/HelpThree"
+                    android:text="Damage taken by target +10%. (Can be stacked)"
+                    android:textStyle="normal" />
+
+                <TextView
+                    style="@style/HelpTwo"
+                    android:text="Infect -"
+                    android:textStyle="normal" />
+
+                <TextView
+                    style="@style/HelpThree"
+                    android:text="Restricts Recovery-related stats."
+                    android:textStyle="normal" />
+
+                <TextView
+                    style="@style/HelpTwo"
+                    android:text="Petrify -"
+                    android:textStyle="normal" />
+
+                <TextView
+                    style="@style/HelpThree"
+                    android:text="Incapacitates target. Effect is removed when target is attacked."
+                    android:textStyle="normal" />
+
+                <TextView
+                    style="@style/HelpTwo"
+                    android:text="Poison -"
+                    android:textStyle="normal" />
+
+                <TextView
+                    style="@style/HelpThree"
+                    android:text="Additional damage equal to 50% of damage dealt at the end of every turn."
+                    android:textStyle="normal" />
+
+                <TextView
+                    style="@style/HelpTwo"
+                    android:text="Shock -"
+                    android:textStyle="normal" />
+
+                <TextView
+                    style="@style/HelpThree"
+                    android:text="Additional damage equal to 30% of damage dealt at the end of every turn."
+                    android:textStyle="normal" />
+
+                <TextView
+                    style="@style/HelpTwo"
+                    android:text="Stun -"
+                    android:textStyle="normal" />
+
+                <TextView
+                    style="@style/HelpThree"
+                    android:layout_marginBottom="2dp"
+                    android:text="Prohibits all actions."
+                    android:textStyle="normal" />
+            </com.github.aakira.expandablelayout.ExpandableLinearLayout>
+
+            <TextView
+                android:id="@+id/charactericonsclick"
+                style="@style/HelpOne"
+                android:gravity="center"
+                android:onClick="showCharacterIcons"
+                android:text="Character Icons"
+                android:textSize="20sp" />
+
+            <com.github.aakira.expandablelayout.ExpandableLinearLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/charactericonshelp"
+                style="@style/ExpandHelp"
+                android:background="#97757575"
+                app:ael_duration="250"
+                app:ael_expanded="false"
+                app:ael_interpolator="accelerate">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="8dp"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:src="@drawable/new_years" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:text="New Years\nExclusive"
+                            android:textColor="#ffffff" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:src="@drawable/valentines" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:shadowColor="#000000"
+                            android:shadowRadius="2"
+                            android:text="Valentines\nExclusive"
+                            android:textColor="#ffffff" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:src="@drawable/halloween" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:shadowColor="#000000"
+                            android:shadowRadius="2"
+                            android:text="Halloween\nExclusive"
+                            android:textColor="#ffffff" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="8dp"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:src="@drawable/festival_banner" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:shadowColor="#000000"
+                            android:shadowRadius="2"
+                            android:text="Festival Banner\nExclusive"
+                            android:textColor="#ffffff" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:src="@drawable/original_character" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:shadowColor="#000000"
+                            android:shadowRadius="2"
+                            android:text="Original\nCharacter"
+                            android:textColor="#ffffff" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:src="@drawable/coin_shop" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:shadowColor="#000000"
+                            android:shadowRadius="2"
+                            android:text="Coin Shop\nUnit"
+                            android:textColor="#ffffff" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="8dp"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:src="@drawable/slime_collab" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:shadowColor="#000000"
+                            android:shadowRadius="2"
+                            android:text="Tensura/Slime\nAnime Collab"
+                            android:textColor="#ffffff" />
+                    </LinearLayout>
+                </LinearLayout>
+            </com.github.aakira.expandablelayout.ExpandableLinearLayout>
+        </LinearLayout>
+    </ScrollView>
+    <LinearLayout
+        android:layout_alignParentBottom="true"
+        android:id="@+id/adViewHolder"
+        style="@style/helpBackground"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+    </LinearLayout>
+</RelativeLayout>

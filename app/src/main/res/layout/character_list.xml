@@ -1,0 +1,551 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="#757575">
+
+    <ImageView
+        android:id="@+id/character_list_background"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <LinearLayout
+        android:layout_above="@id/adViewHolder"
+        android:id="@+id/linearlayoutlist"
+        style="@style/charactersBackground"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/characters_filter"
+                android:layout_width="match_parent"
+                android:layout_height="44dp"
+                android:layout_weight="1"
+                android:shadowColor="#000000"
+                android:shadowRadius="3" />
+
+            <ImageView
+                android:id="@+id/filter_button"
+                android:layout_width="44dp"
+                android:layout_height="44dp"
+                android:onClick="showFilter"
+                android:src="@drawable/filter_icon" />
+        </LinearLayout>
+
+        <com.github.aakira.expandablelayout.ExpandableLinearLayout
+            android:id="@+id/filter_view"
+            style="@style/subtitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="4dp"
+            android:orientation="vertical">
+
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="270dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="100dp"
+                        android:orientation="horizontal">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:orientation="horizontal">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    style="@style/subtitle"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="1"
+                                    android:background="#B31B1B1B"
+                                    android:text="Type" />
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="1"
+                                    android:background="#97757575"
+                                    android:orientation="horizontal">
+
+                                    <ImageView
+                                        android:id="@+id/strengthFilter"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:layout_weight="1"
+                                        android:onClick="strengthFilter"
+                                        android:paddingLeft="2dp"
+                                        android:paddingTop="2dp"
+                                        android:paddingBottom="2dp"
+                                        android:src="@drawable/strength" />
+
+                                    <ImageView
+                                        android:id="@+id/hpFilter"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:layout_weight="1"
+                                        android:onClick="hpFilter"
+                                        android:paddingLeft="2dp"
+                                        android:paddingTop="2dp"
+                                        android:paddingRight="2dp"
+                                        android:paddingBottom="2dp"
+                                        android:src="@drawable/hp" />
+
+                                    <ImageView
+                                        android:id="@+id/speedFilter"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:layout_weight="1"
+                                        android:onClick="speedFilter"
+                                        android:paddingTop="2dp"
+                                        android:paddingRight="2dp"
+                                        android:paddingBottom="2dp"
+                                        android:src="@drawable/speed" />
+                                </LinearLayout>
+                            </LinearLayout>
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="4dp"
+                            android:layout_height="match_parent"
+                            android:background="#CC000000" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:orientation="horizontal">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    style="@style/subtitle"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="1"
+                                    android:background="#B31B1B1B"
+                                    android:text="Region" />
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="1"
+                                    android:background="#97757575"
+                                    android:orientation="horizontal">
+
+                                    <ImageView
+                                        android:id="@+id/globalFilter"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:layout_weight="1"
+                                        android:onClick="globalFilter"
+                                        android:paddingLeft="2dp"
+                                        android:paddingTop="2dp"
+                                        android:paddingBottom="2dp"
+                                        android:src="@drawable/globe" />
+
+                                    <ImageView
+                                        android:id="@+id/jpFilter"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:layout_weight="1"
+                                        android:onClick="jpFilter"
+                                        android:paddingLeft="2dp"
+                                        android:paddingTop="2dp"
+                                        android:paddingRight="2dp"
+                                        android:paddingBottom="2dp"
+                                        android:src="@drawable/jp_flag" />
+
+                                    <ImageView
+                                        android:id="@+id/jpOnlyFilter"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:layout_weight="1"
+                                        android:onClick="jpOnlyFilter"
+                                        android:paddingTop="2dp"
+                                        android:paddingRight="2dp"
+                                        android:paddingBottom="2dp"
+                                        android:src="@drawable/no_globe" />
+                                </LinearLayout>
+                            </LinearLayout>
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="100dp"
+                        android:orientation="horizontal">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:orientation="horizontal">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    style="@style/subtitle"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="1"
+                                    android:background="#B31B1B1B"
+                                    android:text="Rarity" />
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="1"
+                                    android:background="#97757575"
+                                    android:orientation="horizontal">
+
+                                    <ImageView
+                                        android:id="@+id/rFilter"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:layout_weight="1"
+                                        android:onClick="rFilter"
+                                        android:paddingLeft="2dp"
+                                        android:paddingTop="2dp"
+                                        android:paddingBottom="2dp"
+                                        android:src="@drawable/r" />
+
+                                    <ImageView
+                                        android:id="@+id/srFilter"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:layout_weight="1"
+                                        android:onClick="srFilter"
+                                        android:paddingLeft="2dp"
+                                        android:paddingTop="2dp"
+                                        android:paddingRight="2dp"
+                                        android:paddingBottom="2dp"
+                                        android:src="@drawable/sr" />
+
+                                    <ImageView
+                                        android:id="@+id/ssrFilter"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:layout_weight="1"
+                                        android:onClick="ssrFilter"
+                                        android:paddingTop="2dp"
+                                        android:paddingRight="2dp"
+                                        android:paddingBottom="2dp"
+                                        android:src="@drawable/ssr" />
+                                </LinearLayout>
+                            </LinearLayout>
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="100dp"
+                        android:orientation="horizontal">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:orientation="horizontal">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    style="@style/subtitle"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="1"
+                                    android:background="#B31B1B1B"
+                                    android:text="Race" />
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="1"
+                                    android:background="#97757575"
+                                    android:orientation="horizontal">
+
+                                    <ImageView
+                                        android:id="@+id/humanFilter"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:layout_weight="1"
+                                        android:onClick="humanFilter"
+                                        android:paddingLeft="2dp"
+                                        android:paddingTop="2dp"
+                                        android:paddingBottom="2dp"
+                                        android:src="@drawable/human" />
+
+                                    <ImageView
+                                        android:id="@+id/fairyFilter"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:layout_weight="1"
+                                        android:onClick="fairyFilter"
+                                        android:paddingLeft="2dp"
+                                        android:paddingTop="2dp"
+                                        android:paddingRight="2dp"
+                                        android:paddingBottom="2dp"
+                                        android:src="@drawable/fairy" />
+
+                                    <ImageView
+                                        android:id="@+id/demonFilter"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:layout_weight="1"
+                                        android:onClick="demonFilter"
+                                        android:paddingTop="2dp"
+                                        android:paddingRight="2dp"
+                                        android:paddingBottom="2dp"
+                                        android:src="@drawable/demon" />
+
+                                    <ImageView
+                                        android:id="@+id/goddessFilter"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:layout_weight="1"
+                                        android:onClick="goddessFilter"
+                                        android:paddingLeft="2dp"
+                                        android:paddingTop="2dp"
+                                        android:paddingBottom="2dp"
+                                        android:src="@drawable/goddess" />
+
+                                    <ImageView
+                                        android:id="@+id/giantFilter"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:layout_weight="1"
+                                        android:onClick="giantFilter"
+                                        android:paddingLeft="2dp"
+                                        android:paddingTop="2dp"
+                                        android:paddingRight="2dp"
+                                        android:paddingBottom="2dp"
+                                        android:src="@drawable/giant" />
+
+                                    <ImageView
+                                        android:id="@+id/unknownFilter"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:layout_weight="1"
+                                        android:onClick="unknownFilter"
+                                        android:paddingTop="2dp"
+                                        android:paddingRight="2dp"
+                                        android:paddingBottom="2dp"
+                                        android:src="@drawable/unknown" />
+                                </LinearLayout>
+                            </LinearLayout>
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="100dp"
+                        android:orientation="horizontal">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:orientation="horizontal">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    style="@style/subtitle"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="1"
+                                    android:background="#B31B1B1B"
+                                    android:text="Obtained" />
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="1"
+                                    android:background="#97757575"
+                                    android:orientation="horizontal">
+
+                                    <ImageView
+                                        android:id="@+id/storyFilter"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:layout_weight="1"
+                                        android:onClick="storyFilter"
+                                        android:paddingLeft="2dp"
+                                        android:paddingTop="2dp"
+                                        android:paddingBottom="2dp"
+                                        android:src="@drawable/story" />
+
+                                    <ImageView
+                                        android:id="@+id/coinShopFilter"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:layout_weight="1"
+                                        android:onClick="coinShopFilter"
+                                        android:paddingTop="2dp"
+                                        android:paddingRight="2dp"
+                                        android:paddingBottom="2dp"
+                                        android:src="@drawable/coinshop" />
+
+                                    <ImageView
+                                        android:id="@+id/normalGachaFilter"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:layout_weight="1"
+                                        android:onClick="normalGachaFilter"
+                                        android:paddingLeft="2dp"
+                                        android:paddingTop="2dp"
+                                        android:paddingBottom="2dp"
+                                        android:src="@drawable/normalgacha" />
+
+                                    <ImageView
+                                        android:id="@+id/limitedGachaFilter"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:layout_weight="1"
+                                        android:onClick="limitedGachaFilter"
+                                        android:paddingLeft="2dp"
+                                        android:paddingTop="2dp"
+                                        android:paddingRight="2dp"
+                                        android:paddingBottom="2dp"
+                                        android:src="@drawable/limitedgacha" />
+
+                                    <ImageView
+                                        android:id="@+id/festivalGachaFilter"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:layout_weight="1"
+                                        android:onClick="festivalGachaFilter"
+                                        android:paddingTop="2dp"
+                                        android:paddingRight="2dp"
+                                        android:paddingBottom="2dp"
+                                        android:src="@drawable/festivalbanner" />
+
+                                    <ImageView
+                                        android:id="@+id/collabFilter"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:layout_weight="1"
+                                        android:onClick="collabFilter"
+                                        android:paddingLeft="2dp"
+                                        android:paddingTop="2dp"
+                                        android:paddingBottom="2dp"
+                                        android:src="@drawable/collabbanner" />
+
+                                    <ImageView
+                                        android:id="@+id/pvpFilter"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:layout_weight="1"
+                                        android:onClick="pvpFilter"
+                                        android:paddingLeft="2dp"
+                                        android:paddingTop="2dp"
+                                        android:paddingRight="2dp"
+                                        android:paddingBottom="2dp"
+                                        android:src="@drawable/icon_pvp_tier_06" />
+                                </LinearLayout>
+                            </LinearLayout>
+                        </LinearLayout>
+                    </LinearLayout>
+                </LinearLayout>
+            </ScrollView>
+        </com.github.aakira.expandablelayout.ExpandableLinearLayout>
+
+        <TextView
+            style="@style/MainTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="sort" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="44dp"
+                android:layout_weight="1"
+                android:onClick="sortCC"
+                android:text="CC" />
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="44dp"
+                android:layout_weight="1"
+                android:onClick="sortHP"
+                android:text="HP" />
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="44dp"
+                android:layout_weight="1"
+                android:onClick="sortATK"
+                android:text="ATK" />
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="44dp"
+                android:layout_weight="1"
+                android:onClick="sortDEF"
+                android:text="DEF" />
+        </LinearLayout>
+
+        <Button
+            style="@style/MainText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#97757575"
+            android:onClick="resetFilter"
+            android:text="Reset Filter / Sort"
+            android:textAlignment="center" />
+
+        <ListView
+            android:id="@+id/characters_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:divider="@android:color/darker_gray"
+            android:dividerHeight="0dp"
+            android:orientation="vertical" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_alignParentBottom="true"
+        android:id="@+id/adViewHolder"
+        style="@style/charactersBackground"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+    </LinearLayout>
+</RelativeLayout>
