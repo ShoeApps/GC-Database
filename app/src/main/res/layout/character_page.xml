@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/fullLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -16,12 +16,52 @@
         android:layout_height="match_parent" />
 
     <LinearLayout
-        android:layout_above="@id/adViewHolder"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:orientation="vertical"
+        android:id="@+id/transformations">
+
+        <LinearLayout
+            style="@style/subtitle"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:orientation="horizontal"
+            android:padding="1dp">
+
+            <Button
+                style="@style/subtitle"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginEnd="0.5dp"
+                android:layout_weight="1"
+                android:onClick="showBaseForm"
+                android:text="Base Form" />
+
+            <Button
+                style="@style/subtitle"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="0.5dp"
+                android:layout_weight="1"
+                android:onClick="showTransformed"
+                android:text="Transformed" />
+        </LinearLayout>
+        <TextView
+            android:id="@+id/transformedtext"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            style="@style/subtitle"
+            android:text="Showing Base Form"/>
+    </LinearLayout>
+
+    <LinearLayout
         android:id="@+id/character_page_background_colour"
+        style="@style/charactersBackground"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_above="@id/adViewHolder"
+        android:layout_below="@id/transformations"
         android:adjustViewBounds="true"
-        style="@style/charactersBackground"
         android:orientation="vertical"
         android:scaleType="fitXY">
 
@@ -400,11 +440,11 @@
                         android:scaleType="fitXY">
 
                         <ImageView
-                            android:background="#75607d8b"
                             android:id="@+id/passive_image"
                             android:layout_width="match_parent"
                             android:layout_height="150dp"
                             android:layout_gravity="center_horizontal"
+                            android:background="#75607d8b"
                             android:src="@drawable/loading" />
 
                         <TextView
@@ -459,20 +499,76 @@
                             android:id="@+id/commandment_image"
                             android:layout_width="match_parent"
                             android:layout_height="150dp"
-                            android:background="#75607d8b"
                             android:layout_gravity="center_horizontal"
+                            android:background="#75607d8b"
                             android:src="@drawable/loading" />
 
                         <TextView
                             android:id="@+id/commandment_name"
                             style="@style/MainTitle"
+                            android:background="#75607d8b"
                             android:gravity="center"
                             android:padding="8dp"
-                            android:background="#75607d8b"
                             android:textAllCaps="false" />
 
                         <TextView
                             android:id="@+id/commandment"
+                            style="@style/MainText"
+                            android:layout_weight="1"
+                            android:gravity="center" />
+
+                        <TextView
+                            style="@style/MainTitle"
+                            android:gravity="center"
+                            android:onClick="moreInfo"
+                            android:text="Click here for more info"
+                            android:textAllCaps="false" />
+                    </com.github.aakira.expandablelayout.ExpandableLinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/full_blessing"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginRight="16dp"
+                    android:background="#75607d8b"
+                    android:orientation="vertical">
+
+                    <TextView
+                        style="@style/subtitle"
+                        android:gravity="center"
+                        android:onClick="showBlessing"
+                        android:padding="8dp"
+                        android:text="Blessing / Grace" />
+
+                    <com.github.aakira.expandablelayout.ExpandableLinearLayout
+                        android:id="@+id/blessing_expand"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center_horizontal"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:id="@+id/blessing_image"
+                            android:layout_width="match_parent"
+                            android:layout_height="150dp"
+                            android:layout_gravity="center_horizontal"
+                            android:background="#75607d8b"
+                            android:src="@drawable/loading" />
+
+                        <TextView
+                            android:id="@+id/blessingt_name"
+                            style="@style/MainTitle"
+                            android:background="#75607d8b"
+                            android:gravity="center"
+                            android:padding="8dp"
+                            android:textAllCaps="false" />
+
+                        <TextView
+                            android:id="@+id/blessing"
                             style="@style/MainText"
                             android:layout_weight="1"
                             android:gravity="center" />
@@ -511,11 +607,11 @@
                         android:orientation="vertical">
 
                         <ImageView
-                            android:background="#75607d8b"
                             android:id="@+id/skill1_image"
                             android:layout_width="match_parent"
                             android:layout_height="150dp"
                             android:layout_gravity="center_horizontal"
+                            android:background="#75607d8b"
                             android:src="@drawable/loading" />
 
                         <LinearLayout
@@ -536,9 +632,9 @@
                                 android:orientation="vertical">
 
                                 <LinearLayout
-                                    android:background="#97607d8b"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
+                                    android:background="#97607d8b"
                                     android:orientation="horizontal">
 
                                     <TextView
@@ -638,11 +734,11 @@
                         android:orientation="vertical">
 
                         <ImageView
-                            android:background="#75607d8b"
                             android:id="@+id/skill2_image"
                             android:layout_width="match_parent"
                             android:layout_height="150dp"
                             android:layout_gravity="center_horizontal"
+                            android:background="#75607d8b"
                             android:src="@drawable/loading" />
 
                         <TextView
@@ -751,11 +847,11 @@
                         android:orientation="vertical">
 
                         <ImageView
-                            android:background="#75607d8b"
                             android:id="@+id/ult_image"
                             android:layout_width="match_parent"
                             android:layout_height="150dp"
                             android:layout_gravity="center_horizontal"
+                            android:background="#75607d8b"
                             android:src="@drawable/loading" />
 
                         <LinearLayout
@@ -843,7 +939,6 @@
 
                     <TextView
                         style="@style/subtitle"
-
                         android:gravity="center"
                         android:onClick="showAwakening"
                         android:text="@string/awakening_stats" />
@@ -1400,6 +1495,382 @@
                     android:orientation="vertical">
 
                     <TextView
+                        style="@style/subtitle"
+                        android:gravity="center"
+                        android:onClick="showSuperAwakening"
+                        android:text="Super Awakening Stats" />
+
+                    <com.github.aakira.expandablelayout.ExpandableLinearLayout
+                        android:id="@+id/super_awakenings"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center_horizontal"
+                        android:adjustViewBounds="true"
+                        android:background="#75607d8b"
+                        android:orientation="vertical">
+
+                        <TextView
+                            style="@style/MainTitle"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="2dp"
+                            android:padding="8dp"
+                            android:text="First Super Awakening" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="2dp"
+                            android:layout_marginRight="2dp"
+                            android:orientation="vertical">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="1dp"
+                                android:layout_weight="1"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    style="@style/MainText"
+                                    android:layout_width="0dp"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="1"
+                                    android:padding="2dp"
+                                    android:text="@string/healthawakening"
+                                    android:textAlignment="center" />
+
+                                <TextView
+                                    style="@style/MainText"
+                                    android:layout_width="0dp"
+                                    android:layout_height="match_parent"
+                                    android:layout_marginLeft="2dp"
+                                    android:layout_marginRight="2dp"
+                                    android:layout_weight="1"
+                                    android:padding="2dp"
+                                    android:text="@string/crit_resistanceawakening"
+                                    android:textAlignment="center" />
+
+                                <TextView
+                                    style="@style/MainText"
+                                    android:layout_width="0dp"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="1"
+                                    android:padding="2dp"
+                                    android:text="@string/recovery_rateawakening"
+                                    android:textAlignment="center" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="5dp"
+                                android:layout_weight="1"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    android:id="@+id/superawakening1HP"
+                                    style="@style/MainText"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:textAlignment="center" />
+
+                                <TextView
+                                    android:id="@+id/superawakening1CritRes"
+                                    style="@style/MainText"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="2dp"
+                                    android:layout_marginRight="2dp"
+                                    android:layout_weight="1"
+                                    android:textAlignment="center" />
+
+                                <TextView
+                                    android:id="@+id/superawakening1RecRate"
+                                    style="@style/MainText"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:textAlignment="center" />
+                            </LinearLayout>
+                        </LinearLayout>
+
+                        <TextView
+                            style="@style/MainTitle"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="2dp"
+                            android:padding="8dp"
+                            android:text="Second Super Awakening" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="2dp"
+                            android:layout_marginRight="2dp"
+                            android:orientation="vertical">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="1dp"
+                                android:layout_weight="1"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    style="@style/MainText"
+                                    android:layout_width="0dp"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="1"
+                                    android:text="@string/attackawakening"
+                                    android:textAlignment="center" />
+
+                                <TextView
+                                    style="@style/MainText"
+                                    android:layout_width="0dp"
+                                    android:layout_height="match_parent"
+                                    android:layout_marginLeft="2dp"
+                                    android:layout_marginRight="2dp"
+                                    android:layout_weight="1"
+                                    android:text="@string/defence"
+                                    android:textAlignment="center" />
+
+                                <TextView
+                                    style="@style/MainText"
+                                    android:layout_width="0dp"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="1"
+                                    android:text="@string/crit_damageawakening"
+                                    android:textAlignment="center" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="5dp"
+                                android:layout_weight="1"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    android:id="@+id/superawakening2ATK"
+                                    style="@style/MainText"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:padding="2dp"
+                                    android:textAlignment="center" />
+
+                                <TextView
+                                    android:id="@+id/superawakening2Def"
+                                    style="@style/MainText"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="2dp"
+                                    android:layout_marginRight="2dp"
+                                    android:layout_weight="1"
+                                    android:padding="2dp"
+                                    android:textAlignment="center" />
+
+                                <TextView
+                                    android:id="@+id/superawakening2CritDamage"
+                                    style="@style/MainText"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:padding="2dp"
+                                    android:textAlignment="center" />
+                            </LinearLayout>
+                        </LinearLayout>
+
+                        <TextView
+                            style="@style/MainTitle"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="2dp"
+                            android:padding="8dp"
+                            android:text="Third Super awakening" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="2dp"
+                            android:layout_marginRight="2dp"
+                            android:orientation="vertical">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="1dp"
+                                android:layout_weight="1"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    style="@style/MainText"
+                                    android:layout_width="0dp"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="1"
+                                    android:padding="2dp"
+                                    android:text="@string/healthawakening"
+                                    android:textAlignment="center" />
+
+                                <TextView
+                                    style="@style/MainText"
+                                    android:layout_width="0dp"
+                                    android:layout_height="match_parent"
+                                    android:layout_marginLeft="2dp"
+                                    android:layout_marginRight="2dp"
+                                    android:layout_weight="1"
+                                    android:padding="2dp"
+                                    android:text="@string/regeneration_rateawakening"
+                                    android:textAlignment="center" />
+
+                                <TextView
+                                    style="@style/MainText"
+                                    android:layout_width="0dp"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="1"
+                                    android:padding="2dp"
+                                    android:text="@string/crit_defence"
+                                    android:textAlignment="center" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="5dp"
+                                android:layout_weight="1"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    android:id="@+id/superawakening3HP"
+                                    style="@style/MainText"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:textAlignment="center" />
+
+                                <TextView
+                                    android:id="@+id/superawakening3RegenRate"
+                                    style="@style/MainText"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="2dp"
+                                    android:layout_marginRight="2dp"
+                                    android:layout_weight="1"
+                                    android:textAlignment="center" />
+
+                                <TextView
+                                    android:id="@+id/superawakening3CritDef"
+                                    style="@style/MainText"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:textAlignment="center" />
+                            </LinearLayout>
+                        </LinearLayout>
+
+                        <TextView
+                            style="@style/MainTitle"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="2dp"
+                            android:padding="8dp"
+                            android:text="Fourth Super Awakening" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="2dp"
+                            android:layout_marginRight="2dp"
+                            android:orientation="vertical">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="1dp"
+                                android:layout_weight="1"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    style="@style/MainText"
+                                    android:layout_width="0dp"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="1"
+                                    android:text="@string/attackawakening"
+                                    android:textAlignment="center" />
+
+                                <TextView
+                                    style="@style/MainText"
+                                    android:layout_width="0dp"
+                                    android:layout_height="match_parent"
+                                    android:layout_marginLeft="2dp"
+                                    android:layout_marginRight="2dp"
+                                    android:layout_weight="1"
+                                    android:text="@string/defence"
+                                    android:textAlignment="center" />
+
+                                <TextView
+                                    style="@style/MainText"
+                                    android:layout_width="0dp"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="1"
+                                    android:text="@string/crit_chanceawakening"
+                                    android:textAlignment="center" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="5dp"
+                                android:layout_weight="1"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    android:id="@+id/superawakening4ATK"
+                                    style="@style/MainText"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:padding="2dp"
+                                    android:textAlignment="center" />
+
+                                <TextView
+                                    android:id="@+id/superawakening4Def"
+                                    style="@style/MainText"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="2dp"
+                                    android:layout_marginRight="2dp"
+                                    android:layout_weight="1"
+                                    android:padding="2dp"
+                                    android:textAlignment="center" />
+
+                                <TextView
+                                    android:id="@+id/superawakening4CritChance"
+                                    style="@style/MainText"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:padding="2dp"
+                                    android:textAlignment="center" />
+                            </LinearLayout>
+                        </LinearLayout>
+                    </com.github.aakira.expandablelayout.ExpandableLinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/allAssociates"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginBottom="16dp"
+                    android:background="#75607d8b"
+                    android:orientation="vertical">
+
+                    <TextView
                         android:id="@+id/associations"
                         style="@style/subtitle"
                         android:gravity="center"
@@ -1843,12 +2314,12 @@
             </LinearLayout>
         </ScrollView>
     </LinearLayout>
+
     <LinearLayout
-        android:layout_alignParentBottom="true"
         android:id="@+id/adViewHolder"
         style="@style/charactersBackground"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
-    </LinearLayout>
+        android:layout_alignParentBottom="true"
+        android:orientation="vertical"></LinearLayout>
 </RelativeLayout>

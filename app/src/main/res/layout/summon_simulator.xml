@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:adjustViewBounds="true"
     android:scaleType="fitStart"
     tools:ignore="ContentDescription">
+
     <ImageView
         android:id="@+id/summon_simulator_background"
         android:layout_width="match_parent"
@@ -47,7 +48,6 @@
                 android:orientation="vertical"
                 app:layout_constraintTop_toBottomOf="@+id/textView3">
 
-
                 <RadioGroup
                     android:id="@+id/banner_filter"
                     android:layout_width="match_parent"
@@ -63,6 +63,7 @@
                         android:layout_marginTop="2dp"
                         android:layout_marginRight="2dp"
                         android:layout_marginBottom="2dp"
+                        android:checked="true"
                         android:text="Draw Heroes: Part 1 (GLB/AS)" />
 
                     <RadioButton
@@ -102,52 +103,51 @@
                         android:layout_marginLeft="2dp"
                         android:layout_marginRight="2dp"
                         android:layout_marginBottom="2dp" />
-
-                    <RadioButton
-                        android:id="@+id/banner6"
-                        style="@style/MainText"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="2dp"
-                        android:layout_marginRight="2dp"
-                        android:layout_marginBottom="2dp" />
-
-                    <RadioButton
-                        android:id="@+id/banner7"
-                        style="@style/MainText"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="2dp"
-                        android:layout_marginRight="2dp"
-                        android:layout_marginBottom="2dp" />
-
-                    <RadioButton
-                        android:id="@+id/banner8"
-                        style="@style/MainText"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="2dp"
-                        android:layout_marginRight="2dp"
-                        android:layout_marginBottom="2dp" />
-
-                    <RadioButton
-                        android:id="@+id/banner9"
-                        style="@style/MainText"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="2dp"
-                        android:layout_marginRight="2dp"
-                        android:layout_marginBottom="2dp" />
-
-                    <RadioButton
-                        android:id="@+id/banner10"
-                        style="@style/MainText"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="2dp"
-                        android:layout_marginRight="2dp"
-                        android:layout_marginBottom="2dp" />
                 </RadioGroup>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_margin="4dp"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        style="@style/MainText"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginRight="2dp"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:padding="4dp">
+
+                        <ImageView
+                            android:id="@+id/backArrow"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center"
+                            android:onClick="backArrow"
+                            android:src="@drawable/back_arrow" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        style="@style/MainText"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="2dp"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:padding="4dp">
+
+                        <ImageView
+                            android:id="@+id/nextArrow"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center"
+                            android:onClick="nextArrow"
+                            android:src="@drawable/next_arrow" />
+                    </LinearLayout>
+                </LinearLayout>
+
             </com.github.aakira.expandablelayout.ExpandableLinearLayout>
 
             <com.lukesapps.grandcross.database.CustomLayout
@@ -327,7 +327,7 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="0.497"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/getAd">
+                        app:layout_constraintTop_toBottomOf="@+id/button2">
 
                         <TextView
                             android:id="@+id/gems_spent"
@@ -365,7 +365,7 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="0.497"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/button2">
+                        app:layout_constraintTop_toBottomOf="@+id/linearLayout">
 
                         <TextView
                             android:id="@+id/summonsLeft"
@@ -383,13 +383,13 @@
                             style="@style/MainText"
                             android:layout_width="match_parent"
                             android:layout_weight="2.5"
-                            android:onClick="resetSummons"
-                            android:text="+20"
+                            android:text="AD (+20)"
                             android:textAlignment="center"
                             android:textAllCaps="true"
                             android:textSize="22sp"
                             tools:layout_editor_absoluteX="16dp"
                             tools:layout_editor_absoluteY="613dp" />
+
                     </LinearLayout>
 
                     <TextView
@@ -421,6 +421,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_below="@id/background"
+                android:layout_marginTop="8dp"
                 android:layout_weight="1"
                 android:onClick="multiSummon"
                 android:text="Characters Summoned:"

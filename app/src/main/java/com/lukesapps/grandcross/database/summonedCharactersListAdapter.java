@@ -8,6 +8,8 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.NetworkPolicy;
@@ -23,8 +25,9 @@ public class summonedCharactersListAdapter extends ArrayAdapter<summonedCharacte
         super(context, 0, characterList);
     }
 
+    @NonNull
     @Override
-    public View getView(final int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, @NonNull ViewGroup parent) {
         final summonedCharactersListAdapter.ViewHolder holder;
         if (convertView == null) {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.summoned_list_item, null);

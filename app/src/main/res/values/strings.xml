@@ -60,4 +60,11 @@
     <string name="lifestealawaken">Lifesteal</string>
     <string name="sixth_awaken">Sixth Awaken</string>
     <string name="pierce_rateawaken">Pierce Rate</string>
+    <string name="title_activity_cosmetics_list">cosmetics_list</string>
+    <!--
+    This string is used for square devices and overridden by hello_world in
+    values-round/strings.xml for round devices.
+    -->
+    <string name="hello_world">Hello Square World!</string>
+    <string name="title_activity_cosmetics_menu">CosmeticsMenuActivity</string>
 </resources>

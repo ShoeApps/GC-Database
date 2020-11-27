@@ -33,11 +33,10 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Objects;
 
 public class character_list extends AppCompatActivity {
 
-    MoPubSdk moPubSdk;
+    AdMobSdk adMobSdk;
     SharedPreferences.Editor editor;
     LinearLayout adViewHolder;
     character_database_adapter adapter;
@@ -109,9 +108,8 @@ public class character_list extends AppCompatActivity {
     @SuppressLint("CommitPrefEdits")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Thread.setDefaultUncaughtExceptionHandler(new DefaultExceptionHandler(this));
-        database = FirebaseDatabase.getInstance();
-        ref = database.getReference();
+
+        ref = FirebaseDatabase.getInstance().getReference();
         ref.keepSynced(true);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.character_list);
@@ -243,20 +241,20 @@ public class character_list extends AppCompatActivity {
                     characters = (int) count;
                     for (int characterId = 1; characterId <= characters; characterId++) {
                         String selectId = String.valueOf(characterId);
-                        String obtained = Objects.requireNonNull(dataSnapshot.child(selectId).child("obtained").getValue()).toString();
-                        String race = Objects.requireNonNull(dataSnapshot.child(selectId).child("race").getValue()).toString();
-                        String rarity = Objects.requireNonNull(dataSnapshot.child(selectId).child("rarity").getValue()).toString();
-                        String type = Objects.requireNonNull(dataSnapshot.child(selectId).child("type").getValue()).toString();
-                        String name = Objects.requireNonNull(dataSnapshot.child(selectId).child("character").getValue()).toString();
-                        String minCC = Objects.requireNonNull(dataSnapshot.child(selectId).child("maxCombatClass").getValue()).toString();
-                        String maxCC = Objects.requireNonNull(dataSnapshot.child(selectId).child("maxCombatClass").getValue()).toString();
-                        String minHealth = Objects.requireNonNull(dataSnapshot.child(selectId).child("minHealth").getValue()).toString();
-                        String maxHealth = Objects.requireNonNull(dataSnapshot.child(selectId).child("maxHealth").getValue()).toString();
-                        String minAttack = Objects.requireNonNull(dataSnapshot.child(selectId).child("minAttack").getValue()).toString();
-                        String maxAttack = Objects.requireNonNull(dataSnapshot.child(selectId).child("maxAttack").getValue()).toString();
-                        String minDefence = Objects.requireNonNull(dataSnapshot.child(selectId).child("minDefence").getValue()).toString();
-                        String maxDefence = Objects.requireNonNull(dataSnapshot.child(selectId).child("maxDefence").getValue()).toString();
-                        String characterImage = Objects.requireNonNull(dataSnapshot.child(selectId).child("characterImage").getValue()).toString();
+                        String obtained = dataSnapshot.child(selectId).child("obtained").getValue().toString();
+                        String race = dataSnapshot.child(selectId).child("race").getValue().toString();
+                        String rarity = dataSnapshot.child(selectId).child("rarity").getValue().toString();
+                        String type = dataSnapshot.child(selectId).child("type").getValue().toString();
+                        String name = dataSnapshot.child(selectId).child("character").getValue().toString();
+                        String minCC = dataSnapshot.child(selectId).child("maxCombatClass").getValue().toString();
+                        String maxCC = dataSnapshot.child(selectId).child("maxCombatClass").getValue().toString();
+                        String minHealth = dataSnapshot.child(selectId).child("minHealth").getValue().toString();
+                        String maxHealth = dataSnapshot.child(selectId).child("maxHealth").getValue().toString();
+                        String minAttack = dataSnapshot.child(selectId).child("minAttack").getValue().toString();
+                        String maxAttack = dataSnapshot.child(selectId).child("maxAttack").getValue().toString();
+                        String minDefence = dataSnapshot.child(selectId).child("minDefence").getValue().toString();
+                        String maxDefence = dataSnapshot.child(selectId).child("maxDefence").getValue().toString();
+                        String characterImage = dataSnapshot.child(selectId).child("characterImage").getValue().toString();
                         characterStatsList.add(new character_database_retriever(selectId, obtained, race, rarity, type, name, minCC, maxCC, minHealth, maxHealth, minAttack, maxAttack, minDefence, maxDefence, characterImage));
                     }
                     adapter = new character_database_adapter(character_list.this, characterStatsList);
@@ -278,7 +276,9 @@ public class character_list extends AppCompatActivity {
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (!s.equals("")) {
                     editText = s.toString();
-                    adapter.getFilter("true").filter(editText);
+                    if (adapter != null) {
+                        adapter.getFilter("true").filter(editText);
+                    }
                     editor.putString("charSearch", editText);
                     editor.apply();
                 }
@@ -293,10 +293,10 @@ public class character_list extends AppCompatActivity {
         adViewHolder = findViewById(R.id.adViewHolder);
         final Handler handler = new Handler();
         handler.postDelayed(() -> {
-            moPubSdk = MoPubSdk.getInstance(character_list.this);
-            moPubSdk.isMoPubSdkInitialized().observe(character_list.this, aBoolean -> {
+            adMobSdk = AdMobSdk.getInstance(this);
+            adMobSdk.isAdMobSdkInitialized().observe(this, aBoolean -> {
                 if (aBoolean) {
-                    moPubSdk.callAdView(adViewHolder);
+                    adMobSdk.callAdView(adViewHolder);
                 }
             });
         }, 1500);
@@ -344,7 +344,7 @@ public class character_list extends AppCompatActivity {
 
     public void makeToast(String text) {
         Toast toast = Toast.makeText(this, text, Toast.LENGTH_SHORT);
-        TextView v = (TextView) toast.getView().findViewById(android.R.id.message);
+        TextView v = toast.getView().findViewById(android.R.id.message);
         if (v != null) v.setGravity(Gravity.CENTER);
         toast.show();
     }
@@ -357,85 +357,97 @@ public class character_list extends AppCompatActivity {
     public void sortCC(View view) {
         ccSorter();
     }
+
     public void ccSorter() {
-        if (sortedCC == 0 || sortedCC == 2) {
-            Collections.sort(characterStatsList, (o1, o2) -> o2.getMaxCC().compareTo(o1.getMaxCC()));
-            editor.putInt("sortedCC", sortedCC);
-            sortedCC = 1;
-        } else {
-            Collections.sort(characterStatsList, (o1, o2) -> o1.getMaxCC().compareTo(o2.getMaxCC()));
-            editor.putInt("sortedCC", sortedCC);
-            sortedCC = 2;
+        if (adapter != null) {
+            if (sortedCC == 0 || sortedCC == 2) {
+                Collections.sort(characterStatsList, (o1, o2) -> o2.getMaxCC().compareTo(o1.getMaxCC()));
+                editor.putInt("sortedCC", sortedCC);
+                sortedCC = 1;
+            } else {
+                Collections.sort(characterStatsList, (o1, o2) -> o1.getMaxCC().compareTo(o2.getMaxCC()));
+                editor.putInt("sortedCC", sortedCC);
+                sortedCC = 2;
+            }
+            editor.putString("sortBy", "CC");
+            editor.apply();
+            adapter.notifyDataSetChanged();
+            sortedHP = 0;
+            sortedATK = 0;
+            sortedDEF = 0;
         }
-        editor.putString("sortBy", "CC");
-        editor.apply();
-        adapter.notifyDataSetChanged();
-        sortedHP = 0;
-        sortedATK = 0;
-        sortedDEF = 0;
     }
 
     public void sortHP(View view) {
         hpSorter();
     }
+
     public void hpSorter() {
-        if (sortedHP == 0 || sortedHP == 2) {
-            Collections.sort(characterStatsList, (o1, o2) -> o2.getMaxHealth().compareTo(o1.getMaxHealth()));
-            editor.putInt("sortedHP", sortedHP);
-            sortedHP = 1;
-        } else {
-            Collections.sort(characterStatsList, (o1, o2) -> o1.getMaxHealth().compareTo(o2.getMaxHealth()));
-            editor.putInt("sortedHP", sortedHP);
-            sortedHP = 2;
+        if (adapter != null) {
+            if (sortedHP == 0 || sortedHP == 2) {
+                Collections.sort(characterStatsList, (o1, o2) -> o2.getMaxHealth().compareTo(o1.getMaxHealth()));
+                editor.putInt("sortedHP", sortedHP);
+                sortedHP = 1;
+            } else {
+                Collections.sort(characterStatsList, (o1, o2) -> o1.getMaxHealth().compareTo(o2.getMaxHealth()));
+                editor.putInt("sortedHP", sortedHP);
+                sortedHP = 2;
+            }
+            editor.putString("sortBy", "HP");
+            editor.apply();
+            adapter.notifyDataSetChanged();
+            sortedCC = 0;
+            sortedATK = 0;
+            sortedDEF = 0;
         }
-        editor.putString("sortBy", "HP");
-        editor.apply();
-        adapter.notifyDataSetChanged();
-        sortedCC = 0;
-        sortedATK = 0;
-        sortedDEF = 0;
     }
 
     public void sortATK(View view) {
         atkSorter();
     }
+
     public void atkSorter() {
-        if (sortedATK == 0 || sortedATK == 2) {
-            Collections.sort(characterStatsList, (o1, o2) -> o2.getMaxAttack().compareTo(o1.getMaxAttack()));
-            editor.putInt("sortedATK", sortedATK);
-            sortedATK = 1;
-        } else {
-            Collections.sort(characterStatsList, (o1, o2) -> o1.getMaxAttack().compareTo(o2.getMaxAttack()));
-            editor.putInt("sortedATK", sortedATK);
-            sortedATK = 2;
+        if (adapter != null) {
+            if (sortedATK == 0 || sortedATK == 2) {
+                Collections.sort(characterStatsList, (o1, o2) -> o2.getMaxAttack().compareTo(o1.getMaxAttack()));
+                editor.putInt("sortedATK", sortedATK);
+                sortedATK = 1;
+            } else {
+                Collections.sort(characterStatsList, (o1, o2) -> o1.getMaxAttack().compareTo(o2.getMaxAttack()));
+                editor.putInt("sortedATK", sortedATK);
+                sortedATK = 2;
+            }
+            editor.putString("sortBy", "ATK");
+            editor.apply();
+            adapter.notifyDataSetChanged();
+            sortedCC = 0;
+            sortedHP = 0;
+            sortedDEF = 0;
         }
-        editor.putString("sortBy", "ATK");
-        editor.apply();
-        adapter.notifyDataSetChanged();
-        sortedCC = 0;
-        sortedHP = 0;
-        sortedDEF = 0;
     }
 
     public void sortDEF(View view) {
         defSorter();
     }
+
     public void defSorter() {
-        if (sortedDEF == 0 || sortedDEF == 2) {
-            Collections.sort(characterStatsList, (o1, o2) -> o2.getMaxDefense().compareTo(o1.getMaxDefense()));
-            editor.putInt("sortedDEF", sortedDEF);
-            sortedDEF = 1;
-        } else {
-            Collections.sort(characterStatsList, (o1, o2) -> o1.getMaxDefense().compareTo(o2.getMaxDefense()));
-            editor.putInt("sortedDEF", sortedDEF);
-            sortedDEF = 2;
+        if (adapter != null) {
+            if (sortedDEF == 0 || sortedDEF == 2) {
+                Collections.sort(characterStatsList, (o1, o2) -> o2.getMaxDefense().compareTo(o1.getMaxDefense()));
+                editor.putInt("sortedDEF", sortedDEF);
+                sortedDEF = 1;
+            } else {
+                Collections.sort(characterStatsList, (o1, o2) -> o1.getMaxDefense().compareTo(o2.getMaxDefense()));
+                editor.putInt("sortedDEF", sortedDEF);
+                sortedDEF = 2;
+            }
+            editor.putString("sortBy", "DEF");
+            editor.apply();
+            adapter.notifyDataSetChanged();
+            sortedCC = 0;
+            sortedHP = 0;
+            sortedATK = 0;
         }
-        editor.putString("sortBy", "DEF");
-        editor.apply();
-        adapter.notifyDataSetChanged();
-        sortedCC = 0;
-        sortedHP = 0;
-        sortedATK = 0;
     }
 
     public void checkSorts() {
@@ -464,615 +476,659 @@ public class character_list extends AppCompatActivity {
 
 
     public void strengthFilter(View view) {
-        if (strengthClicked == 0) {
-            strengthFilterView.setBackgroundColor(Color.parseColor("#4D15C2A6"));
-            adapter.getFilter("false").filter("Strength");
-            strengthClicked = 1;
-            editor.putString("typeFilter", "strength");
-        } else {
-            strengthFilterView.setBackgroundColor(Color.parseColor("#00000000"));
-            adapter.getFilter("false").filter("resetAttribute");
-            strengthClicked = 0;
-            editor.putString("typeFilter", "none");
+        if (adapter != null) {
+            if (strengthClicked == 0) {
+                strengthFilterView.setBackgroundColor(Color.parseColor("#4D15C2A6"));
+                adapter.getFilter("false").filter("Strength");
+                strengthClicked = 1;
+                editor.putString("typeFilter", "strength");
+            } else {
+                strengthFilterView.setBackgroundColor(Color.parseColor("#00000000"));
+                adapter.getFilter("false").filter("resetAttribute");
+                strengthClicked = 0;
+                editor.putString("typeFilter", "none");
+            }
+            editor.apply();
+            hpFilterView.setBackgroundColor(Color.parseColor("#00000000"));
+            speedFilterView.setBackgroundColor(Color.parseColor("#00000000"));
+            hpClicked = 0;
+            speedClicked = 0;
+            checkSorts();
         }
-        editor.apply();
-        hpFilterView.setBackgroundColor(Color.parseColor("#00000000"));
-        speedFilterView.setBackgroundColor(Color.parseColor("#00000000"));
-        hpClicked = 0;
-        speedClicked = 0;
-        checkSorts();
     }
 
     public void hpFilter(View view) {
-        if (hpClicked == 0) {
-            hpFilterView.setBackgroundColor(Color.parseColor("#4D15C2A6"));
-            adapter.getFilter("false").filter("HP");
-            hpClicked = 1;
-            editor.putString("typeFilter", "hp");
-        } else {
-            hpFilterView.setBackgroundColor(Color.parseColor("#00000000"));
-            adapter.getFilter("false").filter("resetAttribute");
-            hpClicked = 0;
-            editor.putString("typeFilter", "none");
+        if (adapter != null) {
+            if (hpClicked == 0) {
+                hpFilterView.setBackgroundColor(Color.parseColor("#4D15C2A6"));
+                adapter.getFilter("false").filter("HP");
+                hpClicked = 1;
+                editor.putString("typeFilter", "hp");
+            } else {
+                hpFilterView.setBackgroundColor(Color.parseColor("#00000000"));
+                adapter.getFilter("false").filter("resetAttribute");
+                hpClicked = 0;
+                editor.putString("typeFilter", "none");
+            }
+            editor.apply();
+            strengthFilterView.setBackgroundColor(Color.parseColor("#00000000"));
+            speedFilterView.setBackgroundColor(Color.parseColor("#00000000"));
+            strengthClicked = 0;
+            speedClicked = 0;
+            checkSorts();
         }
-        editor.apply();
-        strengthFilterView.setBackgroundColor(Color.parseColor("#00000000"));
-        speedFilterView.setBackgroundColor(Color.parseColor("#00000000"));
-        strengthClicked = 0;
-        speedClicked = 0;
-        checkSorts();
     }
 
     public void speedFilter(View view) {
-        if (speedClicked == 0) {
-            speedFilterView.setBackgroundColor(Color.parseColor("#4D15C2A6"));
-            adapter.getFilter("false").filter("Speed");
-            speedClicked = 1;
-            editor.putString("typeFilter", "speed");
-        } else {
-            speedFilterView.setBackgroundColor(Color.parseColor("#00000000"));
-            adapter.getFilter("false").filter("resetAttribute");
-            speedClicked = 0;
-            editor.putString("typeFilter", "none");
+        if (adapter != null) {
+            if (speedClicked == 0) {
+                speedFilterView.setBackgroundColor(Color.parseColor("#4D15C2A6"));
+                adapter.getFilter("false").filter("Speed");
+                speedClicked = 1;
+                editor.putString("typeFilter", "speed");
+            } else {
+                speedFilterView.setBackgroundColor(Color.parseColor("#00000000"));
+                adapter.getFilter("false").filter("resetAttribute");
+                speedClicked = 0;
+                editor.putString("typeFilter", "none");
+            }
+            editor.apply();
+            strengthFilterView.setBackgroundColor(Color.parseColor("#00000000"));
+            hpFilterView.setBackgroundColor(Color.parseColor("#00000000"));
+            strengthClicked = 0;
+            hpClicked = 0;
+            checkSorts();
         }
-        editor.apply();
-        strengthFilterView.setBackgroundColor(Color.parseColor("#00000000"));
-        hpFilterView.setBackgroundColor(Color.parseColor("#00000000"));
-        strengthClicked = 0;
-        hpClicked = 0;
-        checkSorts();
     }
 
     public void globalFilter(View view) {
-        if (glbClicked == 0) {
-            globalFilterView.setBackgroundColor(Color.parseColor("#4D15C2A6"));
-            adapter.getFilter("false").filter("Global / Asia");
-            glbClicked = 1;
-            editor.putString("regionFilter", "global");
-        } else {
-            globalFilterView.setBackgroundColor(Color.parseColor("#00000000"));
-            adapter.getFilter("false").filter("resetServer");
-            glbClicked = 0;
-            editor.putString("regionFilter", "none");
+        if (adapter != null) {
+            if (glbClicked == 0) {
+                globalFilterView.setBackgroundColor(Color.parseColor("#4D15C2A6"));
+                adapter.getFilter("false").filter("Global / Asia");
+                glbClicked = 1;
+                editor.putString("regionFilter", "global");
+            } else {
+                globalFilterView.setBackgroundColor(Color.parseColor("#00000000"));
+                adapter.getFilter("false").filter("resetServer");
+                glbClicked = 0;
+                editor.putString("regionFilter", "none");
+            }
+            editor.apply();
+            jpFilterView.setBackgroundColor(Color.parseColor("#00000000"));
+            jpOnlyFilterView.setBackgroundColor(Color.parseColor("#00000000"));
+            jpClicked = 0;
+            jpOnlyClicked = 0;
+            checkSorts();
         }
-        editor.apply();
-        jpFilterView.setBackgroundColor(Color.parseColor("#00000000"));
-        jpOnlyFilterView.setBackgroundColor(Color.parseColor("#00000000"));
-        jpClicked = 0;
-        jpOnlyClicked = 0;
-        checkSorts();
     }
 
     public void jpFilter(View view) {
-        if (jpClicked == 0) {
-            jpFilterView.setBackgroundColor(Color.parseColor("#4D15C2A6"));
-            adapter.getFilter("false").filter("Japan / Korea");
-            jpClicked = 1;
-            editor.putString("regionFilter", "jp");
-        } else {
-            jpFilterView.setBackgroundColor(Color.parseColor("#00000000"));
-            adapter.getFilter("false").filter("resetServer");
-            jpClicked = 0;
-            editor.putString("regionFilter", "none");
+        if (adapter != null) {
+            if (jpClicked == 0) {
+                jpFilterView.setBackgroundColor(Color.parseColor("#4D15C2A6"));
+                adapter.getFilter("false").filter("Japan / Korea");
+                jpClicked = 1;
+                editor.putString("regionFilter", "jp");
+            } else {
+                jpFilterView.setBackgroundColor(Color.parseColor("#00000000"));
+                adapter.getFilter("false").filter("resetServer");
+                jpClicked = 0;
+                editor.putString("regionFilter", "none");
+            }
+            editor.apply();
+            globalFilterView.setBackgroundColor(Color.parseColor("#00000000"));
+            jpOnlyFilterView.setBackgroundColor(Color.parseColor("#00000000"));
+            glbClicked = 0;
+            jpOnlyClicked = 0;
+            checkSorts();
         }
-        editor.apply();
-        globalFilterView.setBackgroundColor(Color.parseColor("#00000000"));
-        jpOnlyFilterView.setBackgroundColor(Color.parseColor("#00000000"));
-        glbClicked = 0;
-        jpOnlyClicked = 0;
-        checkSorts();
     }
 
     public void jpOnlyFilter(View view) {
-        if (jpOnlyClicked == 0) {
-            jpOnlyFilterView.setBackgroundColor(Color.parseColor("#4D15C2A6"));
-            adapter.getFilter("false").filter("Japan / Korea Exclusive");
-            jpOnlyClicked = 1;
-            editor.putString("regionFilter", "jpOnly");
-        } else {
-            jpOnlyFilterView.setBackgroundColor(Color.parseColor("#00000000"));
-            adapter.getFilter("false").filter("resetServer");
-            jpOnlyClicked = 0;
-            editor.putString("regionFilter", "none");
+        if (adapter != null) {
+            if (jpOnlyClicked == 0) {
+                jpOnlyFilterView.setBackgroundColor(Color.parseColor("#4D15C2A6"));
+                adapter.getFilter("false").filter("Japan / Korea Exclusive");
+                jpOnlyClicked = 1;
+                editor.putString("regionFilter", "jpOnly");
+            } else {
+                jpOnlyFilterView.setBackgroundColor(Color.parseColor("#00000000"));
+                adapter.getFilter("false").filter("resetServer");
+                jpOnlyClicked = 0;
+                editor.putString("regionFilter", "none");
+            }
+            editor.apply();
+            globalFilterView.setBackgroundColor(Color.parseColor("#00000000"));
+            jpFilterView.setBackgroundColor(Color.parseColor("#00000000"));
+            glbClicked = 0;
+            jpClicked = 0;
+            checkSorts();
         }
-        editor.apply();
-        globalFilterView.setBackgroundColor(Color.parseColor("#00000000"));
-        jpFilterView.setBackgroundColor(Color.parseColor("#00000000"));
-        glbClicked = 0;
-        jpClicked = 0;
-        checkSorts();
     }
 
     public void rFilter(View view) {
-        if (rClicked == 0) {
-            rFilterView.setBackgroundColor(Color.parseColor("#4D15C2A6"));
-            adapter.getFilter("false").filter("R");
-            rClicked = 1;
-            editor.putString("rarityFilter", "r");
-        } else {
-            rFilterView.setBackgroundColor(Color.parseColor("#00000000"));
-            adapter.getFilter("false").filter("resetRarity");
-            rClicked = 0;
+        if (adapter != null) {
+            if (rClicked == 0) {
+                rFilterView.setBackgroundColor(Color.parseColor("#4D15C2A6"));
+                adapter.getFilter("false").filter("R");
+                rClicked = 1;
+                editor.putString("rarityFilter", "r");
+            } else {
+                rFilterView.setBackgroundColor(Color.parseColor("#00000000"));
+                adapter.getFilter("false").filter("resetRarity");
+                rClicked = 0;
+                checkSorts();
+                editor.putString("rarityFilter", "none");
+            }
+            editor.apply();
+            srFilterView.setBackgroundColor(Color.parseColor("#00000000"));
+            ssrFilterView.setBackgroundColor(Color.parseColor("#00000000"));
+            srClicked = 0;
+            ssrClicked = 0;
             checkSorts();
-            editor.putString("rarityFilter", "none");
         }
-        editor.apply();
-        srFilterView.setBackgroundColor(Color.parseColor("#00000000"));
-        ssrFilterView.setBackgroundColor(Color.parseColor("#00000000"));
-        srClicked = 0;
-        ssrClicked = 0;
-        checkSorts();
     }
 
     public void srFilter(View view) {
-        if (srClicked == 0) {
-            srFilterView.setBackgroundColor(Color.parseColor("#4D15C2A6"));
-            adapter.getFilter("false").filter("SR");
-            srClicked = 1;
-            editor.putString("rarityFilter", "sr");
-        } else {
-            srFilterView.setBackgroundColor(Color.parseColor("#00000000"));
-            adapter.getFilter("false").filter("resetRarity");
-            srClicked = 0;
-            editor.putString("rarityFilter", "none");
+        if (adapter != null) {
+            if (srClicked == 0) {
+                srFilterView.setBackgroundColor(Color.parseColor("#4D15C2A6"));
+                adapter.getFilter("false").filter("SR");
+                srClicked = 1;
+                editor.putString("rarityFilter", "sr");
+            } else {
+                srFilterView.setBackgroundColor(Color.parseColor("#00000000"));
+                adapter.getFilter("false").filter("resetRarity");
+                srClicked = 0;
+                editor.putString("rarityFilter", "none");
+            }
+            editor.apply();
+            rFilterView.setBackgroundColor(Color.parseColor("#00000000"));
+            ssrFilterView.setBackgroundColor(Color.parseColor("#00000000"));
+            rClicked = 0;
+            ssrClicked = 0;
+            checkSorts();
         }
-        editor.apply();
-        rFilterView.setBackgroundColor(Color.parseColor("#00000000"));
-        ssrFilterView.setBackgroundColor(Color.parseColor("#00000000"));
-        rClicked = 0;
-        ssrClicked = 0;
-        checkSorts();
     }
 
     public void ssrFilter(View view) {
-        if (ssrClicked == 0) {
-            ssrFilterView.setBackgroundColor(Color.parseColor("#4D15C2A6"));
-            adapter.getFilter("false").filter("SSR");
-            ssrClicked = 1;
-            editor.putString("rarityFilter", "ssr");
-        } else {
-            ssrFilterView.setBackgroundColor(Color.parseColor("#00000000"));
-            adapter.getFilter("false").filter("resetRarity");
-            ssrClicked = 0;
-            editor.putString("rarityFilter", "none");
+        if (adapter != null) {
+            if (ssrClicked == 0) {
+                ssrFilterView.setBackgroundColor(Color.parseColor("#4D15C2A6"));
+                adapter.getFilter("false").filter("SSR");
+                ssrClicked = 1;
+                editor.putString("rarityFilter", "ssr");
+            } else {
+                ssrFilterView.setBackgroundColor(Color.parseColor("#00000000"));
+                adapter.getFilter("false").filter("resetRarity");
+                ssrClicked = 0;
+                editor.putString("rarityFilter", "none");
+            }
+            editor.apply();
+            rFilterView.setBackgroundColor(Color.parseColor("#00000000"));
+            srFilterView.setBackgroundColor(Color.parseColor("#00000000"));
+            rClicked = 0;
+            srClicked = 0;
+            checkSorts();
         }
-        editor.apply();
-        rFilterView.setBackgroundColor(Color.parseColor("#00000000"));
-        srFilterView.setBackgroundColor(Color.parseColor("#00000000"));
-        rClicked = 0;
-        srClicked = 0;
-        checkSorts();
     }
 
     public void humanFilter(View view) {
-        if (humanClicked == 0) {
-            humanFilterView.setBackgroundColor(Color.parseColor("#4D15C2A6"));
-            adapter.getFilter("false").filter("Human");
-            humanClicked = 1;
-            editor.putString("raceFilter", "human");
-        } else {
-            humanFilterView.setBackgroundColor(Color.parseColor("#00000000"));
-            adapter.getFilter("false").filter("resetRace");
-            humanClicked = 0;
-            editor.putString("raceFilter", "none");
+        if (adapter != null) {
+            if (humanClicked == 0) {
+                humanFilterView.setBackgroundColor(Color.parseColor("#4D15C2A6"));
+                adapter.getFilter("false").filter("Human");
+                humanClicked = 1;
+                editor.putString("raceFilter", "human");
+            } else {
+                humanFilterView.setBackgroundColor(Color.parseColor("#00000000"));
+                adapter.getFilter("false").filter("resetRace");
+                humanClicked = 0;
+                editor.putString("raceFilter", "none");
+            }
+            editor.apply();
+            fairyFilterView.setBackgroundColor(Color.parseColor("#00000000"));
+            demonFilterView.setBackgroundColor(Color.parseColor("#00000000"));
+            goddessFilterView.setBackgroundColor(Color.parseColor("#00000000"));
+            giantFilterView.setBackgroundColor(Color.parseColor("#00000000"));
+            unknownFilterView.setBackgroundColor(Color.parseColor("#00000000"));
+            fairyClicked = 0;
+            demonClicked = 0;
+            goddessClicked = 0;
+            giantClicked = 0;
+            unknownClicked = 0;
+            checkSorts();
         }
-        editor.apply();
-        fairyFilterView.setBackgroundColor(Color.parseColor("#00000000"));
-        demonFilterView.setBackgroundColor(Color.parseColor("#00000000"));
-        goddessFilterView.setBackgroundColor(Color.parseColor("#00000000"));
-        giantFilterView.setBackgroundColor(Color.parseColor("#00000000"));
-        unknownFilterView.setBackgroundColor(Color.parseColor("#00000000"));
-        fairyClicked = 0;
-        demonClicked = 0;
-        goddessClicked = 0;
-        giantClicked = 0;
-        unknownClicked = 0;
-        checkSorts();
     }
 
     public void fairyFilter(View view) {
-        if (fairyClicked == 0) {
-            fairyFilterView.setBackgroundColor(Color.parseColor("#4D15C2A6"));
-            adapter.getFilter("false").filter("Fairy");
-            fairyClicked = 1;
-            editor.putString("raceFilter", "fairy");
-        } else {
-            fairyFilterView.setBackgroundColor(Color.parseColor("#00000000"));
-            adapter.getFilter("false").filter("resetRace");
-            fairyClicked = 0;
-            editor.putString("raceFilter", "none");
+        if (adapter != null) {
+            if (fairyClicked == 0) {
+                fairyFilterView.setBackgroundColor(Color.parseColor("#4D15C2A6"));
+                adapter.getFilter("false").filter("Fairy");
+                fairyClicked = 1;
+                editor.putString("raceFilter", "fairy");
+            } else {
+                fairyFilterView.setBackgroundColor(Color.parseColor("#00000000"));
+                adapter.getFilter("false").filter("resetRace");
+                fairyClicked = 0;
+                editor.putString("raceFilter", "none");
+            }
+            editor.apply();
+            humanFilterView.setBackgroundColor(Color.parseColor("#00000000"));
+            demonFilterView.setBackgroundColor(Color.parseColor("#00000000"));
+            goddessFilterView.setBackgroundColor(Color.parseColor("#00000000"));
+            giantFilterView.setBackgroundColor(Color.parseColor("#00000000"));
+            unknownFilterView.setBackgroundColor(Color.parseColor("#00000000"));
+            humanClicked = 0;
+            demonClicked = 0;
+            goddessClicked = 0;
+            giantClicked = 0;
+            unknownClicked = 0;
+            checkSorts();
         }
-        editor.apply();
-        humanFilterView.setBackgroundColor(Color.parseColor("#00000000"));
-        demonFilterView.setBackgroundColor(Color.parseColor("#00000000"));
-        goddessFilterView.setBackgroundColor(Color.parseColor("#00000000"));
-        giantFilterView.setBackgroundColor(Color.parseColor("#00000000"));
-        unknownFilterView.setBackgroundColor(Color.parseColor("#00000000"));
-        humanClicked = 0;
-        demonClicked = 0;
-        goddessClicked = 0;
-        giantClicked = 0;
-        unknownClicked = 0;
-        checkSorts();
     }
 
     public void demonFilter(View view) {
-        if (demonClicked == 0) {
-            demonFilterView.setBackgroundColor(Color.parseColor("#4D15C2A6"));
-            adapter.getFilter("false").filter("Demon");
-            demonClicked = 1;
-            editor.putString("raceFilter", "demon");
-        } else {
-            demonFilterView.setBackgroundColor(Color.parseColor("#00000000"));
-            adapter.getFilter("false").filter("resetRace");
-            demonClicked = 0;
-            editor.putString("raceFilter", "none");
+        if (adapter != null) {
+            if (demonClicked == 0) {
+                demonFilterView.setBackgroundColor(Color.parseColor("#4D15C2A6"));
+                adapter.getFilter("false").filter("Demon");
+                demonClicked = 1;
+                editor.putString("raceFilter", "demon");
+            } else {
+                demonFilterView.setBackgroundColor(Color.parseColor("#00000000"));
+                adapter.getFilter("false").filter("resetRace");
+                demonClicked = 0;
+                editor.putString("raceFilter", "none");
+            }
+            editor.apply();
+            humanFilterView.setBackgroundColor(Color.parseColor("#00000000"));
+            fairyFilterView.setBackgroundColor(Color.parseColor("#00000000"));
+            goddessFilterView.setBackgroundColor(Color.parseColor("#00000000"));
+            giantFilterView.setBackgroundColor(Color.parseColor("#00000000"));
+            unknownFilterView.setBackgroundColor(Color.parseColor("#00000000"));
+            humanClicked = 0;
+            fairyClicked = 0;
+            goddessClicked = 0;
+            giantClicked = 0;
+            unknownClicked = 0;
+            checkSorts();
         }
-        editor.apply();
-        humanFilterView.setBackgroundColor(Color.parseColor("#00000000"));
-        fairyFilterView.setBackgroundColor(Color.parseColor("#00000000"));
-        goddessFilterView.setBackgroundColor(Color.parseColor("#00000000"));
-        giantFilterView.setBackgroundColor(Color.parseColor("#00000000"));
-        unknownFilterView.setBackgroundColor(Color.parseColor("#00000000"));
-        humanClicked = 0;
-        fairyClicked = 0;
-        goddessClicked = 0;
-        giantClicked = 0;
-        unknownClicked = 0;
-        checkSorts();
     }
 
     public void goddessFilter(View view) {
-        if (goddessClicked == 0) {
-            goddessFilterView.setBackgroundColor(Color.parseColor("#4D15C2A6"));
-            adapter.getFilter("false").filter("Goddess");
-            goddessClicked = 1;
-            editor.putString("raceFilter", "goddess");
-        } else {
-            goddessFilterView.setBackgroundColor(Color.parseColor("#00000000"));
-            adapter.getFilter("false").filter("resetRace");
-            goddessClicked = 0;
-            editor.putString("raceFilter", "none");
+        if (adapter != null) {
+            if (goddessClicked == 0) {
+                goddessFilterView.setBackgroundColor(Color.parseColor("#4D15C2A6"));
+                adapter.getFilter("false").filter("Goddess");
+                goddessClicked = 1;
+                editor.putString("raceFilter", "goddess");
+            } else {
+                goddessFilterView.setBackgroundColor(Color.parseColor("#00000000"));
+                adapter.getFilter("false").filter("resetRace");
+                goddessClicked = 0;
+                editor.putString("raceFilter", "none");
+            }
+            editor.apply();
+            humanFilterView.setBackgroundColor(Color.parseColor("#00000000"));
+            fairyFilterView.setBackgroundColor(Color.parseColor("#00000000"));
+            demonFilterView.setBackgroundColor(Color.parseColor("#00000000"));
+            giantFilterView.setBackgroundColor(Color.parseColor("#00000000"));
+            unknownFilterView.setBackgroundColor(Color.parseColor("#00000000"));
+            humanClicked = 0;
+            fairyClicked = 0;
+            demonClicked = 0;
+            giantClicked = 0;
+            unknownClicked = 0;
+            checkSorts();
         }
-        editor.apply();
-        humanFilterView.setBackgroundColor(Color.parseColor("#00000000"));
-        fairyFilterView.setBackgroundColor(Color.parseColor("#00000000"));
-        demonFilterView.setBackgroundColor(Color.parseColor("#00000000"));
-        giantFilterView.setBackgroundColor(Color.parseColor("#00000000"));
-        unknownFilterView.setBackgroundColor(Color.parseColor("#00000000"));
-        humanClicked = 0;
-        fairyClicked = 0;
-        demonClicked = 0;
-        giantClicked = 0;
-        unknownClicked = 0;
-        checkSorts();
     }
 
     public void giantFilter(View view) {
-        if (giantClicked == 0) {
-            giantFilterView.setBackgroundColor(Color.parseColor("#4D15C2A6"));
-            adapter.getFilter("false").filter("Giant");
-            giantClicked = 1;
-            editor.putString("raceFilter", "giant");
-        } else {
-            giantFilterView.setBackgroundColor(Color.parseColor("#00000000"));
-            adapter.getFilter("false").filter("resetRace");
-            giantClicked = 0;
-            editor.putString("raceFilter", "none");
+        if (adapter != null) {
+            if (giantClicked == 0) {
+                giantFilterView.setBackgroundColor(Color.parseColor("#4D15C2A6"));
+                adapter.getFilter("false").filter("Giant");
+                giantClicked = 1;
+                editor.putString("raceFilter", "giant");
+            } else {
+                giantFilterView.setBackgroundColor(Color.parseColor("#00000000"));
+                adapter.getFilter("false").filter("resetRace");
+                giantClicked = 0;
+                editor.putString("raceFilter", "none");
+            }
+            editor.apply();
+            humanFilterView.setBackgroundColor(Color.parseColor("#00000000"));
+            fairyFilterView.setBackgroundColor(Color.parseColor("#00000000"));
+            demonFilterView.setBackgroundColor(Color.parseColor("#00000000"));
+            goddessFilterView.setBackgroundColor(Color.parseColor("#00000000"));
+            unknownFilterView.setBackgroundColor(Color.parseColor("#00000000"));
+            humanClicked = 0;
+            fairyClicked = 0;
+            demonClicked = 0;
+            goddessClicked = 0;
+            unknownClicked = 0;
+            checkSorts();
         }
-        editor.apply();
-        humanFilterView.setBackgroundColor(Color.parseColor("#00000000"));
-        fairyFilterView.setBackgroundColor(Color.parseColor("#00000000"));
-        demonFilterView.setBackgroundColor(Color.parseColor("#00000000"));
-        goddessFilterView.setBackgroundColor(Color.parseColor("#00000000"));
-        unknownFilterView.setBackgroundColor(Color.parseColor("#00000000"));
-        humanClicked = 0;
-        fairyClicked = 0;
-        demonClicked = 0;
-        goddessClicked = 0;
-        unknownClicked = 0;
-        checkSorts();
     }
 
     public void unknownFilter(View view) {
-        if (unknownClicked == 0) {
-            unknownFilterView.setBackgroundColor(Color.parseColor("#4D15C2A6"));
-            adapter.getFilter("false").filter("Unknown");
-            unknownClicked = 1;
-            editor.putString("raceFilter", "unknown");
-        } else {
-            unknownFilterView.setBackgroundColor(Color.parseColor("#00000000"));
-            adapter.getFilter("false").filter("resetRace");
-            unknownClicked = 0;
-            editor.putString("raceFilter", "none");
+        if (adapter != null) {
+            if (unknownClicked == 0) {
+                unknownFilterView.setBackgroundColor(Color.parseColor("#4D15C2A6"));
+                adapter.getFilter("false").filter("Unknown");
+                unknownClicked = 1;
+                editor.putString("raceFilter", "unknown");
+            } else {
+                unknownFilterView.setBackgroundColor(Color.parseColor("#00000000"));
+                adapter.getFilter("false").filter("resetRace");
+                unknownClicked = 0;
+                editor.putString("raceFilter", "none");
+            }
+            editor.apply();
+            humanFilterView.setBackgroundColor(Color.parseColor("#00000000"));
+            fairyFilterView.setBackgroundColor(Color.parseColor("#00000000"));
+            demonFilterView.setBackgroundColor(Color.parseColor("#00000000"));
+            goddessFilterView.setBackgroundColor(Color.parseColor("#00000000"));
+            giantFilterView.setBackgroundColor(Color.parseColor("#00000000"));
+            humanClicked = 0;
+            fairyClicked = 0;
+            demonClicked = 0;
+            goddessClicked = 0;
+            giantClicked = 0;
+            checkSorts();
         }
-        editor.apply();
-        humanFilterView.setBackgroundColor(Color.parseColor("#00000000"));
-        fairyFilterView.setBackgroundColor(Color.parseColor("#00000000"));
-        demonFilterView.setBackgroundColor(Color.parseColor("#00000000"));
-        goddessFilterView.setBackgroundColor(Color.parseColor("#00000000"));
-        giantFilterView.setBackgroundColor(Color.parseColor("#00000000"));
-        humanClicked = 0;
-        fairyClicked = 0;
-        demonClicked = 0;
-        goddessClicked = 0;
-        giantClicked = 0;
-        checkSorts();
     }
 
     public void storyFilter(View view) {
-        if (storyClicked == 0) {
-            storyFilterView.setBackgroundColor(Color.parseColor("#4D15C2A6"));
-            adapter.getFilter("false").filter("Story");
-            storyClicked = 1;
-            editor.putString("obtainedFilter", "story");
-        } else {
-            storyFilterView.setBackgroundColor(Color.parseColor("#00000000"));
-            adapter.getFilter("false").filter("resetObtained");
-            storyClicked = 0;
-            editor.putString("obtainedFilter", "none");
+        if (adapter != null) {
+            if (storyClicked == 0) {
+                storyFilterView.setBackgroundColor(Color.parseColor("#4D15C2A6"));
+                adapter.getFilter("false").filter("Story");
+                storyClicked = 1;
+                editor.putString("obtainedFilter", "story");
+            } else {
+                storyFilterView.setBackgroundColor(Color.parseColor("#00000000"));
+                adapter.getFilter("false").filter("resetObtained");
+                storyClicked = 0;
+                editor.putString("obtainedFilter", "none");
+            }
+            editor.apply();
+            coinShopFilterView.setBackgroundColor(Color.parseColor("#00000000"));
+            normalGachaFilterView.setBackgroundColor(Color.parseColor("#00000000"));
+            limitedGachaFilterView.setBackgroundColor(Color.parseColor("#00000000"));
+            festivalGachaFilterView.setBackgroundColor(Color.parseColor("#00000000"));
+            collabFilterView.setBackgroundColor(Color.parseColor("#00000000"));
+            pvpFilterView.setBackgroundColor(Color.parseColor("#00000000"));
+            coinShopClicked = 0;
+            normalGachaClicked = 0;
+            limitedGachaClicked = 0;
+            festivalGachaClicked = 0;
+            collabClicked = 0;
+            pvpClicked = 0;
+            checkSorts();
         }
-        editor.apply();
-        coinShopFilterView.setBackgroundColor(Color.parseColor("#00000000"));
-        normalGachaFilterView.setBackgroundColor(Color.parseColor("#00000000"));
-        limitedGachaFilterView.setBackgroundColor(Color.parseColor("#00000000"));
-        festivalGachaFilterView.setBackgroundColor(Color.parseColor("#00000000"));
-        collabFilterView.setBackgroundColor(Color.parseColor("#00000000"));
-        pvpFilterView.setBackgroundColor(Color.parseColor("#00000000"));
-        coinShopClicked = 0;
-        normalGachaClicked = 0;
-        limitedGachaClicked = 0;
-        festivalGachaClicked = 0;
-        collabClicked = 0;
-        pvpClicked = 0;
-        checkSorts();
     }
 
     public void coinShopFilter(View view) {
-        if (coinShopClicked == 0) {
-            coinShopFilterView.setBackgroundColor(Color.parseColor("#4D15C2A6"));
-            adapter.getFilter("false").filter("Coin Shop");
-            coinShopClicked = 1;
-            editor.putString("obtainedFilter", "coinShop");
-        } else {
-            coinShopFilterView.setBackgroundColor(Color.parseColor("#00000000"));
-            adapter.getFilter("false").filter("resetObtained");
-            coinShopClicked = 0;
-            editor.putString("obtainedFilter", "none");
+        if (adapter != null) {
+            if (coinShopClicked == 0) {
+                coinShopFilterView.setBackgroundColor(Color.parseColor("#4D15C2A6"));
+                adapter.getFilter("false").filter("Coin Shop");
+                coinShopClicked = 1;
+                editor.putString("obtainedFilter", "coinShop");
+            } else {
+                coinShopFilterView.setBackgroundColor(Color.parseColor("#00000000"));
+                adapter.getFilter("false").filter("resetObtained");
+                coinShopClicked = 0;
+                editor.putString("obtainedFilter", "none");
+            }
+            editor.apply();
+            storyFilterView.setBackgroundColor(Color.parseColor("#00000000"));
+            normalGachaFilterView.setBackgroundColor(Color.parseColor("#00000000"));
+            limitedGachaFilterView.setBackgroundColor(Color.parseColor("#00000000"));
+            festivalGachaFilterView.setBackgroundColor(Color.parseColor("#00000000"));
+            collabFilterView.setBackgroundColor(Color.parseColor("#00000000"));
+            pvpFilterView.setBackgroundColor(Color.parseColor("#00000000"));
+            storyClicked = 0;
+            normalGachaClicked = 0;
+            limitedGachaClicked = 0;
+            festivalGachaClicked = 0;
+            collabClicked = 0;
+            pvpClicked = 0;
+            checkSorts();
         }
-        editor.apply();
-        storyFilterView.setBackgroundColor(Color.parseColor("#00000000"));
-        normalGachaFilterView.setBackgroundColor(Color.parseColor("#00000000"));
-        limitedGachaFilterView.setBackgroundColor(Color.parseColor("#00000000"));
-        festivalGachaFilterView.setBackgroundColor(Color.parseColor("#00000000"));
-        collabFilterView.setBackgroundColor(Color.parseColor("#00000000"));
-        pvpFilterView.setBackgroundColor(Color.parseColor("#00000000"));
-        storyClicked = 0;
-        normalGachaClicked = 0;
-        limitedGachaClicked = 0;
-        festivalGachaClicked = 0;
-        collabClicked = 0;
-        pvpClicked = 0;
-        checkSorts();
     }
 
     public void normalGachaFilter(View view) {
-        if (normalGachaClicked == 0) {
-            normalGachaFilterView.setBackgroundColor(Color.parseColor("#4D15C2A6"));
-            adapter.getFilter("false").filter("Normal Gacha");
-            normalGachaClicked = 1;
-            editor.putString("obtainedFilter", "normalGacha");
-        } else {
-            normalGachaFilterView.setBackgroundColor(Color.parseColor("#00000000"));
-            adapter.getFilter("false").filter("resetObtained");
-            normalGachaClicked = 0;
-            editor.putString("obtainedFilter", "none");
+        if (adapter != null) {
+            if (normalGachaClicked == 0) {
+                normalGachaFilterView.setBackgroundColor(Color.parseColor("#4D15C2A6"));
+                adapter.getFilter("false").filter("Normal Gacha");
+                normalGachaClicked = 1;
+                editor.putString("obtainedFilter", "normalGacha");
+            } else {
+                normalGachaFilterView.setBackgroundColor(Color.parseColor("#00000000"));
+                adapter.getFilter("false").filter("resetObtained");
+                normalGachaClicked = 0;
+                editor.putString("obtainedFilter", "none");
+            }
+            editor.apply();
+            storyFilterView.setBackgroundColor(Color.parseColor("#00000000"));
+            coinShopFilterView.setBackgroundColor(Color.parseColor("#00000000"));
+            limitedGachaFilterView.setBackgroundColor(Color.parseColor("#00000000"));
+            festivalGachaFilterView.setBackgroundColor(Color.parseColor("#00000000"));
+            collabFilterView.setBackgroundColor(Color.parseColor("#00000000"));
+            pvpFilterView.setBackgroundColor(Color.parseColor("#00000000"));
+            storyClicked = 0;
+            coinShopClicked = 0;
+            limitedGachaClicked = 0;
+            festivalGachaClicked = 0;
+            collabClicked = 0;
+            pvpClicked = 0;
+            checkSorts();
         }
-        editor.apply();
-        storyFilterView.setBackgroundColor(Color.parseColor("#00000000"));
-        coinShopFilterView.setBackgroundColor(Color.parseColor("#00000000"));
-        limitedGachaFilterView.setBackgroundColor(Color.parseColor("#00000000"));
-        festivalGachaFilterView.setBackgroundColor(Color.parseColor("#00000000"));
-        collabFilterView.setBackgroundColor(Color.parseColor("#00000000"));
-        pvpFilterView.setBackgroundColor(Color.parseColor("#00000000"));
-        storyClicked = 0;
-        coinShopClicked = 0;
-        limitedGachaClicked = 0;
-        festivalGachaClicked = 0;
-        collabClicked = 0;
-        pvpClicked = 0;
-        checkSorts();
     }
 
     public void limitedGachaFilter(View view) {
-        if (limitedGachaClicked == 0) {
-            limitedGachaFilterView.setBackgroundColor(Color.parseColor("#4D15C2A6"));
-            adapter.getFilter("false").filter("Limited Gacha");
-            limitedGachaClicked = 1;
-            editor.putString("obtainedFilter", "limitedGacha");
-        } else {
-            limitedGachaFilterView.setBackgroundColor(Color.parseColor("#00000000"));
-            adapter.getFilter("false").filter("resetObtained");
-            limitedGachaClicked = 0;
-            editor.putString("obtainedFilter", "none");
+        if (adapter != null) {
+            if (limitedGachaClicked == 0) {
+                limitedGachaFilterView.setBackgroundColor(Color.parseColor("#4D15C2A6"));
+                adapter.getFilter("false").filter("Limited Gacha");
+                limitedGachaClicked = 1;
+                editor.putString("obtainedFilter", "limitedGacha");
+            } else {
+                limitedGachaFilterView.setBackgroundColor(Color.parseColor("#00000000"));
+                adapter.getFilter("false").filter("resetObtained");
+                limitedGachaClicked = 0;
+                editor.putString("obtainedFilter", "none");
+            }
+            editor.apply();
+            storyFilterView.setBackgroundColor(Color.parseColor("#00000000"));
+            coinShopFilterView.setBackgroundColor(Color.parseColor("#00000000"));
+            normalGachaFilterView.setBackgroundColor(Color.parseColor("#00000000"));
+            festivalGachaFilterView.setBackgroundColor(Color.parseColor("#00000000"));
+            collabFilterView.setBackgroundColor(Color.parseColor("#00000000"));
+            pvpFilterView.setBackgroundColor(Color.parseColor("#00000000"));
+            storyClicked = 0;
+            coinShopClicked = 0;
+            normalGachaClicked = 0;
+            festivalGachaClicked = 0;
+            collabClicked = 0;
+            pvpClicked = 0;
+            checkSorts();
         }
-        editor.apply();
-        storyFilterView.setBackgroundColor(Color.parseColor("#00000000"));
-        coinShopFilterView.setBackgroundColor(Color.parseColor("#00000000"));
-        normalGachaFilterView.setBackgroundColor(Color.parseColor("#00000000"));
-        festivalGachaFilterView.setBackgroundColor(Color.parseColor("#00000000"));
-        collabFilterView.setBackgroundColor(Color.parseColor("#00000000"));
-        pvpFilterView.setBackgroundColor(Color.parseColor("#00000000"));
-        storyClicked = 0;
-        coinShopClicked = 0;
-        normalGachaClicked = 0;
-        festivalGachaClicked = 0;
-        collabClicked = 0;
-        pvpClicked = 0;
-        checkSorts();
     }
 
     public void festivalGachaFilter(View view) {
-        if (festivalGachaClicked == 0) {
-            festivalGachaFilterView.setBackgroundColor(Color.parseColor("#4D15C2A6"));
-            adapter.getFilter("false").filter("Festival Gacha");
-            festivalGachaClicked = 1;
-            editor.putString("obtainedFilter", "festivalGacha");
-        } else {
-            festivalGachaFilterView.setBackgroundColor(Color.parseColor("#00000000"));
-            adapter.getFilter("false").filter("resetObtained");
-            festivalGachaClicked = 0;
-            editor.putString("obtainedFilter", "none");
+        if (adapter != null) {
+            if (festivalGachaClicked == 0) {
+                festivalGachaFilterView.setBackgroundColor(Color.parseColor("#4D15C2A6"));
+                adapter.getFilter("false").filter("Festival Gacha");
+                festivalGachaClicked = 1;
+                editor.putString("obtainedFilter", "festivalGacha");
+            } else {
+                festivalGachaFilterView.setBackgroundColor(Color.parseColor("#00000000"));
+                adapter.getFilter("false").filter("resetObtained");
+                festivalGachaClicked = 0;
+                editor.putString("obtainedFilter", "none");
+            }
+            editor.apply();
+            storyFilterView.setBackgroundColor(Color.parseColor("#00000000"));
+            coinShopFilterView.setBackgroundColor(Color.parseColor("#00000000"));
+            normalGachaFilterView.setBackgroundColor(Color.parseColor("#00000000"));
+            limitedGachaFilterView.setBackgroundColor(Color.parseColor("#00000000"));
+            collabFilterView.setBackgroundColor(Color.parseColor("#00000000"));
+            pvpFilterView.setBackgroundColor(Color.parseColor("#00000000"));
+            storyClicked = 0;
+            coinShopClicked = 0;
+            normalGachaClicked = 0;
+            limitedGachaClicked = 0;
+            collabClicked = 0;
+            pvpClicked = 0;
+            checkSorts();
         }
-        editor.apply();
-        storyFilterView.setBackgroundColor(Color.parseColor("#00000000"));
-        coinShopFilterView.setBackgroundColor(Color.parseColor("#00000000"));
-        normalGachaFilterView.setBackgroundColor(Color.parseColor("#00000000"));
-        limitedGachaFilterView.setBackgroundColor(Color.parseColor("#00000000"));
-        collabFilterView.setBackgroundColor(Color.parseColor("#00000000"));
-        pvpFilterView.setBackgroundColor(Color.parseColor("#00000000"));
-        storyClicked = 0;
-        coinShopClicked = 0;
-        normalGachaClicked = 0;
-        limitedGachaClicked = 0;
-        collabClicked = 0;
-        pvpClicked = 0;
-        checkSorts();
     }
 
     public void collabFilter(View view) {
-        if (collabClicked == 0) {
-            collabFilterView.setBackgroundColor(Color.parseColor("#4D15C2A6"));
-            adapter.getFilter("false").filter("Collab");
-            collabClicked = 1;
-            editor.putString("obtainedFilter", "collab");
-        } else {
-            collabFilterView.setBackgroundColor(Color.parseColor("#00000000"));
-            adapter.getFilter("false").filter("resetObtained");
-            collabClicked = 0;
-            editor.putString("obtainedFilter", "none");
+        if (adapter != null) {
+            if (collabClicked == 0) {
+                collabFilterView.setBackgroundColor(Color.parseColor("#4D15C2A6"));
+                adapter.getFilter("false").filter("Collab");
+                collabClicked = 1;
+                editor.putString("obtainedFilter", "collab");
+            } else {
+                collabFilterView.setBackgroundColor(Color.parseColor("#00000000"));
+                adapter.getFilter("false").filter("resetObtained");
+                collabClicked = 0;
+                editor.putString("obtainedFilter", "none");
+            }
+            editor.apply();
+            storyFilterView.setBackgroundColor(Color.parseColor("#00000000"));
+            coinShopFilterView.setBackgroundColor(Color.parseColor("#00000000"));
+            normalGachaFilterView.setBackgroundColor(Color.parseColor("#00000000"));
+            limitedGachaFilterView.setBackgroundColor(Color.parseColor("#00000000"));
+            festivalGachaFilterView.setBackgroundColor(Color.parseColor("#00000000"));
+            pvpFilterView.setBackgroundColor(Color.parseColor("#00000000"));
+            storyClicked = 0;
+            coinShopClicked = 0;
+            normalGachaClicked = 0;
+            limitedGachaClicked = 0;
+            festivalGachaClicked = 0;
+            pvpClicked = 0;
+            checkSorts();
         }
-        editor.apply();
-        storyFilterView.setBackgroundColor(Color.parseColor("#00000000"));
-        coinShopFilterView.setBackgroundColor(Color.parseColor("#00000000"));
-        normalGachaFilterView.setBackgroundColor(Color.parseColor("#00000000"));
-        limitedGachaFilterView.setBackgroundColor(Color.parseColor("#00000000"));
-        festivalGachaFilterView.setBackgroundColor(Color.parseColor("#00000000"));
-        pvpFilterView.setBackgroundColor(Color.parseColor("#00000000"));
-        storyClicked = 0;
-        coinShopClicked = 0;
-        normalGachaClicked = 0;
-        limitedGachaClicked = 0;
-        festivalGachaClicked = 0;
-        pvpClicked = 0;
-        checkSorts();
     }
 
     public void pvpFilter(View view) {
-        if (pvpClicked == 0) {
-            pvpFilterView.setBackgroundColor(Color.parseColor("#4D15C2A6"));
-            adapter.getFilter("false").filter("Arena Reward");
-            pvpClicked = 1;
+        if (adapter != null) {
+            if (pvpClicked == 0) {
+                pvpFilterView.setBackgroundColor(Color.parseColor("#4D15C2A6"));
+                adapter.getFilter("false").filter("Arena Reward");
+                pvpClicked = 1;
 
-            editor.putString("obtainedFilter", "pvp");
-        } else {
-            pvpFilterView.setBackgroundColor(Color.parseColor("#00000000"));
-            adapter.getFilter("false").filter("resetObtained");
-            pvpClicked = 0;
-            editor.putString("obtainedFilter", "none");
+                editor.putString("obtainedFilter", "pvp");
+            } else {
+                pvpFilterView.setBackgroundColor(Color.parseColor("#00000000"));
+                adapter.getFilter("false").filter("resetObtained");
+                pvpClicked = 0;
+                editor.putString("obtainedFilter", "none");
+            }
+            editor.apply();
+            storyFilterView.setBackgroundColor(Color.parseColor("#00000000"));
+            coinShopFilterView.setBackgroundColor(Color.parseColor("#00000000"));
+            normalGachaFilterView.setBackgroundColor(Color.parseColor("#00000000"));
+            limitedGachaFilterView.setBackgroundColor(Color.parseColor("#00000000"));
+            festivalGachaFilterView.setBackgroundColor(Color.parseColor("#00000000"));
+            collabFilterView.setBackgroundColor(Color.parseColor("#00000000"));
+            storyClicked = 0;
+            coinShopClicked = 0;
+            normalGachaClicked = 0;
+            limitedGachaClicked = 0;
+            festivalGachaClicked = 0;
+            collabClicked = 0;
+            checkSorts();
         }
-        editor.apply();
-        storyFilterView.setBackgroundColor(Color.parseColor("#00000000"));
-        coinShopFilterView.setBackgroundColor(Color.parseColor("#00000000"));
-        normalGachaFilterView.setBackgroundColor(Color.parseColor("#00000000"));
-        limitedGachaFilterView.setBackgroundColor(Color.parseColor("#00000000"));
-        festivalGachaFilterView.setBackgroundColor(Color.parseColor("#00000000"));
-        collabFilterView.setBackgroundColor(Color.parseColor("#00000000"));
-        storyClicked = 0;
-        coinShopClicked = 0;
-        normalGachaClicked = 0;
-        limitedGachaClicked = 0;
-        festivalGachaClicked = 0;
-        collabClicked = 0;
-        checkSorts();
     }
-
 
     public void resetFilter(View view) {
         resetFilters();
     }
+
     public void resetFilters() {
-        strengthFilterView.setBackgroundColor(Color.parseColor("#00000000"));
-        hpFilterView.setBackgroundColor(Color.parseColor("#00000000"));
-        speedFilterView.setBackgroundColor(Color.parseColor("#00000000"));
-        globalFilterView.setBackgroundColor(Color.parseColor("#00000000"));
-        jpFilterView.setBackgroundColor(Color.parseColor("#00000000"));
-        jpOnlyFilterView.setBackgroundColor(Color.parseColor("#00000000"));
-        rFilterView.setBackgroundColor(Color.parseColor("#00000000"));
-        srFilterView.setBackgroundColor(Color.parseColor("#00000000"));
-        ssrFilterView.setBackgroundColor(Color.parseColor("#00000000"));
-        storyFilterView.setBackgroundColor(Color.parseColor("#00000000"));
-        coinShopFilterView.setBackgroundColor(Color.parseColor("#00000000"));
-        normalGachaFilterView.setBackgroundColor(Color.parseColor("#00000000"));
-        limitedGachaFilterView.setBackgroundColor(Color.parseColor("#00000000"));
-        festivalGachaFilterView.setBackgroundColor(Color.parseColor("#00000000"));
-        collabFilterView.setBackgroundColor(Color.parseColor("#00000000"));
-        pvpFilterView.setBackgroundColor(Color.parseColor("#00000000"));
-        humanFilterView.setBackgroundColor(Color.parseColor("#00000000"));
-        fairyFilterView.setBackgroundColor(Color.parseColor("#00000000"));
-        demonFilterView.setBackgroundColor(Color.parseColor("#00000000"));
-        goddessFilterView.setBackgroundColor(Color.parseColor("#00000000"));
-        giantFilterView.setBackgroundColor(Color.parseColor("#00000000"));
-        unknownFilterView.setBackgroundColor(Color.parseColor("#00000000"));
-        filterCharacters.setText("");
-        adapter.getFilter("false").filter("fullyReset");
-        speedClicked = 0;
-        hpClicked = 0;
-        strengthClicked = 0;
-        glbClicked = 0;
-        jpClicked = 0;
-        jpOnlyClicked = 0;
-        rClicked = 0;
-        srClicked = 0;
-        ssrClicked = 0;
-        storyClicked = 0;
-        coinShopClicked = 0;
-        normalGachaClicked = 0;
-        limitedGachaClicked = 0;
-        festivalGachaClicked = 0;
-        collabClicked = 0;
-        pvpClicked = 0;
-        humanClicked = 0;
-        fairyClicked = 0;
-        demonClicked = 0;
-        goddessClicked = 0;
-        giantClicked = 0;
-        unknownClicked = 0;
-        editor.putString("typeFilter", "none");
-        editor.putString("regionFilter", "none");
-        editor.putString("rarityFilter", "none");
-        editor.putString("raceFilter", "none");
-        editor.putString("obtainedFilter", "none");
-        editor.putString("charSearch", "");
-        editor.putString("sortedCC", "");
-        editor.putString("sortedHP", "");
-        editor.putString("sortedATK", "");
-        editor.putString("sortedDEF", "");
-        editor.putString("sortBy", "");
-        editor.apply();
+        if (adapter != null) {
+            strengthFilterView.setBackgroundColor(Color.parseColor("#00000000"));
+            hpFilterView.setBackgroundColor(Color.parseColor("#00000000"));
+            speedFilterView.setBackgroundColor(Color.parseColor("#00000000"));
+            globalFilterView.setBackgroundColor(Color.parseColor("#00000000"));
+            jpFilterView.setBackgroundColor(Color.parseColor("#00000000"));
+            jpOnlyFilterView.setBackgroundColor(Color.parseColor("#00000000"));
+            rFilterView.setBackgroundColor(Color.parseColor("#00000000"));
+            srFilterView.setBackgroundColor(Color.parseColor("#00000000"));
+            ssrFilterView.setBackgroundColor(Color.parseColor("#00000000"));
+            storyFilterView.setBackgroundColor(Color.parseColor("#00000000"));
+            coinShopFilterView.setBackgroundColor(Color.parseColor("#00000000"));
+            normalGachaFilterView.setBackgroundColor(Color.parseColor("#00000000"));
+            limitedGachaFilterView.setBackgroundColor(Color.parseColor("#00000000"));
+            festivalGachaFilterView.setBackgroundColor(Color.parseColor("#00000000"));
+            collabFilterView.setBackgroundColor(Color.parseColor("#00000000"));
+            pvpFilterView.setBackgroundColor(Color.parseColor("#00000000"));
+            humanFilterView.setBackgroundColor(Color.parseColor("#00000000"));
+            fairyFilterView.setBackgroundColor(Color.parseColor("#00000000"));
+            demonFilterView.setBackgroundColor(Color.parseColor("#00000000"));
+            goddessFilterView.setBackgroundColor(Color.parseColor("#00000000"));
+            giantFilterView.setBackgroundColor(Color.parseColor("#00000000"));
+            unknownFilterView.setBackgroundColor(Color.parseColor("#00000000"));
+            filterCharacters.setText("");
+            adapter.getFilter("false").filter("fullyReset");
+            speedClicked = 0;
+            hpClicked = 0;
+            strengthClicked = 0;
+            glbClicked = 0;
+            jpClicked = 0;
+            jpOnlyClicked = 0;
+            rClicked = 0;
+            srClicked = 0;
+            ssrClicked = 0;
+            storyClicked = 0;
+            coinShopClicked = 0;
+            normalGachaClicked = 0;
+            limitedGachaClicked = 0;
+            festivalGachaClicked = 0;
+            collabClicked = 0;
+            pvpClicked = 0;
+            humanClicked = 0;
+            fairyClicked = 0;
+            demonClicked = 0;
+            goddessClicked = 0;
+            giantClicked = 0;
+            unknownClicked = 0;
+            editor.putString("typeFilter", "none");
+            editor.putString("regionFilter", "none");
+            editor.putString("rarityFilter", "none");
+            editor.putString("raceFilter", "none");
+            editor.putString("obtainedFilter", "none");
+            editor.putString("charSearch", "");
+            editor.putInt("sortedCC", 0);
+            editor.putInt("sortedHP", 0);
+            editor.putInt("sortedATK", 0);
+            editor.putInt("sortedDEF", 0);
+            editor.putString("sortBy", "");
+            editor.apply();
+        }
     }
 
     protected void onRestart() {
         super.onRestart();
-        Log.v("test", "restart");
         darkMode = settings.getString("darkMode", darkMode);
         if (darkMode.equals("yes")) {
             backgroundColor.setBackgroundColor(Color.parseColor("#616161"));
         } else {
             backgroundColor.setBackgroundColor(Color.parseColor("#4D15C2A6"));
         }
-        moPubSdk.callAdView(adViewHolder);
-
+        adMobSdk.callAdView(adViewHolder);
     }
 
     @Override
@@ -1117,167 +1173,169 @@ public class character_list extends AppCompatActivity {
         obtained = settings.getString("obtainedFilter", obtained);
         Log.v("type", " " + type);
         if (listClicked != 0) {
-            switch (type) {
-                case "strength":
-                    strengthFilterView.setBackgroundColor(Color.parseColor("#4D15C2A6"));
-                    adapter.getFilter("false").filter("Strength");
-                    strengthClicked = 1;
-                    break;
-                case "hp":
-                    hpFilterView.setBackgroundColor(Color.parseColor("#4D15C2A6"));
-                    adapter.getFilter("false").filter("HP");
-                    hpClicked = 1;
-                    break;
-                case "speed":
-                    speedFilterView.setBackgroundColor(Color.parseColor("#4D15C2A6"));
-                    adapter.getFilter("false").filter("Speed");
-                    speedClicked = 1;
-                    break;
-                case "none":
-                    break;
+            if (adapter != null) {
+                switch (type) {
+                    case "strength":
+                        strengthFilterView.setBackgroundColor(Color.parseColor("#4D15C2A6"));
+                        adapter.getFilter("false").filter("Strength");
+                        strengthClicked = 1;
+                        break;
+                    case "hp":
+                        hpFilterView.setBackgroundColor(Color.parseColor("#4D15C2A6"));
+                        adapter.getFilter("false").filter("HP");
+                        hpClicked = 1;
+                        break;
+                    case "speed":
+                        speedFilterView.setBackgroundColor(Color.parseColor("#4D15C2A6"));
+                        adapter.getFilter("false").filter("Speed");
+                        speedClicked = 1;
+                        break;
+                    case "none":
+                        break;
+                }
+                switch (region) {
+                    case "global":
+                        adapter.getFilter("false").filter("Global / Asia");
+                        globalFilterView.setBackgroundColor(Color.parseColor("#4D15C2A6"));
+                        glbClicked = 1;
+                        break;
+                    case "jp":
+                        adapter.getFilter("false").filter("Japan / Korea");
+                        jpFilterView.setBackgroundColor(Color.parseColor("#4D15C2A6"));
+                        jpClicked = 1;
+                        break;
+                    case "jpOnly":
+                        adapter.getFilter("false").filter("Japan / Korea Exclusive");
+                        jpOnlyFilterView.setBackgroundColor(Color.parseColor("#4D15C2A6"));
+                        jpOnlyClicked = 1;
+                        break;
+                    case "none":
+                        break;
+                }
+                switch (rarity) {
+                    case "r":
+                        Log.v("rarity", " " + rarity);
+                        adapter.getFilter("false").filter("R");
+                        rFilterView.setBackgroundColor(Color.parseColor("#4D15C2A6"));
+                        rClicked = 1;
+                        break;
+                    case "sr":
+                        adapter.getFilter("false").filter("SR");
+                        srFilterView.setBackgroundColor(Color.parseColor("#4D15C2A6"));
+                        srClicked = 1;
+                        break;
+                    case "ssr":
+                        adapter.getFilter("false").filter("SSR");
+                        ssrFilterView.setBackgroundColor(Color.parseColor("#4D15C2A6"));
+                        ssrClicked = 1;
+                        break;
+                    case "none":
+                        break;
+                }
+                switch (race) {
+                    case "human":
+                        adapter.getFilter("false").filter("Human");
+                        humanFilterView.setBackgroundColor(Color.parseColor("#4D15C2A6"));
+                        humanClicked = 1;
+                        break;
+                    case "fairy":
+                        adapter.getFilter("false").filter("Fairy");
+                        fairyFilterView.setBackgroundColor(Color.parseColor("#4D15C2A6"));
+                        fairyClicked = 1;
+                        break;
+                    case "demon":
+                        adapter.getFilter("false").filter("Demon");
+                        demonFilterView.setBackgroundColor(Color.parseColor("#4D15C2A6"));
+                        demonClicked = 1;
+                        break;
+                    case "goddess":
+                        adapter.getFilter("false").filter("Goddess");
+                        goddessFilterView.setBackgroundColor(Color.parseColor("#4D15C2A6"));
+                        goddessClicked = 1;
+                        break;
+                    case "giant":
+                        adapter.getFilter("false").filter("Giant");
+                        giantFilterView.setBackgroundColor(Color.parseColor("#4D15C2A6"));
+                        giantClicked = 1;
+                        break;
+                    case "unknown":
+                        adapter.getFilter("false").filter("Unknown");
+                        unknownFilterView.setBackgroundColor(Color.parseColor("#4D15C2A6"));
+                        unknownClicked = 1;
+                        break;
+                    case "none":
+                        break;
+                }
+                switch (obtained) {
+                    case "story":
+                        adapter.getFilter("false").filter("Story");
+                        storyFilterView.setBackgroundColor(Color.parseColor("#4D15C2A6"));
+                        storyClicked = 1;
+                        break;
+                    case "coinShop":
+                        adapter.getFilter("false").filter("Coin Shop");
+                        coinShopFilterView.setBackgroundColor(Color.parseColor("#4D15C2A6"));
+                        coinShopClicked = 1;
+                        break;
+                    case "normalGacha":
+                        adapter.getFilter("false").filter("Normal Gacha");
+                        normalGachaFilterView.setBackgroundColor(Color.parseColor("#4D15C2A6"));
+                        normalGachaClicked = 1;
+                        break;
+                    case "limitedGacha":
+                        adapter.getFilter("false").filter("Limited Gacha");
+                        limitedGachaFilterView.setBackgroundColor(Color.parseColor("#4D15C2A6"));
+                        limitedGachaClicked = 1;
+                        break;
+                    case "festivalGacha":
+                        adapter.getFilter("false").filter("Festival Gacha");
+                        festivalGachaFilterView.setBackgroundColor(Color.parseColor("#4D15C2A6"));
+                        festivalGachaClicked = 1;
+                        break;
+                    case "collab":
+                        adapter.getFilter("false").filter("Collab");
+                        collabFilterView.setBackgroundColor(Color.parseColor("#4D15C2A6"));
+                        collabClicked = 1;
+                        break;
+                    case "pvp":
+                        adapter.getFilter("false").filter("Arena Reward");
+                        pvpFilterView.setBackgroundColor(Color.parseColor("#4D15C2A6"));
+                        pvpClicked = 1;
+                        break;
+                    case "none":
+                        break;
+                }
+                int ccNumber = settings.getInt("sortedCC", 0);
+                int hpNumber = settings.getInt("sortedHP", 0);
+                int atkNumber = settings.getInt("sortedATK", 0);
+                int defNumber = settings.getInt("sortedDEF", 0);
+                String sortBy = settings.getString("sortBy", "");
+                switch (sortBy) {
+                    case "CC":
+                        sortedCC = ccNumber;
+                        ccSorter();
+                        break;
+                    case "HP":
+                        sortedHP = hpNumber;
+                        hpSorter();
+                        break;
+                    case "ATK":
+                        sortedATK = atkNumber;
+                        atkSorter();
+                        break;
+                    case "DEF":
+                        sortedDEF = defNumber;
+                        defSorter();
+                        break;
+                    case "":
+                        break;
+                }
+                editText = settings.getString("charSearch", "");
+                filterCharacters.setText(editText);
+                adapter.getFilter("true").filter(editText);
+                editor.putInt("listClicked", 0);
+                editor.apply();
             }
-            switch (region) {
-                case "global":
-                    adapter.getFilter("false").filter("Global / Asia");
-                    globalFilterView.setBackgroundColor(Color.parseColor("#4D15C2A6"));
-                    glbClicked = 1;
-                    break;
-                case "jp":
-                    adapter.getFilter("false").filter("Japan / Korea");
-                    jpFilterView.setBackgroundColor(Color.parseColor("#4D15C2A6"));
-                    jpClicked = 1;
-                    break;
-                case "jpOnly":
-                    adapter.getFilter("false").filter("Japan / Korea Exclusive");
-                    jpOnlyFilterView.setBackgroundColor(Color.parseColor("#4D15C2A6"));
-                    jpOnlyClicked = 1;
-                    break;
-                case "none":
-                    break;
-            }
-            switch (rarity) {
-                case "r":
-                    Log.v("rarity", " " + rarity);
-                    adapter.getFilter("false").filter("R");
-                    rFilterView.setBackgroundColor(Color.parseColor("#4D15C2A6"));
-                    rClicked = 1;
-                    break;
-                case "sr":
-                    adapter.getFilter("false").filter("SR");
-                    srFilterView.setBackgroundColor(Color.parseColor("#4D15C2A6"));
-                    srClicked = 1;
-                    break;
-                case "ssr":
-                    adapter.getFilter("false").filter("SSR");
-                    ssrFilterView.setBackgroundColor(Color.parseColor("#4D15C2A6"));
-                    ssrClicked = 1;
-                    break;
-                case "none":
-                    break;
-            }
-            switch (race) {
-                case "human":
-                    adapter.getFilter("false").filter("Human");
-                    humanFilterView.setBackgroundColor(Color.parseColor("#4D15C2A6"));
-                    humanClicked = 1;
-                    break;
-                case "fairy":
-                    adapter.getFilter("false").filter("Fairy");
-                    fairyFilterView.setBackgroundColor(Color.parseColor("#4D15C2A6"));
-                    fairyClicked = 1;
-                    break;
-                case "demon":
-                    adapter.getFilter("false").filter("Demon");
-                    demonFilterView.setBackgroundColor(Color.parseColor("#4D15C2A6"));
-                    demonClicked = 1;
-                    break;
-                case "goddess":
-                    adapter.getFilter("false").filter("Goddess");
-                    goddessFilterView.setBackgroundColor(Color.parseColor("#4D15C2A6"));
-                    goddessClicked = 1;
-                    break;
-                case "giant":
-                    adapter.getFilter("false").filter("Giant");
-                    giantFilterView.setBackgroundColor(Color.parseColor("#4D15C2A6"));
-                    giantClicked = 1;
-                    break;
-                case "unknown":
-                    adapter.getFilter("false").filter("Unknown");
-                    unknownFilterView.setBackgroundColor(Color.parseColor("#4D15C2A6"));
-                    unknownClicked = 1;
-                    break;
-                case "none":
-                    break;
-            }
-            switch (obtained) {
-                case "story":
-                    adapter.getFilter("false").filter("Story");
-                    storyFilterView.setBackgroundColor(Color.parseColor("#4D15C2A6"));
-                    storyClicked = 1;
-                    break;
-                case "coinShop":
-                    adapter.getFilter("false").filter("Coin Shop");
-                    coinShopFilterView.setBackgroundColor(Color.parseColor("#4D15C2A6"));
-                    coinShopClicked = 1;
-                    break;
-                case "normalGacha":
-                    adapter.getFilter("false").filter("Normal Gacha");
-                    normalGachaFilterView.setBackgroundColor(Color.parseColor("#4D15C2A6"));
-                    normalGachaClicked = 1;
-                    break;
-                case "limitedGacha":
-                    adapter.getFilter("false").filter("Limited Gacha");
-                    limitedGachaFilterView.setBackgroundColor(Color.parseColor("#4D15C2A6"));
-                    limitedGachaClicked = 1;
-                    break;
-                case "festivalGacha":
-                    adapter.getFilter("false").filter("Festival Gacha");
-                    festivalGachaFilterView.setBackgroundColor(Color.parseColor("#4D15C2A6"));
-                    festivalGachaClicked = 1;
-                    break;
-                case "collab":
-                    adapter.getFilter("false").filter("Collab");
-                    collabFilterView.setBackgroundColor(Color.parseColor("#4D15C2A6"));
-                    collabClicked = 1;
-                    break;
-                case "pvp":
-                    adapter.getFilter("false").filter("Arena Reward");
-                    pvpFilterView.setBackgroundColor(Color.parseColor("#4D15C2A6"));
-                    pvpClicked = 1;
-                    break;
-                case "none":
-                    break;
-            }
-            int ccNumber = settings.getInt("sortedCC", 0);
-            int hpNumber = settings.getInt("sortedHP", 0);
-            int atkNumber = settings.getInt("sortedATK", 0);
-            int defNumber = settings.getInt("sortedDEF", 0);
-            String sortBy = settings.getString("sortBy", "");
-            switch (sortBy) {
-                case "CC":
-                    sortedCC = ccNumber;
-                    ccSorter();
-                    break;
-                case "HP":
-                    sortedHP = hpNumber;
-                    hpSorter();
-                    break;
-                case "ATK":
-                    sortedATK = atkNumber;
-                    atkSorter();
-                    break;
-                case "DEF":
-                    sortedDEF = defNumber;
-                    defSorter();
-                    break;
-                case "" :
-                    break;
-            }
-            editText = settings.getString("charSearch", "");
-            filterCharacters.setText(editText);
-            adapter.getFilter("true").filter(editText);
-            editor.putInt("listClicked", 0);
-            editor.apply();
         }
     }
 }

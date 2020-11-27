@@ -13,31 +13,31 @@
      limitations under the License.
 -->
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/mainBackground"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    style="@style/mainBackground"
     tools:context="com.lukesapps.grandcross.database.a_main_screen">
 
     <ImageView
         android:id="@+id/main_background"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent" />
 
 
     <ScrollView
-        android:layout_above="@id/adViewHolder"
-        android:layout_below="@id/help_info"
         android:id="@+id/main_background_colour"
         style="@style/mainBackground"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_above="@id/adViewHolder"
+        android:layout_below="@id/help_info">
 
         <LinearLayout
-            android:layout_gravity="center_vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
             android:orientation="vertical">
 
             <LinearLayout
@@ -65,6 +65,53 @@
                         android:background="#ED15c2a6"
                         android:padding="16dp"
                         android:text="Characters" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    style="@style/MainActivityResourceSelection"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="4dp">
+
+                    <ImageView
+                        android:id="@+id/cooking_main"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" />
+
+                    <TextView
+                        android:id="@+id/cooking"
+                        style="@style/MainActivityResourceSelection"
+                        android:background="#EDffefdc"
+                        android:padding="16dp"
+                        android:text="Cooking" />
+                </RelativeLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginRight="16dp"
+                android:orientation="horizontal">
+
+                <RelativeLayout
+                    style="@style/MainActivityResourceSelection"
+                    android:layout_width="match_parent"
+                    android:layout_height="130dp"
+                    android:layout_marginRight="4dp">
+
+                    <ImageView
+                        android:id="@+id/cosmetics_main"
+                        android:layout_width="match_parent"
+                        android:layout_height="130dp" />
+
+                    <TextView
+                        android:id="@+id/cosmetics"
+                        style="@style/MainActivityResourceSelection"
+                        android:background="#ED4527A0"
+                        android:padding="16dp"
+                        android:text="Cosmetics" />
                 </RelativeLayout>
 
                 <RelativeLayout
@@ -98,27 +145,8 @@
                 <RelativeLayout
                     style="@style/MainActivityResourceSelection"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginRight="4dp">
-
-                    <ImageView
-                        android:id="@+id/cooking_main"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent" />
-
-                    <TextView
-                        android:id="@+id/cooking"
-                        style="@style/MainActivityResourceSelection"
-                        android:background="#EDffefdc"
-                        android:padding="16dp"
-                        android:text="Cooking" />
-                </RelativeLayout>
-
-                <RelativeLayout
-                    style="@style/MainActivityResourceSelection"
-                    android:layout_width="match_parent"
                     android:layout_height="130dp"
-                    android:layout_marginLeft="4dp">
+                    android:layout_marginRight="4dp">
 
                     <ImageView
                         android:id="@+id/summoning_main"
@@ -132,20 +160,12 @@
                         android:padding="16dp"
                         android:text="Summon\nSimulator" />
                 </RelativeLayout>
-            </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="16dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginRight="16dp"
-                android:orientation="horizontal">
                 <RelativeLayout
                     style="@style/MainActivityResourceSelection"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginRight="4dp">
+                    android:layout_marginLeft="4dp">
 
                     <ImageView
                         android:id="@+id/otherResources_main"
@@ -159,32 +179,44 @@
                         android:padding="16dp"
                         android:text="Other\nResources" />
                 </RelativeLayout>
+            </LinearLayout>
+
+            <RelativeLayout
+                android:id="@+id/removeAds"
+                android:layout_width="match_parent"
+                android:layout_height="75dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginRight="16dp"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/support_main"
+                    android:layout_width="match_parent"
+                    android:layout_height="75dp" />
 
                 <RelativeLayout
+                style="@style/MainActivityResourceSelection"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginRight="1dp">
+
+                <TextView
+                    android:onClick="removeAds"
                     style="@style/MainActivityResourceSelection"
-                    android:layout_width="match_parent"
-                    android:layout_height="130dp"
-                    android:layout_marginLeft="4dp">
-                    <ImageView
-                        android:id="@+id/support_main"
-                        android:layout_width="match_parent"
-                        android:layout_height="130dp" />
-                    <TextView
-                        android:onClick="donate"
-                        style="@style/MainActivityResourceSelection"
-                        android:background="#EDE1F5C4"
-                        android:padding="16dp"
-                        android:text="Support\n the App +\nUnlimited Summons" />
-                </RelativeLayout>
-            </LinearLayout>
+                    android:background="#EDE1F5C4"
+                    android:text="Remove Ads + Unlimited Summons" />
+            </RelativeLayout>
+            </RelativeLayout>
         </LinearLayout>
 
     </ScrollView>
+
     <LinearLayout
         android:id="@+id/help_info"
-        android:layout_alignParentTop="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
         android:orientation="horizontal">
 
         <ImageView
@@ -207,12 +239,11 @@
     </LinearLayout>
 
     <LinearLayout
-        android:layout_alignParentBottom="true"
         android:id="@+id/adViewHolder"
         style="@style/mainBackground"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
-    </LinearLayout>
+        android:layout_alignParentBottom="true"
+        android:orientation="vertical"></LinearLayout>
 
 </RelativeLayout>

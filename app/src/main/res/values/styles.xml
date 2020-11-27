@@ -14,7 +14,7 @@
 -->
 <resources>
 
-    <style name="AppTheme.CustomTheme" >
+    <style name="AppTheme.CustomTheme">
         <item name="android:windowIsTranslucent">true</item>
         <item name="android:windowCloseOnTouchOutside">true</item>
     </style>
@@ -28,21 +28,27 @@
     <style name="mainBackground">
         <item name="android:background">#EDDADADA</item>
     </style>
+
     <style name="helpBackground">
         <item name="android:background">#9A5E5E5E</item>
     </style>
+
     <style name="charactersBackground">
         <item name="android:background">#4D15C2A6</item>
     </style>
+
     <style name="awakeningBackground">
         <item name="android:background">#4DFC913A</item>
     </style>
+
     <style name="cookingBackground">
         <item name="android:background">#66FFEFDC</item>
     </style>
+
     <style name="summoningBackground">
         <item name="android:background">#4DFF4E50</item>
     </style>
+
     <style name="otherBackground">
         <item name="android:background">#9AFFB853</item>
     </style>

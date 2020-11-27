@@ -87,6 +87,26 @@
             android:layout_width="match_parent"
             android:layout_height="88dp"
             android:orientation="horizontal"
+            android:id="@+id/sdstools">
+            <ImageView
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:src="@drawable/toolswebsite"/>
+            <TextView
+                android:background="#00000000"
+                style="@style/MainTitle"
+                android:padding="16dp"
+                android:layout_height="match_parent"
+                android:text="7DS Tools Website" />
+        </LinearLayout>
+        <LinearLayout
+            style="@style/MainTitle"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            android:layout_marginTop="8dp"
+            android:layout_width="match_parent"
+            android:layout_height="88dp"
+            android:orientation="horizontal"
             android:id="@+id/reddit">
             <ImageView
 

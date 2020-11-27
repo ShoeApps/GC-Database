@@ -9,6 +9,7 @@ import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
@@ -17,25 +18,23 @@ import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.lifecycle.Observer;
 import androidx.viewpager.widget.ViewPager;
 
-import com.anjlab.android.iab.v3.BillingProcessor;
 import com.google.android.material.tabs.TabLayout;
-import com.mopub.mobileads.MoPubView;
 import com.squareup.picasso.Picasso;
+
+import java.util.Objects;
 
 public class awakening extends AppCompatActivity {
 
-    BillingProcessor bp;
     public static final String PREFS_NAME = "MyPrefsFile";
     SharedPreferences settings;
     String darkMode;
     ViewPager viewPager;
-    MoPubView moPubView;
     LinearLayout adViewHolder;
-    MoPubSdk moPubSdk;
+    AdMobSdk adMobSdk;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Thread.setDefaultUncaughtExceptionHandler(new DefaultExceptionHandler(this));
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.awakening);
         SectionsPagerAdapter sectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
@@ -43,17 +42,17 @@ public class awakening extends AppCompatActivity {
         viewPager.setAdapter(sectionsPagerAdapter);
         TabLayout tabs = findViewById(R.id.tabs);
         tabs.setupWithViewPager(viewPager);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         ImageView mainBackground = findViewById(R.id.awakening_background);
         Picasso.with(this).load(R.drawable.awakening_background2).fit().centerCrop().into(mainBackground);
         settings = getSharedPreferences(PREFS_NAME, 0);
         adViewHolder = findViewById(R.id.adViewHolder);
-        moPubSdk = MoPubSdk.getInstance(this);
-        moPubSdk.isMoPubSdkInitialized().observe(this, new Observer<Boolean>() {
+        adMobSdk = AdMobSdk.getInstance(this);
+        adMobSdk.isAdMobSdkInitialized().observe(this, new Observer<Boolean>() {
             @Override
             public void onChanged(Boolean aBoolean) {
                 if (aBoolean) {
-                    moPubSdk.callAdView(adViewHolder);
+                    adMobSdk.callAdView(adViewHolder);
                 }
             }
         });
@@ -102,13 +101,14 @@ public class awakening extends AppCompatActivity {
     }
 
 
-    public class SectionsPagerAdapter extends FragmentPagerAdapter {
+    public static class SectionsPagerAdapter extends FragmentPagerAdapter {
 
 
         public SectionsPagerAdapter(FragmentManager fm) {
             super(fm);
         }
 
+        @NonNull
         @Override
         public Fragment getItem(int position) {
             Fragment fragment = null;
@@ -123,6 +123,7 @@ public class awakening extends AppCompatActivity {
                     fragment = new awakening_green();
                     break;
             }
+            assert fragment != null;
             return fragment;
         }
 
@@ -145,6 +146,4 @@ public class awakening extends AppCompatActivity {
             return 3;
         }
     }
-
-
 }

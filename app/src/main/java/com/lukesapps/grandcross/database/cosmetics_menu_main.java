@@ -17,34 +17,34 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
-import com.anjlab.android.iab.v3.BillingProcessor;
 import com.google.android.material.tabs.TabLayout;
 import com.squareup.picasso.Picasso;
 
-public class cooking extends AppCompatActivity {
+public class cosmetics_menu_main extends AppCompatActivity {
 
-    BillingProcessor bp;
     public static final String PREFS_NAME = "MyPrefsFile";
     SharedPreferences settings;
     String darkMode;
     ViewPager viewPager;
     LinearLayout adViewHolder;
+    AdMobSdk adMobSdk;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.cooking);
-        SectionsPagerAdapter sectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
-        viewPager = findViewById(R.id.cooking_view_pager);
+        setContentView(R.layout.cosmetics__menu);
+        cosmetics_menu_main.SectionsPagerAdapter sectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
+        viewPager = findViewById(R.id.cosmetics_view_pager);
         viewPager.setAdapter(sectionsPagerAdapter);
+        viewPager.setOffscreenPageLimit(3);
         TabLayout tabs = findViewById(R.id.tabs);
         tabs.setupWithViewPager(viewPager);
-        ImageView mainBackground = findViewById(R.id.cooking_background);
-        Picasso.with(this).load(R.drawable.cooking_background_bw).fit().centerCrop().into(mainBackground);
+        ImageView mainBackground = findViewById(R.id.cosmetics_background);
+        Picasso.with(this).load(R.drawable.cosmetics_list_background).fit().centerCrop().into(mainBackground);
         settings = getSharedPreferences(PREFS_NAME, 0);
         adViewHolder = findViewById(R.id.adViewHolder);
-        AdMobSdk adMobSdk;
         adMobSdk = AdMobSdk.getInstance(this);
         adMobSdk.isAdMobSdkInitialized().observe(this, aBoolean -> {
             if (aBoolean) {
@@ -55,13 +55,12 @@ public class cooking extends AppCompatActivity {
         darkMode = settings.getString("darkMode", darkMode);
         if (darkMode.equals("yes")) {
             viewPager.setBackgroundColor(Color.parseColor("#616161"));
-            LinearLayout adViewHolder = findViewById(R.id.adViewHolder);
             adViewHolder.setBackgroundColor(Color.parseColor("#616161"));
         } else {
-            viewPager.setBackgroundColor(Color.parseColor("#66FFEFDC"));
-            LinearLayout adViewHolder = findViewById(R.id.adViewHolder);
-            adViewHolder.setBackgroundColor(Color.parseColor("#66FFEFDC"));
+            viewPager.setBackgroundColor(Color.parseColor("#734527A0"));
+            adViewHolder.setBackgroundColor(Color.parseColor("#734527A0"));
         }
+
     }
 
     protected void onRestart() {
@@ -70,7 +69,7 @@ public class cooking extends AppCompatActivity {
         if (darkMode.equals("yes")) {
             viewPager.setBackgroundColor(Color.parseColor("#616161"));
         } else {
-            viewPager.setBackgroundColor(Color.parseColor("#66FFEFDC"));
+            viewPager.setBackgroundColor(Color.parseColor("#734527A0"));
         }
     }
 
@@ -86,11 +85,16 @@ public class cooking extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.help_page) {
-            Intent help = new Intent(cooking.this, help_menu.class);
+            Intent help = new Intent(cosmetics_menu_main.this, help_menu.class);
             startActivity(help);
+        }
+        if (id == android.R.id.home) {
+            finish();
+            return true;
         }
         return super.onOptionsItemSelected(item);
     }
+
 
     public static class SectionsPagerAdapter extends FragmentPagerAdapter {
 
@@ -105,22 +109,13 @@ public class cooking extends AppCompatActivity {
             Fragment fragment = null;
             switch (position) {
                 case 0:
-                    fragment = new cooking_chapter_1();
+                    fragment = new cosmetics_weapons();
                     break;
                 case 1:
-                    fragment = new cooking_chapter_2();
+                    fragment = new cosmetics_clothes();
                     break;
                 case 2:
-                    fragment = new cooking_chapter_3();
-                    break;
-                case 3:
-                    fragment = new cooking_chapter_4();
-                    break;
-                case 4:
-                    fragment = new cooking_chapter_5();
-                    break;
-                case 5:
-                    fragment = new cooking_chapter_6();
+                    fragment = new cosmetics_heads();
                     break;
             }
             assert fragment != null;
@@ -132,24 +127,20 @@ public class cooking extends AppCompatActivity {
         public CharSequence getPageTitle(int position) {
             switch (position) {
                 case 0:
-                    return "Chap 1";
+                    return "Weapons";
                 case 1:
-                    return "Chap 2";
+                    return "Clothes";
                 case 2:
-                    return "Chap 3";
-                case 3:
-                    return "Chap 4";
-                case 4:
-                    return "Chap 5";
-                case 5:
-                    return "Chap 6";
+                    return "Heads";
             }
             return null;
         }
 
         @Override
         public int getCount() {
-            return 6;
+            return 3;
         }
     }
+
+
 }

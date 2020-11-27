@@ -1,6 +1,7 @@
 package com.lukesapps.grandcross.database;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -10,6 +11,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -20,29 +22,22 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.adcolony.sdk.AdColony;
-import com.applovin.sdk.AppLovinSdk;
 import com.github.aakira.expandablelayout.ExpandableLinearLayout;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.rewarded.RewardItem;
+import com.google.android.gms.ads.rewarded.RewardedAd;
+import com.google.android.gms.ads.rewarded.RewardedAdCallback;
+import com.google.android.gms.ads.rewarded.RewardedAdLoadCallback;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.mopub.common.MoPub;
-import com.mopub.common.MoPubReward;
-import com.mopub.common.SdkConfiguration;
-import com.mopub.common.SdkInitializationListener;
-import com.mopub.mobileads.MoPubErrorCode;
-import com.mopub.mobileads.MoPubRewardedVideoListener;
-import com.mopub.mobileads.MoPubRewardedVideos;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
-import java.util.Objects;
 import java.util.Random;
-import java.util.Set;
 
 public class summonSimulator extends AppCompatActivity {
 
@@ -52,16 +47,16 @@ public class summonSimulator extends AppCompatActivity {
     String summon11;
     Random rand;
     ArrayList<String> rCharacterName;
-    ArrayList<String> rCharacters;
+    ArrayList<String> rCharactersType;
     ArrayList<String> rCharactersImage;
     ArrayList<String> srCharacterName;
-    ArrayList<String> srCharacters;
+    ArrayList<String> srCharactersType;
     ArrayList<String> srCharactersImage;
     ArrayList<String> ssrCharacterName;
-    ArrayList<String> ssrCharacters;
+    ArrayList<String> ssrCharactersType;
     ArrayList<String> ssrCharactersImage;
     ArrayList<String> rssrCharacterName;
-    ArrayList<String> rssrCharacters;
+    ArrayList<String> rssrCharactersType;
     ArrayList<String> rssrCharactersImage;
     ArrayList<String> checkForSummons;
     ArrayList<String> summonedCharacterDoNotRemove;
@@ -82,149 +77,165 @@ public class summonSimulator extends AppCompatActivity {
     ImageView summon9View;
     ImageView summon10View;
     ImageView summon11View;
+    ImageView backArrow;
+    ImageView nextArrow;
     TextView gssr;
     String summonedRarity;
     String summonedCharacter;
     String summonedImage;
     String summonedCharacterNoType;
-    String banner = "Goddess Elizabeth (Festival) (JP/KR)";
+    String banner = "Draw Heroes: Part 1 (GLB/AS)";
     ExpandableLinearLayout selectBannerView;
     RadioButton checkedRadioButton;
     boolean isChecked;
     int isRateUp;
     int bannerCharacters;
+    RadioGroup rGroup;
     RadioButton banner1Name;
     RadioButton banner2Name;
     RadioButton banner3Name;
     RadioButton banner4Name;
     RadioButton banner5Name;
-    RadioButton banner6Name;
-    RadioButton banner7Name;
-    RadioButton banner8Name;
-    RadioButton banner9Name;
-    RadioButton banner10Name;
     int bannerDisplayCount = 0;
     int created = 0;
     FirebaseDatabase database;
     DatabaseReference ref;
     int summonsLeft;
-    TextView getSummons;
+    TextView getAd;
     public static final String PREFS_NAME = "MyPrefsFile";
     SharedPreferences settings;
     String darkMode;
     ScrollView backgroundColor;
-    private MoPubRewardedVideoListener rewardedVideoListener;
+    private RewardedAd rewardedAd;
+    int bannerCount = 5;
+    String bannerName;
+    RadioGroup.OnCheckedChangeListener checkedChangeListener;
+    String bannerNumber;
+    String rateupNumber;
+    ArrayList<String> bannerList;
+    ArrayList<String> rateUpList;
+    int numberOfBanners = 1;
+    int start = 0;
+    String getSummonsText;
+    LinearLayout adsLayout;
+    boolean unlimitedSummons;
+
 
     @SuppressLint({"ClickableViewAccessibility", "SetTextI18n"})
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Thread.setDefaultUncaughtExceptionHandler(new DefaultExceptionHandler(this));
+
         super.onCreate(savedInstanceState);
-        MoPub.onCreate(this);
         setContentView(R.layout.summon_simulator);
-        database = FirebaseDatabase.getInstance();
-        ref = database.getReference();
+        ref = FirebaseDatabase.getInstance().getReference();
         ref.keepSynced(true);
         Picasso.with(summonSimulator.this).setIndicatorsEnabled(false);
         ImageView ssBackground = findViewById(R.id.summon_simulator_background);
+        selectBannerView = findViewById(R.id.select_banner);
         Picasso.with(this).load(R.drawable.boat_hat_summon).fit().centerCrop().into(ssBackground);
         summonsLeftText = findViewById(R.id.summonsLeft);
         settings = getSharedPreferences(PREFS_NAME, 0);
-        settings = getSharedPreferences(PREFS_NAME, 0);
+        backArrow = findViewById(R.id.backArrow);
+        nextArrow = findViewById(R.id.nextArrow);
+        backArrow.setVisibility(View.INVISIBLE);
+        getAd = findViewById(R.id.loadAd);
+        adsLayout = findViewById(R.id.getAd);
+
+        unlimitedSummons = settings.getBoolean("removeAds", false);
+
+        if (unlimitedSummons) {
+            adsLayout.setVisibility(View.GONE);
+        }
 
         //Ads
-        String appId = "app3d46291c0233493693";
-        String[] zoneIds = {"vz8ea83557b4064da4a4"};
-        // Initialize the AdColony SDK with the above IDs
-        AdColony.configure(summonSimulator.this, appId, zoneIds);
-        AppLovinSdk.initializeSdk(summonSimulator.this);
-        //Test = 920b6145fb1546cf8b5cf2ac34638bb7
-        //Mine = 172f9124da5d4cc6a8ea62bf7085a753
-        SdkConfiguration sdkConfiguration = new SdkConfiguration.Builder("172f9124da5d4cc6a8ea62bf7085a753").build();
-        MoPub.initializeSdk(this, sdkConfiguration, initSdkListener());
-        getSummons = findViewById(R.id.loadAd);
-        getSummons.setOnClickListener(v -> {
-            if (summonsLeft < 100) {
-                if (MoPubRewardedVideos.hasRewardedVideo("172f9124da5d4cc6a8ea62bf7085a753")) {
-                    MoPubRewardedVideos.showRewardedVideo("172f9124da5d4cc6a8ea62bf7085a753");
-                } else {
-                    MoPubRewardedVideos.loadRewardedVideo("172f9124da5d4cc6a8ea62bf7085a753");
-                    getSummons.setText("...");
-                }
-            } else {
-                Toast.makeText(summonSimulator.this, "Cannot add summons after reaching 100 stored. Please use some before attempting to get more.", Toast.LENGTH_SHORT).show();
-            }
-        });
-        rewardedVideoListener = new MoPubRewardedVideoListener() {
-            @SuppressLint("SetTextI18n")
+        //Test Ad - ca-app-pub-3940256099942544/5224354917
+        //My Ad - ca-app-pub-8009364805724327/7225785804
+        rewardedAd = new RewardedAd(this, "ca-app-pub-8009364805724327/7225785804");
+        RewardedAdLoadCallback adLoadCallback = new RewardedAdLoadCallback() {
             @Override
-            public void onRewardedVideoLoadSuccess(@NonNull String adUnitId) {
-                // Called when the video for the given adUnitId has loaded. At this point you should be able to call MoPubRewardedVideos.showRewardedVideo(String) to show the video.
-                getSummons.setText("+20");
-                MoPubRewardedVideos.showRewardedVideo("172f9124da5d4cc6a8ea62bf7085a753");
-            }
-            @SuppressLint("SetTextI18n")
-            @Override
-            public void onRewardedVideoLoadFailure(@NonNull String adUnitId, @NonNull MoPubErrorCode errorCode) {
-                // Called when a video fails to load for the given adUnitId. The provided error code will provide more insight into the reason for the failure to load.
-                Toast.makeText(summonSimulator.this, "Ad failed to load. Have 10 summons on me.", Toast.LENGTH_SHORT).show();
-                summonsLeft = summonsLeft + 10;
-                SharedPreferences.Editor editor = settings.edit();
-                editor.putInt("summonsLeft", summonsLeft);
-                editor.apply();
-                summonsLeftText.setText("Summons Left: " + summonsLeft);
-                getSummons.setText("+20");
+            public void onRewardedAdLoaded() {
+                // Ad successfully loaded.
+                getAd.setText("AD (+20)");
+                getAd.setTextSize(22);
             }
 
             @Override
-            public void onRewardedVideoStarted(@NonNull String adUnitId) {
-                // Called when a rewarded video starts playing.
-            }
-
-            @Override
-            public void onRewardedVideoPlaybackError(@NonNull String adUnitId, @NonNull MoPubErrorCode errorCode) {
-                //  Called when there is an error during video playback.
-            }
-
-            @Override
-            public void onRewardedVideoClicked(@NonNull String adUnitId) {
-                //  Called when a rewarded video is clicked.
-                getSummons.setVisibility(View.INVISIBLE);
-            }
-
-            @Override
-            public void onRewardedVideoClosed(@NonNull String adUnitId) {
-                // Called when a rewarded video is closed. At this point your application should resume.
-            }
-
-            @SuppressLint("SetTextI18n")
-            @Override
-            public void onRewardedVideoCompleted(@NonNull Set<String> adUnitIds, @NonNull MoPubReward reward) {
-                // Called when a rewarded video is completed and the user should be rewarded.
-                // You can query the reward object with boolean isSuccessful(), String getLabel(), and int getAmount().
-                Toast.makeText(summonSimulator.this, "You earned 20 Multi Summons!", Toast.LENGTH_SHORT).show();
-                summonsLeft = summonsLeft + 20;
-                SharedPreferences.Editor editor = settings.edit();
-                editor.putInt("summonsLeft", summonsLeft);
-                editor.apply();
-                summonsLeftText.setText("Summons Left: " + summonsLeft);
+            public void onRewardedAdFailedToLoad(int errorCode) {
+                // Ad failed to load.
             }
         };
-        MoPubRewardedVideos.setRewardedVideoListener(rewardedVideoListener);
+        rewardedAd.loadAd(new AdRequest.Builder().build(), adLoadCallback);
+
+        getAd.setText("...");
+        getAd.setTextSize(15);
+        getAd.setOnClickListener(v -> {
+            getSummonsText = getAd.getText().toString();
+            if (getSummonsText.equals("AD (+20)")) {
+                if (summonsLeft < 100) {
+                    if (rewardedAd.isLoaded()) {
+                        Toast.makeText(summonSimulator.this, "Loading Ad.", Toast.LENGTH_SHORT).show();
+                        Activity activityContext = summonSimulator.this;
+                        RewardedAdCallback adCallback = new RewardedAdCallback() {
+                            @Override
+                            public void onRewardedAdOpened() {
+                                // Ad opened.
+                                getAd.setText("...");
+                                getAd.setTextSize(15);
+                            }
+
+                            @Override
+                            public void onRewardedAdClosed() {
+                                // Ad closed.
+                                createAndLoadRewardedAd();
+                            }
+
+                            @Override
+                            public void onUserEarnedReward(@NonNull RewardItem reward) {
+                                // User earned reward.
+                                Toast.makeText(summonSimulator.this, "You earned 20 Multi Summons!", Toast.LENGTH_SHORT).show();
+                                summonsLeft = summonsLeft + 20;
+                                SharedPreferences.Editor editor = settings.edit();
+                                editor.putInt("summonsLeft", summonsLeft);
+                                editor.apply();
+                                summonsLeftText.setText("Summons Left: " + summonsLeft);
+                            }
+
+                            @Override
+                            public void onRewardedAdFailedToShow(int errorCode) {
+                                // Ad failed to display.
+                            }
+                        };
+                        rewardedAd.show(activityContext, adCallback);
+                    } else {
+                        Toast.makeText(summonSimulator.this, "Ad failed to load. Have 10 summons on me.", Toast.LENGTH_SHORT).show();
+                        summonsLeft = summonsLeft + 10;
+                        SharedPreferences.Editor editor = settings.edit();
+                        editor.putInt("summonsLeft", summonsLeft);
+                        editor.apply();
+                        summonsLeftText.setText("Summons Left: " + summonsLeft);
+                        getAd.setText("...");
+                        getAd.setTextSize(15);
+                        createAndLoadRewardedAd();
+                    }
+                } else {
+                    Toast.makeText(summonSimulator.this, "Cannot add summons after reaching 100 stored. Please use some before attempting to get more.", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
 
 
         rand = new Random();
         rCharacterName = new ArrayList<>();
-        rCharacters = new ArrayList<>();
+        rCharactersType = new ArrayList<>();
         rCharactersImage = new ArrayList<>();
         srCharacterName = new ArrayList<>();
-        srCharacters = new ArrayList<>();
+        srCharactersType = new ArrayList<>();
         srCharactersImage = new ArrayList<>();
         ssrCharacterName = new ArrayList<>();
-        ssrCharacters = new ArrayList<>();
+        ssrCharactersType = new ArrayList<>();
         ssrCharactersImage = new ArrayList<>();
         rssrCharacterName = new ArrayList<>();
-        rssrCharacters = new ArrayList<>();
+        rssrCharactersType = new ArrayList<>();
         rssrCharactersImage = new ArrayList<>();
         checkForSummons = new ArrayList<>();
         summonedCharactersList = new ArrayList<>();
@@ -247,21 +258,6 @@ public class summonSimulator extends AppCompatActivity {
         banner3Name = findViewById(R.id.banner3);
         banner4Name = findViewById(R.id.banner4);
         banner5Name = findViewById(R.id.banner5);
-        banner6Name = findViewById(R.id.banner6);
-        banner7Name = findViewById(R.id.banner7);
-        banner8Name = findViewById(R.id.banner8);
-        banner9Name = findViewById(R.id.banner9);
-        banner10Name = findViewById(R.id.banner10);
-        banner1Name.setVisibility(View.GONE);
-        banner2Name.setVisibility(View.GONE);
-        banner3Name.setVisibility(View.GONE);
-        banner4Name.setVisibility(View.GONE);
-        banner5Name.setVisibility(View.GONE);
-        banner6Name.setVisibility(View.GONE);
-        banner7Name.setVisibility(View.GONE);
-        banner8Name.setVisibility(View.GONE);
-        banner9Name.setVisibility(View.GONE);
-        banner10Name.setVisibility(View.GONE);
         gssr = findViewById(R.id.gssr);
         adapter = new summonedCharactersListAdapter(summonSimulator.this, summonedCharactersListSort);
         listView = findViewById(R.id.summoned_characters);
@@ -272,9 +268,8 @@ public class summonSimulator extends AppCompatActivity {
             v.getParent().requestDisallowInterceptTouchEvent(true);
             return false;
         });
-        RadioGroup rGroup = findViewById(R.id.banner_filter);
-        rGroup.setOnCheckedChangeListener((group, checkedId) -> {
-            // This will get the radiobutton that has changed in its check state
+        rGroup = findViewById(R.id.banner_filter);
+        checkedChangeListener = (group, checkedId) -> {
             checkedRadioButton = group.findViewById(checkedId);
             // This puts the value (true/false) into the variable
             isChecked = checkedRadioButton.isChecked();
@@ -305,7 +300,8 @@ public class summonSimulator extends AppCompatActivity {
                 bannerCharacters = 0;
                 callData();
             }
-        });
+        };
+        rGroup.setOnCheckedChangeListener(checkedChangeListener);
         created = 1;
         backgroundColor = findViewById(R.id.summoning_background_colour);
         //Recall the storage
@@ -315,16 +311,18 @@ public class summonSimulator extends AppCompatActivity {
         } else {
             backgroundColor.setBackgroundColor(Color.parseColor("#4DFF4E50"));
         }
-
-        Log.e("tag", "settings = " + settings.contains("summonsLeft"));
         if (!settings.contains("summonsLeft")) {
             SharedPreferences.Editor editor = settings.edit();
-            editor.putInt("summonsLeft", 20);
+            editor.putInt("summonsLeft", 50);
             editor.apply();
         }
         //Recall the storage
-        summonsLeft = settings.getInt("summonsLeft", summonsLeft);
-        summonsLeftText.setText("Summons Left: " + summonsLeft);
+        if (unlimitedSummons) {
+            summonsLeft = 100;
+        } else {
+            summonsLeft = settings.getInt("summonsLeft", summonsLeft);
+            summonsLeftText.setText("Summons Left: " + summonsLeft);
+        }
     }
 
     protected void onRestart() {
@@ -357,7 +355,7 @@ public class summonSimulator extends AppCompatActivity {
 
     @SuppressLint("SetTextI18n")
     public String summon() {
-        if (summonsLeft > 119) {
+        if (summonsLeft > 199) {
             summonsLeft = 100;
             summonsLeftText.setText("Summons Left: " + summonsLeft);
             SharedPreferences.Editor editor = settings.edit();
@@ -383,8 +381,8 @@ public class summonSimulator extends AppCompatActivity {
                     "SR", "SR", "SR", "SR", "SR", "SR", "SR", "SR", "SR", "SR",
                     "SR", "SR", "SR", "SR", "SR", "SR", "SR", "SR", "SR", "SR",
                     "SR", "SR", "SR", "SR", "SR", "SR", "SR", "SR", "SR", "SR",
-                    "SR", "SR", "SR", "SR", "SR", "SR", "SR", "SR", "SR", "SR",
-                    "SR", "SR",
+                    "SR", "SR", "SR", "SR", "SR", "SR", "SSR (Rate Up)", "SSR (Rate Up)", "SSR (Rate Up)", "SSR (Rate Up)",
+                    "SSR (Rate Up)", "SSR (Rate Up)",
                     "SSR (Rate Up)", "SSR (Rate Up)", "SSR (Rate Up)", "SSR (Rate Up)", "SSR (Rate Up)", "SSR (Rate Up)", "SSR (Rate Up)", "SSR (Rate Up)"};
             summonedRarity = rarity[rand.nextInt(rarity.length)];
         } else if (isRateUp == 1) {
@@ -411,7 +409,7 @@ public class summonSimulator extends AppCompatActivity {
                     "SSR", "SSR", "SSR", "SSR", "SSR", "SSR (Rate Up)"};
             summonedRarity = rarity[rand.nextInt(rarity.length)];
             Log.v("summoned", "1 Rate up");
-        } else if (isRateUp == 2 || isRateUp == 3) {
+        } else if (isRateUp == 2) {
             String[] rarity = {"R", "R", "R", "R", "R", "R", "R", "R", "R", "R",
                     "R", "R", "R", "R", "R", "R", "R", "R", "R", "R",
                     "R", "R", "R", "R", "R", "R", "R", "R", "R", "R",
@@ -434,7 +432,31 @@ public class summonSimulator extends AppCompatActivity {
                     "SR", "SR", "SR", "SR",
                     "SSR", "SSR", "SSR", "SSR", "SSR (Rate Up)", "SSR (Rate Up)"};
             summonedRarity = rarity[rand.nextInt(rarity.length)];
-            Log.v("summoned", "2 or 3 Rate up");
+            Log.v("summoned", "2 Rate up");
+        } else if (isRateUp > 2 && isRateUp < 7 ) {
+            String[] rarity = {"R", "R", "R", "R", "R", "R", "R", "R", "R", "R",
+                    "R", "R", "R", "R", "R", "R", "R", "R", "R", "R",
+                    "R", "R", "R", "R", "R", "R", "R", "R", "R", "R",
+                    "R", "R", "R", "R", "R", "R", "R", "R", "R", "R",
+                    "R", "R", "R", "R", "R", "R", "R", "R", "R", "R",
+                    "R", "R", "R", "R", "R", "R", "R", "R", "R", "R",
+                    "R", "R", "R", "R", "R", "R", "R", "R", "R", "R",
+                    "R", "R", "R", "R", "R", "R", "R", "R", "R", "R",
+                    "R", "R", "R", "R", "R", "R", "R", "R", "R", "R",
+                    "R", "R", "R", "R", "R", "R", "R", "R", "R", "R",
+                    "R", "R", "R", "R", "R", "R", "R", "R", "R", "R",
+                    "R", "R", "R", "R", "R", "R", "R", "R", "R", "R",
+                    "SR", "SR", "SR", "SR", "SR", "SR", "SR", "SR", "SR", "SR",
+                    "SR", "SR", "SR", "SR", "SR", "SR", "SR", "SR", "SR", "SR",
+                    "SR", "SR", "SR", "SR", "SR", "SR", "SR", "SR", "SR", "SR",
+                    "SR", "SR", "SR", "SR", "SR", "SR", "SR", "SR", "SR", "SR",
+                    "SR", "SR", "SR", "SR", "SR", "SR", "SR", "SR", "SR", "SR",
+                    "SR", "SR", "SR", "SR", "SR", "SR", "SR", "SR", "SR", "SR",
+                    "SR", "SR", "SR", "SR", "SR", "SR", "SR", "SR", "SR", "SR",
+                    "SR", "SR", "SR", "SR",
+                    "SSR", "SSR", "SSR", "SSR (Rate Up)", "SSR (Rate Up)", "SSR (Rate Up)"};
+            summonedRarity = rarity[rand.nextInt(rarity.length)];
+            Log.v("summoned", "3 Rate up");
         } else {
             String[] rarity = {"R", "R", "R", "R", "R", "R", "R", "R", "R", "R",
                     "R", "R", "R", "R", "R", "R", "R", "R", "R", "R",
@@ -466,13 +488,13 @@ public class summonSimulator extends AppCompatActivity {
     public void summonedCharacter(String rarity, ImageView summonView) {
         String characterSummoned;
         if (rarity.equals("R")) {
-            if (!rCharacters.isEmpty()) {
-                characterSummoned = rCharacters.get(rand.nextInt(rCharacters.size()));
-                int index = rCharacters.indexOf(characterSummoned);
+            if (!rCharactersType.isEmpty()) {
+                characterSummoned = rCharactersType.get(rand.nextInt(rCharactersType.size()));
+                int index = rCharactersType.indexOf(characterSummoned);
                 String image_url = rCharactersImage.get(index);
                 Picasso.with(summonSimulator.this).load(image_url).fit().into(summonView);
                 summonedRarity = rarity;
-                summonedCharacter = characterSummoned;
+                summonedCharacter = characterSummoned + summonedRarity;
                 summonedCharacterNoType = rCharacterName.get(index);
                 summonedImage = image_url;
             } else {
@@ -483,13 +505,13 @@ public class summonSimulator extends AppCompatActivity {
             }
         }
         if (rarity.equals("SR")) {
-            if (!srCharacters.isEmpty()) {
-                characterSummoned = srCharacters.get(rand.nextInt(srCharacters.size()));
-                int index = srCharacters.indexOf(characterSummoned);
+            if (!srCharactersType.isEmpty()) {
+                characterSummoned = srCharactersType.get(rand.nextInt(srCharactersType.size()));
+                int index = srCharactersType.indexOf(characterSummoned);
                 String image_url = srCharactersImage.get(index);
                 Picasso.with(summonSimulator.this).load(image_url).fit().into(summonView);
                 summonedRarity = rarity;
-                summonedCharacter = characterSummoned;
+                summonedCharacter = characterSummoned + summonedRarity;
                 summonedCharacterNoType = srCharacterName.get(index);
                 summonedImage = image_url;
             } else {
@@ -500,13 +522,13 @@ public class summonSimulator extends AppCompatActivity {
             }
         }
         if (rarity.equals("SSR")) {
-            if (!ssrCharacters.isEmpty()) {
-                characterSummoned = ssrCharacters.get(rand.nextInt(ssrCharacters.size()));
-                int index = ssrCharacters.indexOf(characterSummoned);
+            if (!ssrCharactersType.isEmpty()) {
+                characterSummoned = ssrCharactersType.get(rand.nextInt(ssrCharactersType.size()));
+                int index = ssrCharactersType.indexOf(characterSummoned);
                 String image_url = ssrCharactersImage.get(index);
                 Picasso.with(summonSimulator.this).load(image_url).fit().into(summonView);
                 summonedRarity = rarity;
-                summonedCharacter = characterSummoned;
+                summonedCharacter = characterSummoned + summonedRarity;
                 summonedCharacterNoType = ssrCharacterName.get(index);
                 summonedImage = image_url;
             } else {
@@ -517,15 +539,14 @@ public class summonSimulator extends AppCompatActivity {
             }
         }
         if (rarity.equals("SSR (Rate Up)")) {
-            if (!rssrCharacters.isEmpty()) {
-                characterSummoned = rssrCharacters.get(rand.nextInt(rssrCharacters.size()));
-                int index = rssrCharacters.indexOf(characterSummoned);
+            if (!rssrCharactersType.isEmpty()) {
+                characterSummoned = rssrCharactersType.get(rand.nextInt(rssrCharactersType.size()));
+                int index = rssrCharactersType.indexOf(characterSummoned);
                 String image_url = rssrCharactersImage.get(index);
                 Picasso.with(summonSimulator.this).load(image_url).fit().into(summonView);
                 summonedRarity = rarity;
-                summonedCharacter = characterSummoned;
-                Log.v("summoned", "Character = " + summonedCharacter);
-                summonedCharacterNoType = characterSummoned;
+                summonedCharacter = characterSummoned + summonedRarity;
+                summonedCharacterNoType = rssrCharacterName.get(index);
                 summonedImage = image_url;
             } else {
                 summonedRarity = "R";
@@ -535,9 +556,9 @@ public class summonSimulator extends AppCompatActivity {
             }
         }
         int checkSummons = countStringOccurance(checkForSummons, summonedCharacter);
-        int checkSummonsDoNotRemove = countStringOccurance(summonedCharacterDoNotRemove, summonedCharacterNoType);
+        int checkSummonsDoNotRemove = countStringOccurance(summonedCharacterDoNotRemove, summonedCharacter);
         checkForSummons.add(summonedCharacter);
-        summonedCharacterDoNotRemove.add(summonedCharacterNoType);
+        summonedCharacterDoNotRemove.add(summonedCharacter);
         if (checkSummons == 1) {
             summonedCharactersList.add(new summonedCharactersList(summonedRarity, summonedCharacterNoType, summonedImage));
         } else {
@@ -558,7 +579,9 @@ public class summonSimulator extends AppCompatActivity {
     @SuppressLint("SetTextI18n")
     public void multiSummon(View view) {
         if (summonsLeft != 0) {
-            summonsLeft = summonsLeft - 1;
+            if (!unlimitedSummons) {
+                summonsLeft = summonsLeft - 1;
+            }
             summonsLeftText.setText("summons left: " + summonsLeft);
             SharedPreferences.Editor editor = settings.edit();
             editor.putInt("summonsLeft", summonsLeft);
@@ -661,7 +684,7 @@ public class summonSimulator extends AppCompatActivity {
             gemsSpent = gemsSpent + 30;
             spent.setText("Gems spent: " + gemsSpent);
         } else {
-            Toast.makeText(summonSimulator.this, "Watch an ad by clicking on '+20' to get 20 multi summons", Toast.LENGTH_SHORT).show();
+            Toast.makeText(summonSimulator.this, "Watch an ad to get 20 multi summons", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -707,6 +730,178 @@ public class summonSimulator extends AppCompatActivity {
         return count;
     }
 
+    public void selectBanner(View view) {
+        selectBannerView.toggle();
+        if (bannerDisplayCount == 0) {
+            selectBannerView.initLayout();
+        }
+        bannerDisplayCount = 1;
+    }
+
+    public void backArrow(View view) {
+        ref.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    rGroup.setOnCheckedChangeListener(null);
+                    rGroup.clearCheck();
+                    rGroup.setOnCheckedChangeListener(checkedChangeListener);
+                    banner1Name.setVisibility(View.VISIBLE);
+                    banner2Name.setVisibility(View.VISIBLE);
+                    banner3Name.setVisibility(View.VISIBLE);
+                    banner4Name.setVisibility(View.VISIBLE);
+                    banner5Name.setVisibility(View.VISIBLE);
+                    bannerCount = bannerCount - 10;
+                    if (bannerCount == 0) {
+                        backArrow.setVisibility(View.INVISIBLE);
+                    }
+                    nextArrow.setVisibility(View.VISIBLE);
+                    bannerCount++;
+                    bannerName = dataSnapshot.child(Integer.toString(bannerCount)).child("banners").getValue().toString();
+                    banner1Name.setText(bannerName);
+                    bannerCount++;
+                    bannerName = dataSnapshot.child(Integer.toString(bannerCount)).child("banners").getValue().toString();
+                    banner2Name.setText(bannerName);
+                    bannerCount++;
+                    bannerName = dataSnapshot.child(Integer.toString(bannerCount)).child("banners").getValue().toString();
+                    banner3Name.setText(bannerName);
+                    bannerCount++;
+                    bannerName = dataSnapshot.child(Integer.toString(bannerCount)).child("banners").getValue().toString();
+                    banner4Name.setText(bannerName);
+                    bannerCount++;
+                    bannerName = dataSnapshot.child(Integer.toString(bannerCount)).child("banners").getValue().toString();
+                    banner5Name.setText(bannerName);
+                    if (banner1Name.getText().toString().equals(banner)) {
+                        banner1Name.setChecked(true);
+                    } else if (banner2Name.getText().toString().equals(banner)) {
+                        banner2Name.setChecked(true);
+                    } else if (banner3Name.getText().toString().equals(banner)) {
+                        banner3Name.setChecked(true);
+                    } else if (banner4Name.getText().toString().equals(banner)) {
+                        banner4Name.setChecked(true);
+                    } else if (banner5Name.getText().toString().equals(banner)) {
+                        banner5Name.setChecked(true);
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+        Log.v("BannerCount", "Banner Count = " + bannerCount);
+    }
+
+    public void nextArrow(View view) {
+        ref.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    rGroup.setOnCheckedChangeListener(null);
+                    rGroup.clearCheck();
+                    rGroup.setOnCheckedChangeListener(checkedChangeListener);
+                    backArrow.setVisibility(View.VISIBLE);
+                    bannerCount++;
+                    bannerName = dataSnapshot.child(Integer.toString(bannerCount)).child("banners").getValue().toString();
+                    if (!bannerName.equals("-")) {
+                        banner1Name.setVisibility(View.VISIBLE);
+                        banner1Name.setText(bannerName);
+                        bannerCount++;
+                        if (banner1Name.getText().toString().equals(banner)) {
+                            banner1Name.setChecked(true);
+                        }
+                        bannerName = dataSnapshot.child(Integer.toString(bannerCount)).child("banners").getValue().toString();
+                        if (!bannerName.equals("-")) {
+                            banner2Name.setText(bannerName);
+                            bannerCount++;
+                            if (banner2Name.getText().toString().equals(banner)) {
+                                banner2Name.setChecked(true);
+                            }
+                            bannerName = dataSnapshot.child(Integer.toString(bannerCount)).child("banners").getValue().toString();
+                            if (!bannerName.equals("-")) {
+                                banner3Name.setText(bannerName);
+                                bannerCount++;
+                                if (banner3Name.getText().toString().equals(banner)) {
+                                    banner3Name.setChecked(true);
+                                }
+                                bannerName = dataSnapshot.child(Integer.toString(bannerCount)).child("banners").getValue().toString();
+                                if (!bannerName.equals("-")) {
+                                    banner4Name.setText(bannerName);
+                                    bannerCount++;
+                                    if (banner4Name.getText().toString().equals(banner)) {
+                                        banner4Name.setChecked(true);
+                                    }
+                                    bannerName = dataSnapshot.child(Integer.toString(bannerCount)).child("banners").getValue().toString();
+                                    if (!bannerName.equals("-")) {
+                                        banner5Name.setText(bannerName);
+                                        bannerCount++;
+                                        if (banner5Name.getText().toString().equals(banner)) {
+                                            banner5Name.setChecked(true);
+                                        }
+                                        bannerName = dataSnapshot.child(Integer.toString(bannerCount)).child("banners").getValue().toString();
+                                        if (bannerName.equals("-")) {
+                                            nextArrow.setVisibility(View.GONE);
+                                        }
+                                        bannerCount--;
+                                    } else {
+                                        banner5Name.setVisibility(View.GONE);
+                                        nextArrow.setVisibility(View.INVISIBLE);
+                                        bannerCount = bannerCount + 2;
+                                        bannerName = dataSnapshot.child(Integer.toString(bannerCount)).child("banners").getValue().toString();
+                                        if (bannerName.equals("-")) {
+                                            nextArrow.setVisibility(View.GONE);
+                                        }
+                                        bannerCount--;
+                                    }
+                                } else {
+                                    banner4Name.setVisibility(View.GONE);
+                                    banner5Name.setVisibility(View.GONE);
+                                    nextArrow.setVisibility(View.INVISIBLE);
+                                    bannerCount = bannerCount + 3;
+                                    bannerName = dataSnapshot.child(Integer.toString(bannerCount)).child("banners").getValue().toString();
+                                    if (bannerName.equals("-")) {
+                                        nextArrow.setVisibility(View.GONE);
+                                    }
+                                    bannerCount--;
+                                }
+                            } else {
+                                banner3Name.setVisibility(View.GONE);
+                                banner4Name.setVisibility(View.GONE);
+                                banner5Name.setVisibility(View.GONE);
+                                nextArrow.setVisibility(View.INVISIBLE);
+                                bannerCount = bannerCount + 4;
+                                bannerName = dataSnapshot.child(Integer.toString(bannerCount)).child("banners").getValue().toString();
+                                if (bannerName.equals("-")) {
+                                    nextArrow.setVisibility(View.GONE);
+                                }
+                                bannerCount--;
+                            }
+                        } else {
+                            banner2Name.setVisibility(View.GONE);
+                            banner3Name.setVisibility(View.GONE);
+                            banner4Name.setVisibility(View.GONE);
+                            banner5Name.setVisibility(View.GONE);
+                            nextArrow.setVisibility(View.INVISIBLE);
+                            bannerCount = bannerCount + 5;
+                            bannerName = dataSnapshot.child(Integer.toString(bannerCount)).child("banners").getValue().toString();
+                            if (bannerName.equals("-")) {
+                                nextArrow.setVisibility(View.GONE);
+                            }
+                            bannerCount--;
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+        Log.v("BannerCount", "Banner Count = " + bannerCount);
+    }
+
     public void callData() {
         ref.addListenerForSingleValueEvent(new ValueEventListener() {
             @SuppressLint("SetTextI18n")
@@ -715,129 +910,24 @@ public class summonSimulator extends AppCompatActivity {
                 if (dataSnapshot.exists()) {
                     long count = dataSnapshot.getChildrenCount();
                     characters = (int) count;
-                    if (created != 0) {
-                        rCharacters.clear();
-                        rCharacterName.clear();
-                        rCharactersImage.clear();
-                        srCharacters.clear();
-                        srCharacterName.clear();
-                        srCharactersImage.clear();
-                        ssrCharacters.clear();
-                        ssrCharacterName.clear();
-                        ssrCharactersImage.clear();
-                        rssrCharacters.clear();
-                        rssrCharacterName.clear();
-                        rssrCharactersImage.clear();
+                    rCharactersType.clear();
+                    rCharacterName.clear();
+                    rCharactersImage.clear();
+                    srCharactersType.clear();
+                    srCharacterName.clear();
+                    srCharactersImage.clear();
+                    ssrCharactersType.clear();
+                    ssrCharacterName.clear();
+                    ssrCharactersImage.clear();
+                    rssrCharactersType.clear();
+                    rssrCharacterName.clear();
+                    rssrCharactersImage.clear();
+
+                    if (start == 0) {
+                        getData1(dataSnapshot);
                     }
-                    for (int characterId = 1; characterId <= characters; characterId++) {
-                        String selectId = String.valueOf(characterId);
-                        DataSnapshot characterIdChild = dataSnapshot.child(selectId);
-                        String character = Objects.requireNonNull(characterIdChild.child("character").getValue()).toString();
-                        String characterName = Objects.requireNonNull(characterIdChild.child("nameAndType").getValue()).toString();
-                        String characterImage = Objects.requireNonNull(characterIdChild.child("characterImage").getValue()).toString();
-                        String characterRarity = Objects.requireNonNull(characterIdChild.child("rarity").getValue()).toString();
-                        String banners = Objects.requireNonNull(characterIdChild.child("banners").getValue()).toString();
-                        String banner1 = Objects.requireNonNull(characterIdChild.child("banner1").getValue()).toString();
-                        String rateUp1 = Objects.requireNonNull(characterIdChild.child("rateUp1").getValue()).toString();
-                        String banner2 = Objects.requireNonNull(characterIdChild.child("banner2").getValue()).toString();
-                        String rateUp2 = Objects.requireNonNull(characterIdChild.child("rateUp2").getValue()).toString();
-                        String banner3 = Objects.requireNonNull(characterIdChild.child("banner3").getValue()).toString();
-                        String rateUp3 = Objects.requireNonNull(characterIdChild.child("rateUp3").getValue()).toString();
-                        String banner4 = Objects.requireNonNull(characterIdChild.child("banner4").getValue()).toString();
-                        String rateUp4 = Objects.requireNonNull(characterIdChild.child("rateUp4").getValue()).toString();
-                        String banner5 = Objects.requireNonNull(characterIdChild.child("banner5").getValue()).toString();
-                        String rateUp5 = Objects.requireNonNull(characterIdChild.child("rateUp5").getValue()).toString();
-                        String banner6 = Objects.requireNonNull(characterIdChild.child("banner6").getValue()).toString();
-                        String rateUp6 = Objects.requireNonNull(characterIdChild.child("rateUp6").getValue()).toString();
-                        String banner7 = Objects.requireNonNull(characterIdChild.child("banner7").getValue()).toString();
-                        String rateUp7 = Objects.requireNonNull(characterIdChild.child("rateUp7").getValue()).toString();
-                        String banner8 = Objects.requireNonNull(characterIdChild.child("banner8").getValue()).toString();
-                        String rateUp8 = Objects.requireNonNull(characterIdChild.child("rateUp8").getValue()).toString();
-                        String banner9 = Objects.requireNonNull(characterIdChild.child("banner9").getValue()).toString();
-                        String rateUp9 = Objects.requireNonNull(characterIdChild.child("rateUp9").getValue()).toString();
-                        String banner10 = Objects.requireNonNull(characterIdChild.child("banner10").getValue()).toString();
-                        String rateUp10 = Objects.requireNonNull(characterIdChild.child("rateUp10").getValue()).toString();
-                        if (bannerDisplayCount == 0) {
-                            Log.e("summonSimulator", "selectId = " + selectId);
-                            Log.e("summonSimulator", "banners = " + banners);
-                            if (!banners.equals("-")) {
-                                switch (selectId) {
-                                    case "1":
-                                        banner1Name.setText(banners);
-                                        banner1Name.setVisibility(View.VISIBLE);
-                                        break;
-                                    case "2":
-                                        banner2Name.setText(banners);
-                                        banner2Name.setVisibility(View.VISIBLE);
-                                        break;
-                                    case "3":
-                                        banner3Name.setText(banners);
-                                        banner3Name.setVisibility(View.VISIBLE);
-                                        break;
-                                    case "4":
-                                        banner4Name.setText(banners);
-                                        banner4Name.setVisibility(View.VISIBLE);
-                                        break;
-                                    case "5":
-                                        banner5Name.setText(banners);
-                                        banner5Name.setVisibility(View.VISIBLE);
-                                        break;
-                                    case "6":
-                                        banner6Name.setText(banners);
-                                        banner6Name.setVisibility(View.VISIBLE);
-                                        break;
-                                    case "7":
-                                        banner7Name.setText(banners);
-                                        banner7Name.setVisibility(View.VISIBLE);
-                                        break;
-                                    case "8":
-                                        banner8Name.setText(banners);
-                                        banner8Name.setVisibility(View.VISIBLE);
-                                        break;
-                                    case "9":
-                                        banner9Name.setText(banners);
-                                        banner9Name.setVisibility(View.VISIBLE);
-                                        break;
-                                    case "10":
-                                        banner10Name.setText(banners);
-                                        banner10Name.setVisibility(View.VISIBLE);
-                                        break;
-                                }
-                            }
-                        }
-                        String[] bannerSelector = {banner1, banner2, banner3, banner4, banner5, banner6, banner7, banner8, banner9, banner10};
-                        String[] rateUpList = {rateUp1, rateUp2, rateUp3, rateUp4, rateUp5, rateUp6, rateUp7, rateUp8, rateUp9, rateUp10};
-                        if (!banner.equals("-")) {
-                            if (Arrays.asList(bannerSelector).contains(banner)) {
-                                if (Arrays.asList(rateUpList).contains(banner)) {
-                                    isRateUp = isRateUp + 1;
-                                    bannerCharacters = bannerCharacters + 1;
-                                    rssrCharacterName.add(character);
-                                    rssrCharacters.add(character);
-                                    rssrCharactersImage.add(characterImage);
-                                } else {
-                                    switch (characterRarity) {
-                                        case "R":
-                                            rCharacterName.add(character);
-                                            rCharacters.add(characterName);
-                                            rCharactersImage.add(characterImage);
-                                            break;
-                                        case "SR":
-                                            srCharacterName.add(character);
-                                            srCharacters.add(characterName);
-                                            srCharactersImage.add(characterImage);
-                                            break;
-                                        case "SSR":
-                                            ssrCharacterName.add(character);
-                                            ssrCharacters.add(characterName);
-                                            ssrCharactersImage.add(characterImage);
-                                            bannerCharacters = bannerCharacters + 1;
-                                            break;
-                                    }
-                                }
-                            }
-                        }
-                    }
+                    getData2(dataSnapshot);
+                    start = 1;
                 }
             }
 
@@ -850,17 +940,111 @@ public class summonSimulator extends AppCompatActivity {
 
     }
 
-    public void selectBanner(View view) {
-        Log.v("summonSimulator", "TEST");
-        selectBannerView = findViewById(R.id.select_banner);
-        selectBannerView.toggle();
-        selectBannerView.initLayout();
-        bannerDisplayCount = 1;
+    public void getData1(DataSnapshot dataSnapshot) {
+        for (int characterId = 1; characterId <= characters; characterId++) {
+            String selectId = String.valueOf(characterId);
+            DataSnapshot characterIdChild = dataSnapshot.child(selectId);
+            String banners = characterIdChild.child("banners").getValue().toString();
+            if (!banners.equals("-")) {
+                numberOfBanners++;
+            }
+        }
     }
 
-    private SdkInitializationListener initSdkListener() {
-        return () -> {
-            /* MoPub SDK initialized.*/
+    public void getData2(DataSnapshot dataSnapshot) {
+        for (int characterId = 1; characterId <= characters; characterId++) {
+            bannerList = new ArrayList<>();
+            rateUpList = new ArrayList<>();
+            String selectId = String.valueOf(characterId);
+            DataSnapshot characterIdChild = dataSnapshot.child(selectId);
+            String character = characterIdChild.child("character").getValue().toString();
+            String characterName = characterIdChild.child("nameAndType").getValue().toString();
+            String characterImage = characterIdChild.child("characterImage").getValue().toString();
+            String characterRarity = characterIdChild.child("rarity").getValue().toString();
+            String banners = characterIdChild.child("banners").getValue().toString();
+            for (int i = 1; i < numberOfBanners; i++) {
+                bannerNumber = "banner" + i;
+                rateupNumber = "rateUp" + i;
+                bannerList.add(characterIdChild.child(bannerNumber).getValue().toString());
+                rateUpList.add(characterIdChild.child(rateupNumber).getValue().toString());
+            }
+            if (start == 0) {
+                if (banner.equals("Draw Heroes: Part 1 (GLB/AS)")) {
+                    banner = banners;
+                }
+            }
+            if (bannerDisplayCount == 0) {
+                if (!banners.equals("-")) {
+                    switch (selectId) {
+                        case "1":
+                            banner1Name.setText(banners);
+                            break;
+                        case "2":
+                            banner2Name.setText(banners);
+                            break;
+                        case "3":
+                            banner3Name.setText(banners);
+                            break;
+                        case "4":
+                            banner4Name.setText(banners);
+                            break;
+                        case "5":
+                            banner5Name.setText(banners);
+                            break;
+                    }
+                }
+            }
+            if (!banner.equals("-")) {
+                if (bannerList.contains(banner)) {
+                    if (rateUpList.contains(banner)) {
+                        isRateUp = isRateUp + 1;
+                        Log.e("summonSimulator", "Rate up = " + character);
+                        bannerCharacters = bannerCharacters + 1;
+                        rssrCharacterName.add(character);
+                        rssrCharactersType.add(characterName);
+                        rssrCharactersImage.add(characterImage);
+                    } else {
+                        switch (characterRarity) {
+                            case "R":
+                                rCharacterName.add(character);
+                                rCharactersType.add(characterName);
+                                rCharactersImage.add(characterImage);
+                                break;
+                            case "SR":
+                                srCharacterName.add(character);
+                                srCharactersType.add(characterName);
+                                srCharactersImage.add(characterImage);
+                                break;
+                            case "SSR":
+                                ssrCharacterName.add(character);
+                                ssrCharactersType.add(characterName);
+                                ssrCharactersImage.add(characterImage);
+                                bannerCharacters = bannerCharacters + 1;
+                                break;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    public void createAndLoadRewardedAd() {
+        rewardedAd = new RewardedAd(this, "ca-app-pub-8009364805724327/7225785804");
+        RewardedAdLoadCallback adLoadCallback = new RewardedAdLoadCallback() {
+            @Override
+            public void onRewardedAdLoaded() {
+                // Ad successfully loaded.
+                getAd.setText("AD (+20)");
+                getAd.setTextSize(22);
+            }
+
+            @Override
+            public void onRewardedAdFailedToLoad(int errorCode) {
+                // Ad failed to load.
+                getAd.setText("AD (+20)");
+                getAd.setTextSize(22);
+            }
         };
+        rewardedAd.loadAd(new AdRequest.Builder().build(), adLoadCallback);
     }
 }

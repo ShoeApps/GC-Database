@@ -3,7 +3,6 @@ package com.lukesapps.grandcross.database;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -38,7 +37,7 @@ public class help_menu extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Thread.setDefaultUncaughtExceptionHandler(new DefaultExceptionHandler(this));
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.help_menu);
         basestatshelp = findViewById(R.id.basestatshelp);
@@ -62,12 +61,12 @@ public class help_menu extends AppCompatActivity {
             mySwitch.setChecked(false);
             helpPage.setBackgroundColor(Color.parseColor("#9A5E5E5E"));
         }
-        MoPubSdk moPubSdk;
+        AdMobSdk adMobSdk;
         adViewHolder = findViewById(R.id.adViewHolder);
-        moPubSdk = MoPubSdk.getInstance(this);
-        moPubSdk.isMoPubSdkInitialized().observe(this, aBoolean -> {
+        adMobSdk = AdMobSdk.getInstance(this);
+        adMobSdk.isAdMobSdkInitialized().observe(this, aBoolean -> {
             if (aBoolean) {
-                moPubSdk.callAdView(adViewHolder);
+                adMobSdk.callAdView(adViewHolder);
             }
         });
         mySwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
@@ -125,13 +124,6 @@ public class help_menu extends AppCompatActivity {
 
     public void showCharacterIcons(View view) {
         characterIcons.toggle();
-    }
-
-    public void donate(View view) {
-        String url = "https://www.patreon.com/GCDatabase";
-        Intent i = new Intent(Intent.ACTION_VIEW);
-        i.setData(Uri.parse(url));
-        startActivity(i);
     }
 
     @Override

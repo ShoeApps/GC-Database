@@ -72,7 +72,7 @@
                 style="@style/HelpTwo"
                 android:layout_margin="0dp"
                 android:gravity="center"
-                android:text="App Version: 4.4"
+                android:text="App Version: 4.8.2"
                 android:textSize="15sp"
                 android:textStyle="normal" />
 
@@ -83,24 +83,6 @@
                 android:text="Thank you for downloading and using 7DS:GC Database."
                 android:textSize="15sp"
                 android:textStyle="normal" />
-
-            <TextView
-                style="@style/HelpTwo"
-                android:layout_margin="0dp"
-                android:gravity="center"
-                android:text="If you would like to support me, you can donate by clicking here:"
-                android:textStyle="normal" />
-
-            <TextView
-                style="@style/HelpTwo"
-                android:layout_height="100dp"
-                android:layout_margin="0dp"
-                android:background="#B2782121"
-                android:gravity="center"
-                android:onClick="donate"
-                android:text="Support the App +\nUnlimited Summons"
-                android:textSize="32sp"
-                android:textStyle="bold" />
 
             <TextView
                 style="@style/HelpTwo"
@@ -337,7 +319,7 @@
 
                 <TextView
                     style="@style/HelpThree"
-                    android:text="15% additional damage per orb in the target's Ultimate Move Gauge."
+                    android:text="20% additional damage per orb in the target's Ultimate Move Gauge."
                     android:textStyle="normal" />
 
                 <TextView
@@ -357,7 +339,7 @@
 
                 <TextView
                     style="@style/HelpThree"
-                    android:text="Increases damage dealt by 20% per debuff on the target and removes debuffs."
+                    android:text="Increases damage dealt by 30% per Debuff on the target and removes Debuffs."
                     android:textStyle="normal" />
 
                 <TextView
@@ -512,7 +494,7 @@
 
                 <TextView
                     style="@style/HelpThree"
-                    android:text="Additional damage equal to 80% of damage dealt at the end of every turn."
+                    android:text="Additional damage equal to 90% of damage dealt at the end of every turn."
                     android:textStyle="normal" />
 
                 <TextView
@@ -582,7 +564,7 @@
 
                 <TextView
                     style="@style/HelpThree"
-                    android:text="Additional damage equal to 50% of damage dealt at the end of every turn."
+                    android:text="Additional damage equal to 60% of damage dealt at the end of every turn."
                     android:textStyle="normal" />
 
                 <TextView
@@ -592,7 +574,7 @@
 
                 <TextView
                     style="@style/HelpThree"
-                    android:text="Additional damage equal to 30% of damage dealt at the end of every turn."
+                    android:text="Additional damage equal to 45% of damage dealt at the end of every turn."
                     android:textStyle="normal" />
 
                 <TextView

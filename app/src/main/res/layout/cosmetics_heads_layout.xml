@@ -1,0 +1,2148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/mainBackground"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#00000000"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <RelativeLayout
+                android:id="@+id/cosmetic_1_full"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginRight="8dp"
+                android:layout_weight="1"
+                android:background="@drawable/cosmetics_box"
+                android:orientation="vertical"
+                android:padding="8dp">
+
+                <ImageView
+                    android:id="@+id/cosmetic_1_image"
+                    android:layout_width="match_parent"
+                    android:layout_height="180dp"
+                    android:layout_alignParentTop="true"
+                    android:paddingBottom="8dp" />
+
+                <LinearLayout
+                    android:layout_below="@id/cosmetic_1_image"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/cosmetic_1_stat1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:paddingLeft="8dp"
+                        android:shadowColor="#000000"
+                        android:shadowRadius="5"
+                        android:textColor="#FFFFFF"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/cosmetic_1_stat2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:paddingLeft="8dp"
+                        android:shadowColor="#000000"
+                        android:shadowRadius="5"
+                        android:textColor="#FFFFFF"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/cosmetic_1_stat3"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:paddingLeft="8dp"
+                        android:shadowColor="#000000"
+                        android:shadowRadius="5"
+                        android:textColor="#FFFFFF"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/cosmetic_1_stat4"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:paddingLeft="8dp"
+                        android:shadowColor="#000000"
+                        android:shadowRadius="5"
+                        android:textColor="#FFFFFF"
+                        android:textStyle="bold" />
+                    <TextView
+                        android:id="@+id/cosmetic_1_cc"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:paddingLeft="8dp"
+                        android:shadowColor="#000000"
+                        android:shadowRadius="5"
+                        android:textColor="#FFFFFF"
+                        android:textStyle="bold" />
+                    <TextView
+                        android:id="@+id/cosmetic_1_obtained"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:paddingLeft="8dp"
+                        android:shadowColor="#000000"
+                        android:shadowRadius="5"
+                        android:textColor="#AAAAAA"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <ImageView
+                    android:id="@+id/cosmetic_1_rarity"
+                    android:layout_width="44dp"
+                    android:layout_height="44dp"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentTop="true" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/cosmetic_2_full"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginRight="8dp"
+                android:layout_weight="1"
+                android:background="@drawable/cosmetics_box"
+                android:orientation="vertical"
+                android:padding="8dp">
+
+                <ImageView
+                    android:id="@+id/cosmetic_2_image"
+                    android:layout_width="match_parent"
+                    android:layout_height="180dp"
+                    android:layout_alignParentTop="true"
+                    android:paddingBottom="8dp" />
+
+                <LinearLayout
+                    android:layout_below="@id/cosmetic_2_image"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/cosmetic_2_stat1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:paddingLeft="8dp"
+                        android:shadowColor="#000000"
+                        android:shadowRadius="5"
+                        android:textColor="#FFFFFF"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/cosmetic_2_stat2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:paddingLeft="8dp"
+                        android:shadowColor="#000000"
+                        android:shadowRadius="5"
+                        android:textColor="#FFFFFF"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/cosmetic_2_stat3"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:paddingLeft="8dp"
+                        android:shadowColor="#000000"
+                        android:shadowRadius="5"
+                        android:textColor="#FFFFFF"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/cosmetic_2_stat4"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:paddingLeft="8dp"
+                        android:shadowColor="#000000"
+                        android:shadowRadius="5"
+                        android:textColor="#FFFFFF"
+                        android:textStyle="bold" />
+                <TextView
+                        android:id="@+id/cosmetic_2_cc"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:paddingLeft="8dp"
+                        android:shadowColor="#000000"
+                        android:shadowRadius="5"
+                        android:textColor="#FFFFFF"
+                        android:textStyle="bold" />
+                    <TextView
+                        android:id="@+id/cosmetic_2_obtained"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:paddingLeft="8dp"
+                        android:shadowColor="#000000"
+                        android:shadowRadius="5"
+                        android:textColor="#AAAAAA"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <ImageView
+                    android:id="@+id/cosmetic_2_rarity"
+                    android:layout_width="44dp"
+                    android:layout_height="44dp"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentTop="true" />
+            </RelativeLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <RelativeLayout
+                android:id="@+id/cosmetic_3_full"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginRight="8dp"
+                android:layout_weight="1"
+                android:background="@drawable/cosmetics_box"
+                android:orientation="vertical"
+                android:padding="8dp">
+
+                <ImageView
+                    android:id="@+id/cosmetic_3_image"
+                    android:layout_width="match_parent"
+                    android:layout_height="180dp"
+                    android:layout_alignParentTop="true"
+                    android:paddingBottom="8dp" />
+
+                <LinearLayout
+                    android:layout_below="@id/cosmetic_3_image"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/cosmetic_3_stat1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:paddingLeft="8dp"
+                        android:shadowColor="#000000"
+                        android:shadowRadius="5"
+                        android:textColor="#FFFFFF"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/cosmetic_3_stat2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:paddingLeft="8dp"
+                        android:shadowColor="#000000"
+                        android:shadowRadius="5"
+                        android:textColor="#FFFFFF"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/cosmetic_3_stat3"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:paddingLeft="8dp"
+                        android:shadowColor="#000000"
+                        android:shadowRadius="5"
+                        android:textColor="#FFFFFF"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/cosmetic_3_stat4"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:paddingLeft="8dp"
+                        android:shadowColor="#000000"
+                        android:shadowRadius="5"
+                        android:textColor="#FFFFFF"
+                        android:textStyle="bold" />
+                <TextView
+                        android:id="@+id/cosmetic_3_cc"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:paddingLeft="8dp"
+                        android:shadowColor="#000000"
+                        android:shadowRadius="5"
+                        android:textColor="#FFFFFF"
+                        android:textStyle="bold" />
+                    <TextView
+                        android:id="@+id/cosmetic_3_obtained"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:paddingLeft="8dp"
+                        android:shadowColor="#000000"
+                        android:shadowRadius="5"
+                        android:textColor="#AAAAAA"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <ImageView
+                    android:id="@+id/cosmetic_3_rarity"
+                    android:layout_width="44dp"
+                    android:layout_height="44dp"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentTop="true" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/cosmetic_4_full"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginRight="8dp"
+                android:layout_weight="1"
+                android:background="@drawable/cosmetics_box"
+                android:orientation="vertical"
+                android:padding="8dp">
+
+                <ImageView
+                    android:id="@+id/cosmetic_4_image"
+                    android:layout_width="match_parent"
+                    android:layout_height="180dp"
+                    android:layout_alignParentTop="true"
+                    android:paddingBottom="8dp" />
+
+                <LinearLayout
+                    android:layout_below="@id/cosmetic_4_image"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/cosmetic_4_stat1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:paddingLeft="8dp"
+                        android:shadowColor="#000000"
+                        android:shadowRadius="5"
+                        android:textColor="#FFFFFF"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/cosmetic_4_stat2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:paddingLeft="8dp"
+                        android:shadowColor="#000000"
+                        android:shadowRadius="5"
+                        android:textColor="#FFFFFF"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/cosmetic_4_stat3"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:paddingLeft="8dp"
+                        android:shadowColor="#000000"
+                        android:shadowRadius="5"
+                        android:textColor="#FFFFFF"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/cosmetic_4_stat4"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:paddingLeft="8dp"
+                        android:shadowColor="#000000"
+                        android:shadowRadius="5"
+                        android:textColor="#FFFFFF"
+                        android:textStyle="bold" />
+                <TextView
+                        android:id="@+id/cosmetic_4_cc"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:paddingLeft="8dp"
+                        android:shadowColor="#000000"
+                        android:shadowRadius="5"
+                        android:textColor="#FFFFFF"
+                        android:textStyle="bold" />
+                    <TextView
+                        android:id="@+id/cosmetic_4_obtained"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:paddingLeft="8dp"
+                        android:shadowColor="#000000"
+                        android:shadowRadius="5"
+                        android:textColor="#AAAAAA"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <ImageView
+                    android:id="@+id/cosmetic_4_rarity"
+                    android:layout_width="44dp"
+                    android:layout_height="44dp"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentTop="true" />
+            </RelativeLayout>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <RelativeLayout
+                android:id="@+id/cosmetic_5_full"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginRight="8dp"
+                android:layout_weight="1"
+                android:background="@drawable/cosmetics_box"
+                android:orientation="vertical"
+                android:padding="8dp">
+
+                <ImageView
+                    android:id="@+id/cosmetic_5_image"
+                    android:layout_width="match_parent"
+                    android:layout_height="180dp"
+                    android:layout_alignParentTop="true"
+                    android:paddingBottom="8dp" />
+
+                <LinearLayout
+                    android:layout_below="@id/cosmetic_5_image"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/cosmetic_5_stat1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:paddingLeft="8dp"
+                        android:shadowColor="#000000"
+                        android:shadowRadius="5"
+                        android:textColor="#FFFFFF"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/cosmetic_5_stat2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:paddingLeft="8dp"
+                        android:shadowColor="#000000"
+                        android:shadowRadius="5"
+                        android:textColor="#FFFFFF"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/cosmetic_5_stat3"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:paddingLeft="8dp"
+                        android:shadowColor="#000000"
+                        android:shadowRadius="5"
+                        android:textColor="#FFFFFF"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/cosmetic_5_stat4"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:paddingLeft="8dp"
+                        android:shadowColor="#000000"
+                        android:shadowRadius="5"
+                        android:textColor="#FFFFFF"
+                        android:textStyle="bold" />
+                <TextView
+                        android:id="@+id/cosmetic_5_cc"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:paddingLeft="8dp"
+                        android:shadowColor="#000000"
+                        android:shadowRadius="5"
+                        android:textColor="#FFFFFF"
+                        android:textStyle="bold" />
+                    <TextView
+                        android:id="@+id/cosmetic_5_obtained"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:paddingLeft="8dp"
+                        android:shadowColor="#000000"
+                        android:shadowRadius="5"
+                        android:textColor="#AAAAAA"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <ImageView
+                    android:id="@+id/cosmetic_5_rarity"
+                    android:layout_width="44dp"
+                    android:layout_height="44dp"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentTop="true" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/cosmetic_6_full"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginRight="8dp"
+                android:layout_weight="1"
+                android:background="@drawable/cosmetics_box"
+                android:orientation="vertical"
+                android:padding="8dp">
+
+                <ImageView
+                    android:id="@+id/cosmetic_6_image"
+                    android:layout_width="match_parent"
+                    android:layout_height="180dp"
+                    android:layout_alignParentTop="true"
+                    android:paddingBottom="8dp" />
+
+                <LinearLayout
+                    android:layout_below="@id/cosmetic_6_image"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/cosmetic_6_stat1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:paddingLeft="8dp"
+                        android:shadowColor="#000000"
+                        android:shadowRadius="5"
+                        android:textColor="#FFFFFF"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/cosmetic_6_stat2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:paddingLeft="8dp"
+                        android:shadowColor="#000000"
+                        android:shadowRadius="5"
+                        android:textColor="#FFFFFF"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/cosmetic_6_stat3"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:paddingLeft="8dp"
+                        android:shadowColor="#000000"
+                        android:shadowRadius="5"
+                        android:textColor="#FFFFFF"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/cosmetic_6_stat4"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:paddingLeft="8dp"
+                        android:shadowColor="#000000"
+                        android:shadowRadius="5"
+                        android:textColor="#FFFFFF"
+                        android:textStyle="bold" />
+                <TextView
+                        android:id="@+id/cosmetic_6_cc"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:paddingLeft="8dp"
+                        android:shadowColor="#000000"
+                        android:shadowRadius="5"
+                        android:textColor="#FFFFFF"
+                        android:textStyle="bold" />
+                    <TextView
+                        android:id="@+id/cosmetic_6_obtained"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:paddingLeft="8dp"
+                        android:shadowColor="#000000"
+                        android:shadowRadius="5"
+                        android:textColor="#AAAAAA"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <ImageView
+                    android:id="@+id/cosmetic_6_rarity"
+                    android:layout_width="44dp"
+                    android:layout_height="44dp"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentTop="true" />
+            </RelativeLayout>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <RelativeLayout
+                android:id="@+id/cosmetic_7_full"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginRight="8dp"
+                android:layout_weight="1"
+                android:background="@drawable/cosmetics_box"
+                android:orientation="vertical"
+                android:padding="8dp">
+
+                <ImageView
+                    android:id="@+id/cosmetic_7_image"
+                    android:layout_width="match_parent"
+                    android:layout_height="180dp"
+                    android:layout_alignParentTop="true"
+                    android:paddingBottom="8dp" />
+
+                <LinearLayout
+                    android:layout_below="@id/cosmetic_7_image"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/cosmetic_7_stat1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:paddingLeft="8dp"
+                        android:shadowColor="#000000"
+                        android:shadowRadius="5"
+                        android:textColor="#FFFFFF"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/cosmetic_7_stat2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:paddingLeft="8dp"
+                        android:shadowColor="#000000"
+                        android:shadowRadius="5"
+                        android:textColor="#FFFFFF"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/cosmetic_7_stat3"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:paddingLeft="8dp"
+                        android:shadowColor="#000000"
+                        android:shadowRadius="5"
+                        android:textColor="#FFFFFF"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/cosmetic_7_stat4"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:paddingLeft="8dp"
+                        android:shadowColor="#000000"
+                        android:shadowRadius="5"
+                        android:textColor="#FFFFFF"
+                        android:textStyle="bold" />
+                <TextView
+                        android:id="@+id/cosmetic_7_cc"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:paddingLeft="8dp"
+                        android:shadowColor="#000000"
+                        android:shadowRadius="5"
+                        android:textColor="#FFFFFF"
+                        android:textStyle="bold" />
+                    <TextView
+                        android:id="@+id/cosmetic_7_obtained"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:paddingLeft="8dp"
+                        android:shadowColor="#000000"
+                        android:shadowRadius="5"
+                        android:textColor="#AAAAAA"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <ImageView
+                    android:id="@+id/cosmetic_7_rarity"
+                    android:layout_width="44dp"
+                    android:layout_height="44dp"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentTop="true" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/cosmetic_8_full"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginRight="8dp"
+                android:layout_weight="1"
+                android:background="@drawable/cosmetics_box"
+                android:orientation="vertical"
+                android:padding="8dp">
+
+                <ImageView
+                    android:id="@+id/cosmetic_8_image"
+                    android:layout_width="match_parent"
+                    android:layout_height="180dp"
+                    android:layout_alignParentTop="true"
+                    android:paddingBottom="8dp" />
+
+                <LinearLayout
+                    android:layout_below="@id/cosmetic_8_image"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/cosmetic_8_stat1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:paddingLeft="8dp"
+                        android:shadowColor="#000000"
+                        android:shadowRadius="5"
+                        android:textColor="#FFFFFF"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/cosmetic_8_stat2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:paddingLeft="8dp"
+                        android:shadowColor="#000000"
+                        android:shadowRadius="5"
+                        android:textColor="#FFFFFF"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/cosmetic_8_stat3"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:paddingLeft="8dp"
+                        android:shadowColor="#000000"
+                        android:shadowRadius="5"
+                        android:textColor="#FFFFFF"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/cosmetic_8_stat4"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:paddingLeft="8dp"
+                        android:shadowColor="#000000"
+                        android:shadowRadius="5"
+                        android:textColor="#FFFFFF"
+                        android:textStyle="bold" />
+                <TextView
+                        android:id="@+id/cosmetic_8_cc"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:paddingLeft="8dp"
+                        android:shadowColor="#000000"
+                        android:shadowRadius="5"
+                        android:textColor="#FFFFFF"
+                        android:textStyle="bold" />
+                    <TextView
+                        android:id="@+id/cosmetic_8_obtained"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:paddingLeft="8dp"
+                        android:shadowColor="#000000"
+                        android:shadowRadius="5"
+                        android:textColor="#AAAAAA"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <ImageView
+                    android:id="@+id/cosmetic_8_rarity"
+                    android:layout_width="44dp"
+                    android:layout_height="44dp"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentTop="true" />
+            </RelativeLayout>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <RelativeLayout
+                android:id="@+id/cosmetic_9_full"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginRight="8dp"
+                android:layout_weight="1"
+                android:background="@drawable/cosmetics_box"
+                android:orientation="vertical"
+                android:padding="8dp">
+
+                <ImageView
+                    android:id="@+id/cosmetic_9_image"
+                    android:layout_width="match_parent"
+                    android:layout_height="180dp"
+                    android:layout_alignParentTop="true"
+                    android:paddingBottom="8dp" />
+
+                <LinearLayout
+                    android:layout_below="@id/cosmetic_9_image"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/cosmetic_9_stat1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:paddingLeft="8dp"
+                        android:shadowColor="#000000"
+                        android:shadowRadius="5"
+                        android:textColor="#FFFFFF"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/cosmetic_9_stat2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:paddingLeft="8dp"
+                        android:shadowColor="#000000"
+                        android:shadowRadius="5"
+                        android:textColor="#FFFFFF"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/cosmetic_9_stat3"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:paddingLeft="8dp"
+                        android:shadowColor="#000000"
+                        android:shadowRadius="5"
+                        android:textColor="#FFFFFF"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/cosmetic_9_stat4"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:paddingLeft="8dp"
+                        android:shadowColor="#000000"
+                        android:shadowRadius="5"
+                        android:textColor="#FFFFFF"
+                        android:textStyle="bold" />
+                <TextView
+                        android:id="@+id/cosmetic_9_cc"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:paddingLeft="8dp"
+                        android:shadowColor="#000000"
+                        android:shadowRadius="5"
+                        android:textColor="#FFFFFF"
+                        android:textStyle="bold" />
+                    <TextView
+                        android:id="@+id/cosmetic_9_obtained"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:paddingLeft="8dp"
+                        android:shadowColor="#000000"
+                        android:shadowRadius="5"
+                        android:textColor="#AAAAAA"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <ImageView
+                    android:id="@+id/cosmetic_9_rarity"
+                    android:layout_width="44dp"
+                    android:layout_height="44dp"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentTop="true" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/cosmetic_10_full"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginRight="8dp"
+                android:layout_weight="1"
+                android:background="@drawable/cosmetics_box"
+                android:orientation="vertical"
+                android:padding="8dp">
+
+                <ImageView
+                    android:id="@+id/cosmetic_10_image"
+                    android:layout_width="match_parent"
+                    android:layout_height="180dp"
+                    android:layout_alignParentTop="true"
+                    android:paddingBottom="8dp" />
+
+                <LinearLayout
+                    android:layout_below="@id/cosmetic_10_image"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/cosmetic_10_stat1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:paddingLeft="8dp"
+                        android:shadowColor="#000000"
+                        android:shadowRadius="5"
+                        android:textColor="#FFFFFF"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/cosmetic_10_stat2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:paddingLeft="8dp"
+                        android:shadowColor="#000000"
+                        android:shadowRadius="5"
+                        android:textColor="#FFFFFF"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/cosmetic_10_stat3"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:paddingLeft="8dp"
+                        android:shadowColor="#000000"
+                        android:shadowRadius="5"
+                        android:textColor="#FFFFFF"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/cosmetic_10_stat4"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:paddingLeft="8dp"
+                        android:shadowColor="#000000"
+                        android:shadowRadius="5"
+                        android:textColor="#FFFFFF"
+                        android:textStyle="bold" />
+                <TextView
+                        android:id="@+id/cosmetic_10_cc"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:paddingLeft="8dp"
+                        android:shadowColor="#000000"
+                        android:shadowRadius="5"
+                        android:textColor="#FFFFFF"
+                        android:textStyle="bold" />
+                    <TextView
+                        android:id="@+id/cosmetic_10_obtained"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:paddingLeft="8dp"
+                        android:shadowColor="#000000"
+                        android:shadowRadius="5"
+                        android:textColor="#AAAAAA"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <ImageView
+                    android:id="@+id/cosmetic_10_rarity"
+                    android:layout_width="44dp"
+                    android:layout_height="44dp"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentTop="true" />
+            </RelativeLayout>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <RelativeLayout
+                android:id="@+id/cosmetic_11_full"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginRight="8dp"
+                android:layout_weight="1"
+                android:background="@drawable/cosmetics_box"
+                android:orientation="vertical"
+                android:padding="8dp">
+
+                <ImageView
+                    android:id="@+id/cosmetic_11_image"
+                    android:layout_width="match_parent"
+                    android:layout_height="180dp"
+                    android:layout_alignParentTop="true"
+                    android:paddingBottom="8dp" />
+
+                <LinearLayout
+                    android:layout_below="@id/cosmetic_11_image"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/cosmetic_11_stat1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:paddingLeft="8dp"
+                        android:shadowColor="#000000"
+                        android:shadowRadius="5"
+                        android:textColor="#FFFFFF"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/cosmetic_11_stat2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:paddingLeft="8dp"
+                        android:shadowColor="#000000"
+                        android:shadowRadius="5"
+                        android:textColor="#FFFFFF"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/cosmetic_11_stat3"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:paddingLeft="8dp"
+                        android:shadowColor="#000000"
+                        android:shadowRadius="5"
+                        android:textColor="#FFFFFF"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/cosmetic_11_stat4"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:paddingLeft="8dp"
+                        android:shadowColor="#000000"
+                        android:shadowRadius="5"
+                        android:textColor="#FFFFFF"
+                        android:textStyle="bold" />
+                <TextView
+                        android:id="@+id/cosmetic_11_cc"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:paddingLeft="8dp"
+                        android:shadowColor="#000000"
+                        android:shadowRadius="5"
+                        android:textColor="#FFFFFF"
+                        android:textStyle="bold" />
+                    <TextView
+                        android:id="@+id/cosmetic_11_obtained"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:paddingLeft="8dp"
+                        android:shadowColor="#000000"
+                        android:shadowRadius="5"
+                        android:textColor="#AAAAAA"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <ImageView
+                    android:id="@+id/cosmetic_11_rarity"
+                    android:layout_width="44dp"
+                    android:layout_height="44dp"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentTop="true" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/cosmetic_12_full"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginRight="8dp"
+                android:layout_weight="1"
+                android:background="@drawable/cosmetics_box"
+                android:orientation="vertical"
+                android:padding="8dp">
+
+                <ImageView
+                    android:id="@+id/cosmetic_12_image"
+                    android:layout_width="match_parent"
+                    android:layout_height="180dp"
+                    android:layout_alignParentTop="true"
+                    android:paddingBottom="8dp" />
+
+                <LinearLayout
+                    android:layout_below="@id/cosmetic_12_image"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/cosmetic_12_stat1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:paddingLeft="8dp"
+                        android:shadowColor="#000000"
+                        android:shadowRadius="5"
+                        android:textColor="#FFFFFF"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/cosmetic_12_stat2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:paddingLeft="8dp"
+                        android:shadowColor="#000000"
+                        android:shadowRadius="5"
+                        android:textColor="#FFFFFF"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/cosmetic_12_stat3"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:paddingLeft="8dp"
+                        android:shadowColor="#000000"
+                        android:shadowRadius="5"
+                        android:textColor="#FFFFFF"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/cosmetic_12_stat4"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:paddingLeft="8dp"
+                        android:shadowColor="#000000"
+                        android:shadowRadius="5"
+                        android:textColor="#FFFFFF"
+                        android:textStyle="bold" />
+                <TextView
+                        android:id="@+id/cosmetic_12_cc"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:paddingLeft="8dp"
+                        android:shadowColor="#000000"
+                        android:shadowRadius="5"
+                        android:textColor="#FFFFFF"
+                        android:textStyle="bold" />
+                    <TextView
+                        android:id="@+id/cosmetic_12_obtained"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:paddingLeft="8dp"
+                        android:shadowColor="#000000"
+                        android:shadowRadius="5"
+                        android:textColor="#AAAAAA"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <ImageView
+                    android:id="@+id/cosmetic_12_rarity"
+                    android:layout_width="44dp"
+                    android:layout_height="44dp"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentTop="true" />
+            </RelativeLayout>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <RelativeLayout
+                android:id="@+id/cosmetic_13_full"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginRight="8dp"
+                android:layout_weight="1"
+                android:background="@drawable/cosmetics_box"
+                android:orientation="vertical"
+                android:padding="8dp">
+
+                <ImageView
+                    android:id="@+id/cosmetic_13_image"
+                    android:layout_width="match_parent"
+                    android:layout_height="180dp"
+                    android:layout_alignParentTop="true"
+                    android:paddingBottom="8dp" />
+
+                <LinearLayout
+                    android:layout_below="@id/cosmetic_13_image"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/cosmetic_13_stat1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:paddingLeft="8dp"
+                        android:shadowColor="#000000"
+                        android:shadowRadius="5"
+                        android:textColor="#FFFFFF"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/cosmetic_13_stat2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:paddingLeft="8dp"
+                        android:shadowColor="#000000"
+                        android:shadowRadius="5"
+                        android:textColor="#FFFFFF"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/cosmetic_13_stat3"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:paddingLeft="8dp"
+                        android:shadowColor="#000000"
+                        android:shadowRadius="5"
+                        android:textColor="#FFFFFF"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/cosmetic_13_stat4"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:paddingLeft="8dp"
+                        android:shadowColor="#000000"
+                        android:shadowRadius="5"
+                        android:textColor="#FFFFFF"
+                        android:textStyle="bold" />
+                <TextView
+                        android:id="@+id/cosmetic_13_cc"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:paddingLeft="8dp"
+                        android:shadowColor="#000000"
+                        android:shadowRadius="5"
+                        android:textColor="#FFFFFF"
+                        android:textStyle="bold" />
+                    <TextView
+                        android:id="@+id/cosmetic_13_obtained"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:paddingLeft="8dp"
+                        android:shadowColor="#000000"
+                        android:shadowRadius="5"
+                        android:textColor="#AAAAAA"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <ImageView
+                    android:id="@+id/cosmetic_13_rarity"
+                    android:layout_width="44dp"
+                    android:layout_height="44dp"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentTop="true" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/cosmetic_14_full"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginRight="8dp"
+                android:layout_weight="1"
+                android:background="@drawable/cosmetics_box"
+                android:orientation="vertical"
+                android:padding="8dp">
+
+                <ImageView
+                    android:id="@+id/cosmetic_14_image"
+                    android:layout_width="match_parent"
+                    android:layout_height="180dp"
+                    android:layout_alignParentTop="true"
+                    android:paddingBottom="8dp" />
+
+                <LinearLayout
+                    android:layout_below="@id/cosmetic_14_image"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/cosmetic_14_stat1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:paddingLeft="8dp"
+                        android:shadowColor="#000000"
+                        android:shadowRadius="5"
+                        android:textColor="#FFFFFF"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/cosmetic_14_stat2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:paddingLeft="8dp"
+                        android:shadowColor="#000000"
+                        android:shadowRadius="5"
+                        android:textColor="#FFFFFF"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/cosmetic_14_stat3"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:paddingLeft="8dp"
+                        android:shadowColor="#000000"
+                        android:shadowRadius="5"
+                        android:textColor="#FFFFFF"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/cosmetic_14_stat4"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:paddingLeft="8dp"
+                        android:shadowColor="#000000"
+                        android:shadowRadius="5"
+                        android:textColor="#FFFFFF"
+                        android:textStyle="bold" />
+                <TextView
+                        android:id="@+id/cosmetic_14_cc"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:paddingLeft="8dp"
+                        android:shadowColor="#000000"
+                        android:shadowRadius="5"
+                        android:textColor="#FFFFFF"
+                        android:textStyle="bold" />
+                    <TextView
+                        android:id="@+id/cosmetic_14_obtained"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:paddingLeft="8dp"
+                        android:shadowColor="#000000"
+                        android:shadowRadius="5"
+                        android:textColor="#AAAAAA"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <ImageView
+                    android:id="@+id/cosmetic_14_rarity"
+                    android:layout_width="44dp"
+                    android:layout_height="44dp"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentTop="true" />
+            </RelativeLayout>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <RelativeLayout
+                android:id="@+id/cosmetic_15_full"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginRight="8dp"
+                android:layout_weight="1"
+                android:background="@drawable/cosmetics_box"
+                android:orientation="vertical"
+                android:padding="8dp">
+
+                <ImageView
+                    android:id="@+id/cosmetic_15_image"
+                    android:layout_width="match_parent"
+                    android:layout_height="180dp"
+                    android:layout_alignParentTop="true"
+                    android:paddingBottom="8dp" />
+
+                <LinearLayout
+                    android:layout_below="@id/cosmetic_15_image"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/cosmetic_15_stat1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:paddingLeft="8dp"
+                        android:shadowColor="#000000"
+                        android:shadowRadius="5"
+                        android:textColor="#FFFFFF"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/cosmetic_15_stat2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:paddingLeft="8dp"
+                        android:shadowColor="#000000"
+                        android:shadowRadius="5"
+                        android:textColor="#FFFFFF"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/cosmetic_15_stat3"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:paddingLeft="8dp"
+                        android:shadowColor="#000000"
+                        android:shadowRadius="5"
+                        android:textColor="#FFFFFF"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/cosmetic_15_stat4"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:paddingLeft="8dp"
+                        android:shadowColor="#000000"
+                        android:shadowRadius="5"
+                        android:textColor="#FFFFFF"
+                        android:textStyle="bold" />
+                <TextView
+                        android:id="@+id/cosmetic_15_cc"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:paddingLeft="8dp"
+                        android:shadowColor="#000000"
+                        android:shadowRadius="5"
+                        android:textColor="#FFFFFF"
+                        android:textStyle="bold" />
+                    <TextView
+                        android:id="@+id/cosmetic_15_obtained"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:paddingLeft="8dp"
+                        android:shadowColor="#000000"
+                        android:shadowRadius="5"
+                        android:textColor="#AAAAAA"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <ImageView
+                    android:id="@+id/cosmetic_15_rarity"
+                    android:layout_width="44dp"
+                    android:layout_height="44dp"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentTop="true" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/cosmetic_16_full"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginRight="8dp"
+                android:layout_weight="1"
+                android:background="@drawable/cosmetics_box"
+                android:orientation="vertical"
+                android:padding="8dp">
+
+                <ImageView
+                    android:id="@+id/cosmetic_16_image"
+                    android:layout_width="match_parent"
+                    android:layout_height="180dp"
+                    android:layout_alignParentTop="true"
+                    android:paddingBottom="8dp" />
+
+                <LinearLayout
+                    android:layout_below="@id/cosmetic_16_image"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/cosmetic_16_stat1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:paddingLeft="8dp"
+                        android:shadowColor="#000000"
+                        android:shadowRadius="5"
+                        android:textColor="#FFFFFF"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/cosmetic_16_stat2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:paddingLeft="8dp"
+                        android:shadowColor="#000000"
+                        android:shadowRadius="5"
+                        android:textColor="#FFFFFF"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/cosmetic_16_stat3"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:paddingLeft="8dp"
+                        android:shadowColor="#000000"
+                        android:shadowRadius="5"
+                        android:textColor="#FFFFFF"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/cosmetic_16_stat4"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:paddingLeft="8dp"
+                        android:shadowColor="#000000"
+                        android:shadowRadius="5"
+                        android:textColor="#FFFFFF"
+                        android:textStyle="bold" />
+                <TextView
+                        android:id="@+id/cosmetic_16_cc"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:paddingLeft="8dp"
+                        android:shadowColor="#000000"
+                        android:shadowRadius="5"
+                        android:textColor="#FFFFFF"
+                        android:textStyle="bold" />
+                    <TextView
+                        android:id="@+id/cosmetic_16_obtained"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:paddingLeft="8dp"
+                        android:shadowColor="#000000"
+                        android:shadowRadius="5"
+                        android:textColor="#AAAAAA"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <ImageView
+                    android:id="@+id/cosmetic_16_rarity"
+                    android:layout_width="44dp"
+                    android:layout_height="44dp"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentTop="true" />
+            </RelativeLayout>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <RelativeLayout
+                android:id="@+id/cosmetic_17_full"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginRight="8dp"
+                android:layout_weight="1"
+                android:background="@drawable/cosmetics_box"
+                android:orientation="vertical"
+                android:padding="8dp">
+
+                <ImageView
+                    android:id="@+id/cosmetic_17_image"
+                    android:layout_width="match_parent"
+                    android:layout_height="180dp"
+                    android:layout_alignParentTop="true"
+                    android:paddingBottom="8dp" />
+
+                <LinearLayout
+                    android:layout_below="@id/cosmetic_17_image"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/cosmetic_17_stat1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:paddingLeft="8dp"
+                        android:shadowColor="#000000"
+                        android:shadowRadius="5"
+                        android:textColor="#FFFFFF"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/cosmetic_17_stat2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:paddingLeft="8dp"
+                        android:shadowColor="#000000"
+                        android:shadowRadius="5"
+                        android:textColor="#FFFFFF"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/cosmetic_17_stat3"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:paddingLeft="8dp"
+                        android:shadowColor="#000000"
+                        android:shadowRadius="5"
+                        android:textColor="#FFFFFF"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/cosmetic_17_stat4"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:paddingLeft="8dp"
+                        android:shadowColor="#000000"
+                        android:shadowRadius="5"
+                        android:textColor="#FFFFFF"
+                        android:textStyle="bold" />
+                <TextView
+                        android:id="@+id/cosmetic_17_cc"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:paddingLeft="8dp"
+                        android:shadowColor="#000000"
+                        android:shadowRadius="5"
+                        android:textColor="#FFFFFF"
+                        android:textStyle="bold" />
+                    <TextView
+                        android:id="@+id/cosmetic_17_obtained"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:paddingLeft="8dp"
+                        android:shadowColor="#000000"
+                        android:shadowRadius="5"
+                        android:textColor="#AAAAAA"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <ImageView
+                    android:id="@+id/cosmetic_17_rarity"
+                    android:layout_width="44dp"
+                    android:layout_height="44dp"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentTop="true" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/cosmetic_18_full"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginRight="8dp"
+                android:layout_weight="1"
+                android:background="@drawable/cosmetics_box"
+                android:orientation="vertical"
+                android:padding="8dp">
+
+                <ImageView
+                    android:id="@+id/cosmetic_18_image"
+                    android:layout_width="match_parent"
+                    android:layout_height="180dp"
+                    android:layout_alignParentTop="true"
+                    android:paddingBottom="8dp" />
+
+                <LinearLayout
+                    android:layout_below="@id/cosmetic_18_image"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/cosmetic_18_stat1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:paddingLeft="8dp"
+                        android:shadowColor="#000000"
+                        android:shadowRadius="5"
+                        android:textColor="#FFFFFF"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/cosmetic_18_stat2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:paddingLeft="8dp"
+                        android:shadowColor="#000000"
+                        android:shadowRadius="5"
+                        android:textColor="#FFFFFF"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/cosmetic_18_stat3"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:paddingLeft="8dp"
+                        android:shadowColor="#000000"
+                        android:shadowRadius="5"
+                        android:textColor="#FFFFFF"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/cosmetic_18_stat4"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:paddingLeft="8dp"
+                        android:shadowColor="#000000"
+                        android:shadowRadius="5"
+                        android:textColor="#FFFFFF"
+                        android:textStyle="bold" />
+                <TextView
+                        android:id="@+id/cosmetic_18_cc"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:paddingLeft="8dp"
+                        android:shadowColor="#000000"
+                        android:shadowRadius="5"
+                        android:textColor="#FFFFFF"
+                        android:textStyle="bold" />
+                    <TextView
+                        android:id="@+id/cosmetic_18_obtained"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:paddingLeft="8dp"
+                        android:shadowColor="#000000"
+                        android:shadowRadius="5"
+                        android:textColor="#AAAAAA"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <ImageView
+                    android:id="@+id/cosmetic_18_rarity"
+                    android:layout_width="44dp"
+                    android:layout_height="44dp"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentTop="true" />
+            </RelativeLayout>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <RelativeLayout
+                android:id="@+id/cosmetic_19_full"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginRight="8dp"
+                android:layout_weight="1"
+                android:background="@drawable/cosmetics_box"
+                android:orientation="vertical"
+                android:padding="8dp">
+
+                <ImageView
+                    android:id="@+id/cosmetic_19_image"
+                    android:layout_width="match_parent"
+                    android:layout_height="180dp"
+                    android:layout_alignParentTop="true"
+                    android:paddingBottom="8dp" />
+
+                <LinearLayout
+                    android:layout_below="@id/cosmetic_19_image"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/cosmetic_19_stat1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:paddingLeft="8dp"
+                        android:shadowColor="#000000"
+                        android:shadowRadius="5"
+                        android:textColor="#FFFFFF"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/cosmetic_19_stat2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:paddingLeft="8dp"
+                        android:shadowColor="#000000"
+                        android:shadowRadius="5"
+                        android:textColor="#FFFFFF"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/cosmetic_19_stat3"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:paddingLeft="8dp"
+                        android:shadowColor="#000000"
+                        android:shadowRadius="5"
+                        android:textColor="#FFFFFF"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/cosmetic_19_stat4"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:paddingLeft="8dp"
+                        android:shadowColor="#000000"
+                        android:shadowRadius="5"
+                        android:textColor="#FFFFFF"
+                        android:textStyle="bold" />
+                <TextView
+                        android:id="@+id/cosmetic_19_cc"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:paddingLeft="8dp"
+                        android:shadowColor="#000000"
+                        android:shadowRadius="5"
+                        android:textColor="#FFFFFF"
+                        android:textStyle="bold" />
+                    <TextView
+                        android:id="@+id/cosmetic_19_obtained"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:paddingLeft="8dp"
+                        android:shadowColor="#000000"
+                        android:shadowRadius="5"
+                        android:textColor="#AAAAAA"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <ImageView
+                    android:id="@+id/cosmetic_19_rarity"
+                    android:layout_width="44dp"
+                    android:layout_height="44dp"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentTop="true" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/cosmetic_20_full"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginRight="8dp"
+                android:layout_weight="1"
+                android:background="@drawable/cosmetics_box"
+                android:orientation="vertical"
+                android:padding="8dp">
+
+                <ImageView
+                    android:id="@+id/cosmetic_20_image"
+                    android:layout_width="match_parent"
+                    android:layout_height="180dp"
+                    android:layout_alignParentTop="true"
+                    android:paddingBottom="8dp" />
+
+                <LinearLayout
+                    android:layout_below="@id/cosmetic_20_image"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/cosmetic_20_stat1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:paddingLeft="8dp"
+                        android:shadowColor="#000000"
+                        android:shadowRadius="5"
+                        android:textColor="#FFFFFF"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/cosmetic_20_stat2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:paddingLeft="8dp"
+                        android:shadowColor="#000000"
+                        android:shadowRadius="5"
+                        android:textColor="#FFFFFF"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/cosmetic_20_stat3"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:paddingLeft="8dp"
+                        android:shadowColor="#000000"
+                        android:shadowRadius="5"
+                        android:textColor="#FFFFFF"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/cosmetic_20_stat4"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:paddingLeft="8dp"
+                        android:shadowColor="#000000"
+                        android:shadowRadius="5"
+                        android:textColor="#FFFFFF"
+                        android:textStyle="bold" />
+                <TextView
+                        android:id="@+id/cosmetic_20_cc"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:paddingLeft="8dp"
+                        android:shadowColor="#000000"
+                        android:shadowRadius="5"
+                        android:textColor="#FFFFFF"
+                        android:textStyle="bold" />
+                    <TextView
+                        android:id="@+id/cosmetic_20_obtained"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:paddingLeft="8dp"
+                        android:shadowColor="#000000"
+                        android:shadowRadius="5"
+                        android:textColor="#AAAAAA"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <ImageView
+                    android:id="@+id/cosmetic_20_rarity"
+                    android:layout_width="44dp"
+                    android:layout_height="44dp"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentTop="true" />
+            </RelativeLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+</ScrollView>
+

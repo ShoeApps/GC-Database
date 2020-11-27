@@ -65,8 +65,13 @@ public class character_page extends AppCompatActivity {
     String characterImage;
     String passiveName;
     String passiveDesc;
+    String tpassiveName;
+    String tpassiveDesc;
+    String tpassiveImage;
     String commandment;
     String commandmentEffect;
+    String blessing;
+    String blessingEffect;
     String skill1Name;
     String skill1Desc1;
     String skill1Desc2;
@@ -78,6 +83,17 @@ public class character_page extends AppCompatActivity {
     String ultimateName;
     String ultimateDesc;
     String ultimateMulti;
+    String tskill1Name;
+    String tskill1Desc1;
+    String tskill1Desc2;
+    String tskill1Desc3;
+    String tskill2Name;
+    String tskill2Desc1;
+    String tskill2Desc2;
+    String tskill2Desc3;
+    String tultimateName;
+    String tultimateDesc;
+    String tultimateMulti;
     String fateName;
     String fateDesc;
     String fateMulti;
@@ -99,6 +115,18 @@ public class character_page extends AppCompatActivity {
     String awakening6Atk;
     String awakening6Def;
     String awakening6Pierce;
+    String superawakening1HP;
+    String superawakening1CritRes;
+    String superawakening1RecRate;
+    String superawakening2Atk;
+    String superawakening2Def;
+    String superawakening2CritDmg;
+    String superawakening3HP;
+    String superawakening3RegenRate;
+    String superawakening3CritDef;
+    String superawakening4Atk;
+    String superawakening4Def;
+    String superawakening4CritChance;
     String associate1;
     String associate1Effect;
     String associate1FullName1;
@@ -171,9 +199,17 @@ public class character_page extends AppCompatActivity {
     String associate5ID4;
     String passiveImage;
     String commandmentImage;
+    String blessingImage;
     String skill1Image;
     String skill2Image;
     String ultImage;
+
+    String tskill1Image;
+    String tskill2Image;
+    String tultImage;
+
+    LinearLayout transformations;
+
     ImageView imageView;
     ImageView associate1Image1View;
     ImageView associate1Image2View;
@@ -197,27 +233,31 @@ public class character_page extends AppCompatActivity {
     ImageView associate5Image4View;
     ImageView passiveImageView;
     ImageView commandmentImageView;
+    ImageView blessingImageView;
     ImageView skill1ImageView;
     ImageView skill2ImageView;
     ImageView ultImageView;
     ExpandableLinearLayout maxStatsView;
     ExpandableLinearLayout passiveView;
     ExpandableLinearLayout commandmentView;
+    ExpandableLinearLayout blessingView;
     ExpandableLinearLayout skill1View;
     ExpandableLinearLayout skill2View;
     ExpandableLinearLayout ultimatesView;
     ExpandableLinearLayout associationsView;
     ExpandableLinearLayout awakeningsView;
+    ExpandableLinearLayout superawakeningsView;
     FirebaseDatabase database;
     DatabaseReference ref;
     public static final String PREFS_NAME = "MyPrefsFile";
     SharedPreferences settings;
     String darkMode;
     LinearLayout backgroundColor;
+    boolean transformed = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        //Thread.setDefaultUncaughtExceptionHandler(new DefaultExceptionHandler(this));
+
         database = FirebaseDatabase.getInstance();
         ref = database.getReference();
         super.onCreate(savedInstanceState);
@@ -225,10 +265,12 @@ public class character_page extends AppCompatActivity {
         maxStatsView = findViewById(R.id.maxStats);
         passiveView = findViewById(R.id.passive);
         commandmentView = findViewById(R.id.commandment_expand);
+        blessingView = findViewById(R.id.blessing_expand);
         skill1View = findViewById(R.id.skill1);
         skill2View = findViewById(R.id.skill2);
         ultimatesView = findViewById(R.id.ultimates);
         awakeningsView = findViewById(R.id.awakenings);
+        superawakeningsView = findViewById(R.id.super_awakenings);
         associationsView = findViewById(R.id.assosiations);
         associate1Image1View = findViewById(R.id.associate1Image1);
         associate1Image2View = findViewById(R.id.associate1Image2);
@@ -251,7 +293,9 @@ public class character_page extends AppCompatActivity {
         associate5Image3View = findViewById(R.id.associate5Image3);
         associate5Image4View = findViewById(R.id.associate5Image4);
         passiveImageView = findViewById(R.id.passive_image);
+        transformations = findViewById(R.id.transformations);
         commandmentImageView = findViewById(R.id.commandment_image);
+        blessingImageView = findViewById(R.id.blessing_image);
         skill1ImageView = findViewById(R.id.skill1_image);
         skill2ImageView = findViewById(R.id.skill2_image);
         ultImageView = findViewById(R.id.ult_image);
@@ -428,13 +472,13 @@ public class character_page extends AppCompatActivity {
         resizeExpandableLayouts();
         backgroundColor = findViewById(R.id.character_page_background_colour);
         settings = getSharedPreferences(PREFS_NAME, 0);
-        MoPubSdk moPubSdk;
+        AdMobSdk adMobSdk;
 
         adViewHolder = findViewById(R.id.adViewHolder);
-        moPubSdk = MoPubSdk.getInstance(this);
-        moPubSdk.isMoPubSdkInitialized().observe(this, aBoolean -> {
+        adMobSdk = AdMobSdk.getInstance(this);
+        adMobSdk.isAdMobSdkInitialized().observe(this, aBoolean -> {
             if (aBoolean) {
-                moPubSdk.callAdView(adViewHolder);
+                adMobSdk.callAdView(adViewHolder);
             }
         });
         //Recall the storage
@@ -443,10 +487,12 @@ public class character_page extends AppCompatActivity {
             backgroundColor.setBackgroundColor(Color.parseColor("#616161"));
             LinearLayout adViewHolder = findViewById(R.id.adViewHolder);
             adViewHolder.setBackgroundColor(Color.parseColor("#616161"));
+            transformations.setBackgroundColor(Color.parseColor("#616161"));
         } else {
             backgroundColor.setBackgroundColor(Color.parseColor("#4D15C2A6"));
             LinearLayout adViewHolder = findViewById(R.id.adViewHolder);
             adViewHolder.setBackgroundColor(Color.parseColor("#4D15C2A6"));
+            transformations.setBackgroundColor(Color.parseColor("#4D15C2A6"));
         }
         resizeExpandableLayouts();
         SharedPreferences.Editor editor = settings.edit();
@@ -456,11 +502,16 @@ public class character_page extends AppCompatActivity {
 
     protected void onRestart() {
         super.onRestart();
+        LinearLayout adViewHolder = findViewById(R.id.adViewHolder);
         darkMode = settings.getString("darkMode", darkMode);
         if (darkMode.equals("yes")) {
             backgroundColor.setBackgroundColor(Color.parseColor("#616161"));
+            adViewHolder.setBackgroundColor(Color.parseColor("#616161"));
+            transformations.setBackgroundColor(Color.parseColor("#616161"));
         } else {
             backgroundColor.setBackgroundColor(Color.parseColor("#4D15C2A6"));
+            adViewHolder.setBackgroundColor(Color.parseColor("#4D15C2A6"));
+            transformations.setBackgroundColor(Color.parseColor("#4D15C2A6"));
         }
     }
 
@@ -490,14 +541,132 @@ public class character_page extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    TextView transformedText;
+
+    public void showBaseForm(View view) {
+        if (transformed) {
+            transformedText = findViewById(R.id.transformedtext);
+            transformedText.setText("Showing Base Form");
+            if (!passiveImage.equals("-")) {
+                loadImage(passiveImage, passiveImageView);
+            } else {
+                Picasso.with(character_page.this).load(R.drawable.no_image).into(passiveImageView);
+            }
+            TextView passiveNameView = findViewById(R.id.passive_name);
+            passiveNameView.setText(passiveName);
+            TextView passiveDescView = findViewById(R.id.passive_desc);
+            passiveDescView.setText(passiveDesc);
+
+            if (!skill1Image.equals("-")) {
+                loadImage(skill1Image, skill1ImageView);
+            } else {
+                Picasso.with(character_page.this).load(R.drawable.no_image).into(skill1ImageView);
+            }
+            TextView skill1NameView = findViewById(R.id.skill_1_name);
+            skill1NameView.setText(skill1Name);
+            TextView skill11View = findViewById(R.id.skill11);
+            skill11View.setText(skill1Desc1);
+            TextView skill12View = findViewById(R.id.skill12);
+            skill12View.setText(skill1Desc2);
+            TextView skill13View = findViewById(R.id.skill13);
+            skill13View.setText(skill1Desc3);
+
+            if (!skill2Image.equals("-")) {
+                loadImage(skill2Image, skill2ImageView);
+            } else {
+                Picasso.with(character_page.this).load(R.drawable.no_image).into(skill2ImageView);
+            }
+            TextView skill2NameView = findViewById(R.id.skill_2_name);
+            skill2NameView.setText(skill2Name);
+            TextView skill21View = findViewById(R.id.skill21);
+            skill21View.setText(skill2Desc1);
+            TextView skill22View = findViewById(R.id.skill22);
+            skill22View.setText(skill2Desc2);
+            TextView skill23View = findViewById(R.id.skill23);
+            skill23View.setText(skill2Desc3);
+
+            if (!ultImage.equals("-")) {
+                loadImage(ultImage, ultImageView);
+            } else {
+                Picasso.with(character_page.this).load(R.drawable.no_image).into(ultImageView);
+            }
+            TextView ultimateName1View = findViewById(R.id.ultimate_name_1);
+            ultimateName1View.setText(ultimateName);
+            TextView ultimate1View = findViewById(R.id.ultimate_1);
+            ultimate1View.setText(ultimateDesc);
+            TextView ultimate1MultView = findViewById(R.id.ultimate_1_mult);
+            ultimate1MultView.setText(ultimateMulti);
+            transformed = false;
+        }
+    }
+
+    public void showTransformed(View view) {
+        if (!transformed) {
+            transformedText = findViewById(R.id.transformedtext);
+            transformedText.setText("Showing Transformed Form");
+            if (!passiveImage.equals("-")) {
+                loadImage(tpassiveImage, passiveImageView);
+            } else {
+                Picasso.with(character_page.this).load(R.drawable.no_image).into(passiveImageView);
+            }
+            TextView passiveNameView = findViewById(R.id.passive_name);
+            passiveNameView.setText(tpassiveName);
+            TextView passiveDescView = findViewById(R.id.passive_desc);
+            passiveDescView.setText(tpassiveDesc);
+
+            if (!skill1Image.equals("-")) {
+                loadImage(tskill1Image, skill1ImageView);
+            } else {
+                Picasso.with(character_page.this).load(R.drawable.no_image).into(skill1ImageView);
+            }
+            TextView skill1NameView = findViewById(R.id.skill_1_name);
+            skill1NameView.setText(tskill1Name);
+            TextView skill11View = findViewById(R.id.skill11);
+            skill11View.setText(tskill1Desc1);
+            TextView skill12View = findViewById(R.id.skill12);
+            skill12View.setText(tskill1Desc2);
+            TextView skill13View = findViewById(R.id.skill13);
+            skill13View.setText(tskill1Desc3);
+
+            if (!skill2Image.equals("-")) {
+                loadImage(tskill2Image, skill2ImageView);
+            } else {
+                Picasso.with(character_page.this).load(R.drawable.no_image).into(skill2ImageView);
+            }
+            TextView skill2NameView = findViewById(R.id.skill_2_name);
+            skill2NameView.setText(tskill2Name);
+            TextView skill21View = findViewById(R.id.skill21);
+            skill21View.setText(tskill2Desc1);
+            TextView skill22View = findViewById(R.id.skill22);
+            skill22View.setText(tskill2Desc2);
+            TextView skill23View = findViewById(R.id.skill23);
+            skill23View.setText(tskill2Desc3);
+
+            if (!ultImage.equals("-")) {
+                loadImage(tultImage, ultImageView);
+            } else {
+                Picasso.with(character_page.this).load(R.drawable.no_image).into(ultImageView);
+            }
+            TextView ultimateName1View = findViewById(R.id.ultimate_name_1);
+            ultimateName1View.setText(tultimateName);
+            TextView ultimate1View = findViewById(R.id.ultimate_1);
+            ultimate1View.setText(tultimateDesc);
+            TextView ultimate1MultView = findViewById(R.id.ultimate_1_mult);
+            ultimate1MultView.setText(tultimateMulti);
+            transformed = true;
+        }
+    }
+
     public void showMaxStats(View view) {
         maxStatsView.toggle();
         passiveView.collapse();
         commandmentView.collapse();
+        blessingView.collapse();
         skill1View.collapse();
         skill2View.collapse();
         ultimatesView.collapse();
         awakeningsView.collapse();
+        superawakeningsView.collapse();
         associationsView.collapse();
         resizeExpandableLayouts();
     }
@@ -506,10 +675,12 @@ public class character_page extends AppCompatActivity {
         maxStatsView.collapse();
         passiveView.toggle();
         commandmentView.collapse();
+        blessingView.collapse();
         skill1View.collapse();
         skill2View.collapse();
         ultimatesView.collapse();
         awakeningsView.collapse();
+        superawakeningsView.collapse();
         associationsView.collapse();
         resizeExpandableLayouts();
     }
@@ -518,10 +689,26 @@ public class character_page extends AppCompatActivity {
         maxStatsView.collapse();
         passiveView.collapse();
         commandmentView.toggle();
+        blessingView.collapse();
         skill1View.collapse();
         skill2View.collapse();
         ultimatesView.collapse();
         awakeningsView.collapse();
+        superawakeningsView.collapse();
+        associationsView.collapse();
+        resizeExpandableLayouts();
+    }
+
+    public void showBlessing(View view) {
+        maxStatsView.collapse();
+        passiveView.collapse();
+        commandmentView.collapse();
+        blessingView.toggle();
+        skill1View.collapse();
+        skill2View.collapse();
+        ultimatesView.collapse();
+        awakeningsView.collapse();
+        superawakeningsView.collapse();
         associationsView.collapse();
         resizeExpandableLayouts();
     }
@@ -530,10 +717,12 @@ public class character_page extends AppCompatActivity {
         maxStatsView.collapse();
         passiveView.collapse();
         commandmentView.collapse();
+        blessingView.collapse();
         skill1View.toggle();
         skill2View.collapse();
         ultimatesView.collapse();
         awakeningsView.collapse();
+        superawakeningsView.collapse();
         associationsView.collapse();
         resizeExpandableLayouts();
     }
@@ -542,10 +731,12 @@ public class character_page extends AppCompatActivity {
         maxStatsView.collapse();
         passiveView.collapse();
         commandmentView.collapse();
+        blessingView.collapse();
         skill1View.collapse();
         skill2View.toggle();
         ultimatesView.collapse();
         awakeningsView.collapse();
+        superawakeningsView.collapse();
         associationsView.collapse();
         resizeExpandableLayouts();
     }
@@ -554,10 +745,12 @@ public class character_page extends AppCompatActivity {
         maxStatsView.collapse();
         passiveView.collapse();
         commandmentView.collapse();
+        blessingView.collapse();
         skill1View.collapse();
         skill2View.collapse();
         ultimatesView.toggle();
         awakeningsView.collapse();
+        superawakeningsView.collapse();
         associationsView.collapse();
         resizeExpandableLayouts();
     }
@@ -566,10 +759,26 @@ public class character_page extends AppCompatActivity {
         maxStatsView.collapse();
         passiveView.collapse();
         commandmentView.collapse();
+        blessingView.collapse();
         skill1View.collapse();
         skill2View.collapse();
         ultimatesView.collapse();
         awakeningsView.toggle();
+        superawakeningsView.collapse();
+        associationsView.collapse();
+        resizeExpandableLayouts();
+    }
+
+    public void showSuperAwakening(View view) {
+        maxStatsView.collapse();
+        passiveView.collapse();
+        commandmentView.collapse();
+        blessingView.collapse();
+        skill1View.collapse();
+        skill2View.collapse();
+        ultimatesView.collapse();
+        awakeningsView.collapse();
+        superawakeningsView.toggle();
         associationsView.collapse();
         resizeExpandableLayouts();
     }
@@ -578,10 +787,12 @@ public class character_page extends AppCompatActivity {
         maxStatsView.collapse();
         passiveView.collapse();
         commandmentView.collapse();
+        blessingView.collapse();
         skill1View.collapse();
         skill2View.collapse();
         ultimatesView.collapse();
         awakeningsView.collapse();
+        superawakeningsView.collapse();
         associationsView.toggle();
         resizeExpandableLayouts();
     }
@@ -623,10 +834,13 @@ public class character_page extends AppCompatActivity {
                     maxRecoveryRate = Objects.requireNonNull(dataSnapshot.child(selectId).child("maxRecoveryRate").getValue()).toString();
                     maxLifesteal = Objects.requireNonNull(dataSnapshot.child(selectId).child("maxLifesteal").getValue()).toString();
                     characterImage = Objects.requireNonNull(dataSnapshot.child(selectId).child("characterImage").getValue()).toString();
+
                     passiveName = Objects.requireNonNull(dataSnapshot.child(selectId).child("passiveName").getValue()).toString();
                     passiveDesc = Objects.requireNonNull(dataSnapshot.child(selectId).child("passiveEffect").getValue()).toString();
                     commandment = Objects.requireNonNull(dataSnapshot.child(selectId).child("commandment").getValue()).toString();
                     commandmentEffect = Objects.requireNonNull(dataSnapshot.child(selectId).child("commandmentEffect").getValue()).toString();
+                    blessing = Objects.requireNonNull(dataSnapshot.child(selectId).child("blessing").getValue()).toString();
+                    blessingEffect = Objects.requireNonNull(dataSnapshot.child(selectId).child("blessingEffect").getValue()).toString();
                     skill1Name = Objects.requireNonNull(dataSnapshot.child(selectId).child("skill1Name").getValue()).toString();
                     skill1Desc1 = Objects.requireNonNull(dataSnapshot.child(selectId).child("skill1Desc1").getValue()).toString();
                     skill1Desc2 = Objects.requireNonNull(dataSnapshot.child(selectId).child("skill1Desc2").getValue()).toString();
@@ -641,6 +855,21 @@ public class character_page extends AppCompatActivity {
                     fateName = Objects.requireNonNull(dataSnapshot.child(selectId).child("fateName").getValue()).toString();
                     fateDesc = Objects.requireNonNull(dataSnapshot.child(selectId).child("fateDesc").getValue()).toString();
                     fateMulti = Objects.requireNonNull(dataSnapshot.child(selectId).child("fateMulti").getValue()).toString();
+
+                    tpassiveName = Objects.requireNonNull(dataSnapshot.child(selectId).child("tpassiveName").getValue()).toString();
+                    tpassiveDesc = Objects.requireNonNull(dataSnapshot.child(selectId).child("tpassiveEffect").getValue()).toString();
+                    tskill1Name = Objects.requireNonNull(dataSnapshot.child(selectId).child("tskill1Name").getValue()).toString();
+                    tskill1Desc1 = Objects.requireNonNull(dataSnapshot.child(selectId).child("tskill1Desc1").getValue()).toString();
+                    tskill1Desc2 = Objects.requireNonNull(dataSnapshot.child(selectId).child("tskill1Desc2").getValue()).toString();
+                    tskill1Desc3 = Objects.requireNonNull(dataSnapshot.child(selectId).child("tskill1Desc3").getValue()).toString();
+                    tskill2Name = Objects.requireNonNull(dataSnapshot.child(selectId).child("tskill2Name").getValue()).toString();
+                    tskill2Desc1 = Objects.requireNonNull(dataSnapshot.child(selectId).child("tskill2Desc1").getValue()).toString();
+                    tskill2Desc2 = Objects.requireNonNull(dataSnapshot.child(selectId).child("tskill2Desc2").getValue()).toString();
+                    tskill2Desc3 = Objects.requireNonNull(dataSnapshot.child(selectId).child("tskill2Desc3").getValue()).toString();
+                    tultimateName = Objects.requireNonNull(dataSnapshot.child(selectId).child("tultimateName").getValue()).toString();
+                    tultimateDesc = Objects.requireNonNull(dataSnapshot.child(selectId).child("tultimateDesc").getValue()).toString();
+                    tultimateMulti = Objects.requireNonNull(dataSnapshot.child(selectId).child("tultimateMulti").getValue()).toString();
+
                     awakening1HP = Objects.requireNonNull(dataSnapshot.child(selectId).child("awakening1HP").getValue()).toString();
                     awakening1CritRes = Objects.requireNonNull(dataSnapshot.child(selectId).child("awakening1CritRes").getValue()).toString();
                     awakening1RecRate = Objects.requireNonNull(dataSnapshot.child(selectId).child("awakening1RecRate").getValue()).toString();
@@ -659,6 +888,18 @@ public class character_page extends AppCompatActivity {
                     awakening6Atk = Objects.requireNonNull(dataSnapshot.child(selectId).child("awakening6Atk").getValue()).toString();
                     awakening6Def = Objects.requireNonNull(dataSnapshot.child(selectId).child("awakening6Def").getValue()).toString();
                     awakening6Pierce = Objects.requireNonNull(dataSnapshot.child(selectId).child("awakening6Pierce").getValue()).toString();
+                    superawakening1HP = Objects.requireNonNull(dataSnapshot.child(selectId).child("superawakening1HP").getValue()).toString();
+                    superawakening1CritRes = Objects.requireNonNull(dataSnapshot.child(selectId).child("superawakening1CritRes").getValue()).toString();
+                    superawakening1RecRate = Objects.requireNonNull(dataSnapshot.child(selectId).child("superawakening1RecRate").getValue()).toString();
+                    superawakening2Atk = Objects.requireNonNull(dataSnapshot.child(selectId).child("superawakening2Atk").getValue()).toString();
+                    superawakening2Def = Objects.requireNonNull(dataSnapshot.child(selectId).child("superawakening2Def").getValue()).toString();
+                    superawakening2CritDmg = Objects.requireNonNull(dataSnapshot.child(selectId).child("superawakening2CritDmg").getValue()).toString();
+                    superawakening3HP = Objects.requireNonNull(dataSnapshot.child(selectId).child("superawakening3HP").getValue()).toString();
+                    superawakening3RegenRate = Objects.requireNonNull(dataSnapshot.child(selectId).child("superawakening3RegenRate").getValue()).toString();
+                    superawakening3CritDef = Objects.requireNonNull(dataSnapshot.child(selectId).child("superawakening3CritDef").getValue()).toString();
+                    superawakening4Atk = Objects.requireNonNull(dataSnapshot.child(selectId).child("superawakening4Atk").getValue()).toString();
+                    superawakening4Def = Objects.requireNonNull(dataSnapshot.child(selectId).child("superawakening4Def").getValue()).toString();
+                    superawakening4CritChance = Objects.requireNonNull(dataSnapshot.child(selectId).child("superawakening4CritChance").getValue()).toString();
                     associate1 = Objects.requireNonNull(dataSnapshot.child(selectId).child("associate1").getValue()).toString();
                     associate1Effect = Objects.requireNonNull(dataSnapshot.child(selectId).child("associate1Effect").getValue()).toString();
                     associate1FullName1 = Objects.requireNonNull(dataSnapshot.child(selectId).child("associate1FullName1").getValue()).toString();
@@ -731,9 +972,16 @@ public class character_page extends AppCompatActivity {
                     associate5ID4 = Objects.requireNonNull(dataSnapshot.child(selectId).child("associate5ID4").getValue()).toString();
                     passiveImage = Objects.requireNonNull(dataSnapshot.child(selectId).child("passiveImage").getValue()).toString();
                     commandmentImage = Objects.requireNonNull(dataSnapshot.child(selectId).child("commandmentImage").getValue()).toString();
+                    blessingImage = Objects.requireNonNull(dataSnapshot.child(selectId).child("blessingImage").getValue()).toString();
                     skill1Image = Objects.requireNonNull(dataSnapshot.child(selectId).child("skill1Image").getValue()).toString();
                     skill2Image = Objects.requireNonNull(dataSnapshot.child(selectId).child("skill2Image").getValue()).toString();
                     ultImage = Objects.requireNonNull(dataSnapshot.child(selectId).child("ult1Image").getValue()).toString();
+
+                    tpassiveImage = Objects.requireNonNull(dataSnapshot.child(selectId).child("tpassiveImage").getValue()).toString();
+                    tskill1Image = Objects.requireNonNull(dataSnapshot.child(selectId).child("tskill1Image").getValue()).toString();
+                    tskill2Image = Objects.requireNonNull(dataSnapshot.child(selectId).child("tskill2Image").getValue()).toString();
+                    tultImage = Objects.requireNonNull(dataSnapshot.child(selectId).child("tult1Image").getValue()).toString();
+
                     imageView = findViewById(R.id.character_image);
                     if (!characterImage.equals("-")) {
                         loadImage(characterImage, imageView);
@@ -751,6 +999,13 @@ public class character_page extends AppCompatActivity {
                         }
                     } else {
                         Picasso.with(character_page.this).load(R.drawable.no_image).into(commandmentImageView);
+                    }
+                    if (!blessingImage.equals("-")) {
+                        if (!blessingImage.equals("")) {
+                            loadImage(blessingImage, blessingImageView);
+                        }
+                    } else {
+                        Picasso.with(character_page.this).load(R.drawable.no_image).into(blessingImageView);
                     }
                     if (!skill1Image.equals("-")) {
                         loadImage(skill1Image, skill1ImageView);
@@ -807,6 +1062,14 @@ public class character_page extends AppCompatActivity {
                     if (commandment.equals("-")) {
                         fullCommandment.setVisibility(View.GONE);
                     }
+                    TextView blessingNameView = findViewById(R.id.blessingt_name);
+                    blessingNameView.setText(blessing);
+                    TextView blessingView = findViewById(R.id.blessing);
+                    blessingView.setText(blessingEffect);
+                    LinearLayout fullBlessing = findViewById(R.id.full_blessing);
+                    if (blessing.equals("-")) {
+                        fullBlessing.setVisibility(View.GONE);
+                    }
                     TextView skill1NameView = findViewById(R.id.skill_1_name);
                     skill1NameView.setText(skill1Name);
                     TextView skill11View = findViewById(R.id.skill11);
@@ -857,7 +1120,7 @@ public class character_page extends AppCompatActivity {
                     TextView awakening2CritDmgView = findViewById(R.id.awakening2CritDamage);
                     awakening2CritDmgView.setText(awakening2CritDmg + "%");
                     TextView awakening3HPView = findViewById(R.id.awakening3HP);
-                    awakening3HPView.setText(awakening1HP);
+                    awakening3HPView.setText(awakening3HP);
                     TextView awakening3RegenRateView = findViewById(R.id.awakening3RegenRate);
                     awakening3RegenRateView.setText(awakening3RegenRate + "%");
                     TextView awakening3CritDefView = findViewById(R.id.awakening3CritDef);
@@ -880,6 +1143,33 @@ public class character_page extends AppCompatActivity {
                     awakening6DefView.setText(awakening6Def);
                     TextView awakening6PierceView = findViewById(R.id.awakening6Pierce);
                     awakening6PierceView.setText(awakening6Pierce + "%");
+
+                    TextView superawakening1HPView = findViewById(R.id.superawakening1HP);
+                    superawakening1HPView.setText(superawakening1HP);
+                    TextView superawakening1CritResView = findViewById(R.id.superawakening1CritRes);
+                    superawakening1CritResView.setText(superawakening1CritRes + "%");
+                    TextView superawakening1RecRateView = findViewById(R.id.superawakening1RecRate);
+                    superawakening1RecRateView.setText(superawakening1RecRate + "%");
+                    TextView superawakening2AtkView = findViewById(R.id.superawakening2ATK);
+                    superawakening2AtkView.setText(superawakening2Atk);
+                    TextView superawakening2DefView = findViewById(R.id.superawakening2Def);
+                    superawakening2DefView.setText(superawakening2Def);
+                    TextView superawakening2CritDmgView = findViewById(R.id.superawakening2CritDamage);
+                    superawakening2CritDmgView.setText(superawakening2CritDmg + "%");
+                    TextView superawakening3HPView = findViewById(R.id.superawakening3HP);
+                    superawakening3HPView.setText(superawakening1HP);
+                    TextView superawakening3RegenRateView = findViewById(R.id.superawakening3RegenRate);
+                    superawakening3RegenRateView.setText(superawakening3RegenRate + "%");
+                    TextView superawakening3CritDefView = findViewById(R.id.superawakening3CritDef);
+                    superawakening3CritDefView.setText(superawakening3CritDef + "%");
+                    TextView superawakening4AtkView = findViewById(R.id.superawakening4ATK);
+                    superawakening4AtkView.setText(superawakening4Atk);
+                    TextView superawakening4DefView = findViewById(R.id.superawakening4Def);
+                    superawakening4DefView.setText(superawakening4Def);
+                    TextView superawakening4CritChanceView = findViewById(R.id.superawakening4CritChance);
+                    superawakening4CritChanceView.setText(superawakening4CritChance + "%");
+
+                    LinearLayout allAssociates = findViewById(R.id.allAssociates);
                     ImageView associate1Image1View = findViewById(R.id.associate1Image1);
                     ImageView associate1Image2View = findViewById(R.id.associate1Image2);
                     ImageView associate1Image3View = findViewById(R.id.associate1Image3);
@@ -912,12 +1202,6 @@ public class character_page extends AppCompatActivity {
                     associate1NameView.setText(associate1);
                     TextView associate1EffectView = findViewById(R.id.associate1Effect);
                     associate1EffectView.setText(associate1Effect);
-                    LinearLayout fullAssociate1 = findViewById(R.id.fullAssociate1);
-                    if (associate1.equals("null") || associate1.equals("-") || associate1.equals("") || associate1.equals("#N/A")) {
-                        fullAssociate1.setVisibility(View.GONE);
-                    } else {
-                        fullAssociate1.setVisibility(View.VISIBLE);
-                    }
                     ImageView associate2Image1View = findViewById(R.id.associate2Image1);
                     ImageView associate2Image2View = findViewById(R.id.associate2Image2);
                     ImageView associate2Image3View = findViewById(R.id.associate2Image3);
@@ -950,12 +1234,7 @@ public class character_page extends AppCompatActivity {
                     associate2NameView.setText(associate2);
                     TextView associate2EffectView = findViewById(R.id.associate2Effect);
                     associate2EffectView.setText(associate2Effect);
-                    LinearLayout fullAssociate2 = findViewById(R.id.fullAssociate2);
-                    if (associate2.equals("null") || associate2.equals("-") || associate2.equals("") || associate2.equals("#N/A")) {
-                        fullAssociate2.setVisibility(View.GONE);
-                    } else {
-                        fullAssociate2.setVisibility(View.VISIBLE);
-                    }
+
                     ImageView associate3Image1View = findViewById(R.id.associate3Image1);
                     ImageView associate3Image2View = findViewById(R.id.associate3Image2);
                     ImageView associate3Image3View = findViewById(R.id.associate3Image3);
@@ -988,12 +1267,6 @@ public class character_page extends AppCompatActivity {
                     associate3NameView.setText(associate3);
                     TextView associate3EffectView = findViewById(R.id.associate3Effect);
                     associate3EffectView.setText(associate3Effect);
-                    LinearLayout fullAssociate3 = findViewById(R.id.fullAssociate3);
-                    if (associate3.equals("null") || associate3.equals("-") || associate3.equals("") || associate3.equals("#N/A")) {
-                        fullAssociate3.setVisibility(View.GONE);
-                    } else {
-                        fullAssociate3.setVisibility(View.VISIBLE);
-                    }
                     ImageView associate4Image1View = findViewById(R.id.associate4Image1);
                     ImageView associate4Image2View = findViewById(R.id.associate4Image2);
                     ImageView associate4Image3View = findViewById(R.id.associate4Image3);
@@ -1026,12 +1299,6 @@ public class character_page extends AppCompatActivity {
                     associate4NameView.setText(associate4);
                     TextView associate4EffectView = findViewById(R.id.associate4Effect);
                     associate4EffectView.setText(associate4Effect);
-                    LinearLayout fullAssociate4 = findViewById(R.id.fullAssociate4);
-                    if (associate4.equals("null") || associate4.equals("-") || associate4.equals("") || associate4.equals("#N/A")) {
-                        fullAssociate4.setVisibility(View.GONE);
-                    } else {
-                        fullAssociate4.setVisibility(View.VISIBLE);
-                    }
                     ImageView associate5Image1View = findViewById(R.id.associate5Image1);
                     ImageView associate5Image2View = findViewById(R.id.associate5Image2);
                     ImageView associate5Image3View = findViewById(R.id.associate5Image3);
@@ -1064,15 +1331,62 @@ public class character_page extends AppCompatActivity {
                     associate5NameView.setText(associate5);
                     TextView associate5EffectView = findViewById(R.id.associate5Effect);
                     associate5EffectView.setText(associate5Effect);
+
+                    LinearLayout fullAssociate1 = findViewById(R.id.fullAssociate1);
+                    LinearLayout fullAssociate2 = findViewById(R.id.fullAssociate2);
+                    LinearLayout fullAssociate3 = findViewById(R.id.fullAssociate3);
+                    LinearLayout fullAssociate4 = findViewById(R.id.fullAssociate4);
                     LinearLayout fullAssociate5 = findViewById(R.id.fullAssociate5);
+
+                    if (associate1.equals("null") || associate1.equals("-") || associate1.equals("") || associate1.equals("#N/A")) {
+                        fullAssociate1.setVisibility(View.GONE);
+                        fullAssociate2.setVisibility(View.GONE);
+                        fullAssociate3.setVisibility(View.GONE);
+                        fullAssociate4.setVisibility(View.GONE);
+                        fullAssociate5.setVisibility(View.GONE);
+                    } else {
+                        fullAssociate1.setVisibility(View.VISIBLE);
+                    }
+
+                    if (associate2.equals("null") || associate2.equals("-") || associate2.equals("") || associate2.equals("#N/A")) {
+                        fullAssociate2.setVisibility(View.GONE);
+                        fullAssociate3.setVisibility(View.GONE);
+                        fullAssociate4.setVisibility(View.GONE);
+                        fullAssociate5.setVisibility(View.GONE);
+                    } else {
+                        fullAssociate2.setVisibility(View.VISIBLE);
+                    }
+
+                    if (associate3.equals("null") || associate3.equals("-") || associate3.equals("") || associate3.equals("#N/A")) {
+                        fullAssociate3.setVisibility(View.GONE);
+                        fullAssociate4.setVisibility(View.GONE);
+                        fullAssociate5.setVisibility(View.GONE);
+                    } else {
+                        fullAssociate3.setVisibility(View.VISIBLE);
+                    }
+
+                    if (associate4.equals("null") || associate4.equals("-") || associate4.equals("") || associate4.equals("#N/A")) {
+                        fullAssociate4.setVisibility(View.GONE);
+                        fullAssociate5.setVisibility(View.GONE);
+                    } else {
+                        fullAssociate4.setVisibility(View.VISIBLE);
+                    }
+
                     if (associate5.equals("null") || associate5.equals("-") || associate5.equals("") || associate5.equals("#N/A")) {
                         fullAssociate5.setVisibility(View.GONE);
                     } else {
                         fullAssociate5.setVisibility(View.VISIBLE);
                     }
+
                     TextView baseORmax = findViewById(R.id.base_or_max);
                     baseORmax.setText("Showing Max Stats");
                     resizeExpandableLayouts();
+                }
+                if(tpassiveDesc.equals("-") || tpassiveDesc.equals("")) {
+                    transformations.setVisibility(View.GONE);
+                }
+                else {
+                    transformations.setVisibility(View.VISIBLE);
                 }
             }
 
@@ -1130,6 +1444,8 @@ public class character_page extends AppCompatActivity {
         passiveView.initLayout();
         ExpandableLinearLayout commandmentExpandView = findViewById(R.id.commandment_expand);
         commandmentExpandView.initLayout();
+        ExpandableLinearLayout blessingExpandView = findViewById(R.id.blessing_expand);
+        blessingExpandView.initLayout();
         ExpandableLinearLayout skill1View = findViewById(R.id.skill1);
         skill1View.initLayout();
         ExpandableLinearLayout skill2View = findViewById(R.id.skill2);
